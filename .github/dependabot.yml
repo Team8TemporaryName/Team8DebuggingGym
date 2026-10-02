@@ -1,0 +1,14 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    # Group all action bumps into one pull request to keep history tidy.
+    groups:
+      actions:
+        patterns:
+          - *
+    commit-message:
+      prefix: ci
