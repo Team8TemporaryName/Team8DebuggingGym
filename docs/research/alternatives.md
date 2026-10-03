@@ -42,6 +42,7 @@ are fixed in
 ## ALT-01 — CodinGame
 
 **Type:** adjacent substitute (interactive game-based coding practice).
+**URL:** https://www.codingame.com
 
 ### Observations (what we looked at)
 
@@ -88,6 +89,7 @@ browser).
 
 **Type:** adjacent substitute / general baseline (the coding-problem platform
 developers already use).
+**URL:** https://leetcode.com
 
 ### Observations (what we looked at)
 
@@ -135,6 +137,7 @@ practising by topic — which validates our "choose a problem category" idea.
 ## ALT-03 — Rustlings
 
 **Type:** open-source, self-hostable "fix the broken code" track.
+**URL:** https://github.com/rustlings/rustlings
 
 ### Observations (what we looked at)
 
