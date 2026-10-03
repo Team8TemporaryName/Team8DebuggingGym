@@ -5,13 +5,6 @@ targeted, hands-on practice that trains a specific debugging skill, but the
 existing platforms offer general exercises rather than exercises for a
 particular kind of debugging problem.
 
-This file records the *wide* search: every product, tool, or resource we
-considered as an alternative, including the ones we later cut. The ones we
-chose to research in depth each get an `ALT-nn` id and a section in
-[`docs/research/alternatives.md`](../docs/research/alternatives.md). The ones
-we cut are kept here on purpose: a later week that needs another product will
-reuse them or rediscover them.
-
 ## How we searched
 
 We searched for: debugging exercises, debugging practice, coding challenge
@@ -25,17 +18,17 @@ might be relevant.
 
 | # | Candidate | URL | Why it might be relevant |
 |---|-----------|-----|--------------------------|
-| C01 | LeetCode | https://leetcode.com | The reference coding-problem platform; debugging happens incidentally, not as a first-class mode. |
+| C01 | LeetCode The reference coding-problem platform; debugging happens incidentally, not as a first-class mode. |
 | C02 | Exercism | https://exercism.org | Free practice tracks with mentoring; exercises, but not debugging-specific. |
 | C03 | Codewars | https://www.codewars.com | Ranked kata; no debugging focus. |
-| C04 | HackerRank | https://www.hackerrank.com | Coding challenges; debugging is a side effect. |
+| C04 | HackerRank Coding challenges; debugging is a side effect. |
 | C05 | Codecademy | https://www.codecademy.com | Guided courses; learners, but content is tutorial-style, not debugging training. |
 | C06 | freeCodeCamp | https://www.freecodecamp.org | Free curriculum; wide, not debugging-specific. |
 | C07 | Pramp | https://www.pramp.com | Peer mock interviews; debugging of the candidate's own code under pressure. |
 | C08 | Interviewing.io | https://interviewing.io | Live technical interviews, some with bug-fixing rounds; audience is interview prep. |
 | C09 | HackerEarth | https://www.hackerearth.com | Hackathons and challenges; debugging not a category. |
 | C10 | GDB / LLDB tutorials | https://sourceware.org/gdb/ | Tool documentation, not a practice site; teaches the debugger, not debugging. |
-| C11 | "How to Debug" — Julia Evans (jvns.ca) | https://jvns.ca/debugging/ | Legendary zine on debugging; reading material, not hands-on exercises. |
+| C11 | "How to Debug" — Julia Evans (jvns.ca) Legendary zine on debugging; reading material, not hands-on exercises. |
 | C12 | Rustlings | https://github.com/rustlings/rustlings | Rust practice by fixing compiler/lint errors; closest structured "fix the errors" model, but narrow (Rust only). |
 | C13 | "fix-it" / buggy-code repos (e.g. `inspired-vs-inspirer`, `debugging-practice` on GitHub) | https://github.com/search?q=debugging+practice&type=repositories | Open-source collections of buggy programs; no generator, no grading, no gallery. |
 | C14 | SQLZoo | https://sqlzoo.net | Query exercises; debugging not the focus. |
