@@ -1,0 +1,7 @@
+# Returns 403 to the checker.
+# Verified manually in a browser on 2026-10-04.
+^https://leetcode\.com/
+
+# Returns 403 to the checker.
+# Verified manually in a browser on 2026-10-04.
+^https://www\.hackerearth\.com/
