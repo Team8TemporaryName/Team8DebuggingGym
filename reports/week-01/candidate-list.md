@@ -16,28 +16,28 @@ might be relevant.
 
 ## Candidates (wide list)
 
-| # | Candidate | URL | Why it might be relevant |
-|---|-----------|-----|--------------------------|
-| C01 | LeetCode The reference coding-problem platform; debugging happens incidentally, not as a first-class mode. |
-| C02 | Exercism | https://exercism.org | Free practice tracks with mentoring; exercises, but not debugging-specific. |
-| C03 | Codewars | https://www.codewars.com | Ranked kata; no debugging focus. |
-| C04 | HackerRank Coding challenges; debugging is a side effect. |
-| C05 | Codecademy | https://www.codecademy.com | Guided courses; learners, but content is tutorial-style, not debugging training. |
-| C06 | freeCodeCamp | https://www.freecodecamp.org | Free curriculum; wide, not debugging-specific. |
-| C07 | Pramp | https://www.pramp.com | Peer mock interviews; debugging of the candidate's own code under pressure. |
-| C08 | Interviewing.io | https://interviewing.io | Live technical interviews, some with bug-fixing rounds; audience is interview prep. |
-| C09 | HackerEarth | https://www.hackerearth.com | Hackathons and challenges; debugging not a category. |
-| C10 | GDB / LLDB tutorials | https://sourceware.org/gdb/ | Tool documentation, not a practice site; teaches the debugger, not debugging. |
+| # | Candidate | Why it might be relevant |
+|---|-----------|--------------------------|
+| C01 | LeetCode | The reference coding-problem platform; debugging happens incidentally, not as a first-class mode. |
+| C02 | Exercism | Free practice tracks with mentoring; exercises, but not debugging-specific. |
+| C03 | Codewars | Ranked kata; no debugging focus. |
+| C04 | HackerRank | Coding challenges; debugging is a side effect. |
+| C05 | Codecademy | Guided courses; learners, but content is tutorial-style, not debugging training. |
+| C06 | freeCodeCamp | Free curriculum; wide, not debugging-specific. |
+| C07 | Pramp | Peer mock interviews; debugging of the candidate's own code under pressure. |
+| C08 | Interviewing.io | Live technical interviews, some with bug-fixing rounds; audience is interview prep. |
+| C09 | HackerEarth | Hackathons and challenges; debugging not a category. |
+| C10 | GDB / LLDB tutorials | Tool documentation, not a practice site; teaches the debugger, not debugging. |
 | C11 | "How to Debug" — Julia Evans (jvns.ca) Legendary zine on debugging; reading material, not hands-on exercises. |
-| C12 | Rustlings | https://github.com/rustlings/rustlings | Rust practice by fixing compiler/lint errors; closest structured "fix the errors" model, but narrow (Rust only). |
-| C13 | "fix-it" / buggy-code repos (e.g. `inspired-vs-inspirer`, `debugging-practice` on GitHub) | https://github.com/search?q=debugging+practice&type=repositories | Open-source collections of buggy programs; no generator, no grading, no gallery. |
-| C14 | SQLZoo | https://sqlzoo.net | Query exercises; debugging not the focus. |
-| C15 | CodinGame | https://www.codingame.com | Game-based challenges; gamification precedent, not debugging-specific. |
-| C16 | Jupyter "debugging" courses / University of Helsinki Python MOOC | https://programming-24.mooc.fi/ | MOOC; debugging practice appears in passing. |
-| C17 | Exercism "debugging" mentoring threads | https://exercism.org | Community mentoring occasionally covers debugging; not structured. |
-| C18 | Xcode / Android Studio built-in exercises | https://developer.apple.com/ | IDE documentation; learning the IDE, not debugging skill. |
-| C19 | CodeSignal | https://codesignal.com | Assessment platform; general challenges. |
-| C20 | "Dojo" debugging games (e.g. `debugger-gym`-style side projects) | https://github.com/topics/debugging | Small hobby projects; the exact gap but not a product. |
+| C12 | Rustlings | Rust practice by fixing compiler/lint errors; closest structured "fix the errors" model, but narrow (Rust only). |
+| C13 | "fix-it" / buggy-code repos (e.g. `inspired-vs-inspirer`, `debugging-practice` on GitHub) | Open-source collections of buggy programs; no generator, no grading, no gallery. |
+| C14 | SQLZoo | Query exercises; debugging not the focus. |
+| C15 | CodinGame | Game-based challenges; gamification precedent, not debugging-specific. |
+| C16 | Jupyter "debugging" courses / University of Helsinki Python MOOC | MOOC; debugging practice appears in passing. |
+| C17 | Exercism "debugging" mentoring threads | Community mentoring occasionally covers debugging; not structured. |
+| C18 | Xcode / Android Studio built-in exercises | IDE documentation; learning the IDE, not debugging skill. |
+| C19 | CodeSignal | Assessment platform; general challenges. |
+| C20 | "Dojo" debugging games (e.g. `debugger-gym`-style side projects) | Small hobby projects; the exact gap but not a product. |
 
 ## Cut candidates (kept for later reuse)
 
