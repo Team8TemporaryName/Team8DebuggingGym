@@ -12,11 +12,11 @@
 Week 1 is a research week: no code, no prototype, nothing to deploy. We
 defined the problem space, searched widely for alternatives
 ([`candidate-list.md`](./candidate-list.md)), researched three of them
-([`alternatives.md`](../docs/research/alternatives.md)), compared them on six
-properties fixed in advance ([`comparison.md`](../docs/research/comparison.md)),
-and derived three gaps ([`gap-analysis.md`](../docs/research/gap-analysis.md))
+([`alternatives.md`](../../docs/research/alternatives.md)), compared them on six
+properties fixed in advance ([`comparison.md`](../../docs/research/comparison.md)),
+and derived three gaps ([`gap-analysis.md`](../../docs/research/gap-analysis.md))
 and four value propositions
-([`value-proposition.md`](../docs/research/value-proposition.md)).
+([`value-proposition.md`](../../docs/research/value-proposition.md)).
 
 **What we found.** No mainstream product combines debugging *specificity*, on
 -demand exercise *generation*, and debugging in the *user's own IDE*. CodinGame
@@ -37,12 +37,11 @@ kickoff.
 
 | Deliverable | Artifact |
 | ----------- | -------- |
-| Project definition / problem space | [README](../README.md) |
+| Alternatives search | [`docs/research/alternatives.md`](../../docs/research/alternatives.md) |
 | Candidate list | [`candidate-list.md`](./candidate-list.md) |
-| Alternatives search | [`docs/research/alternatives.md`](../docs/research/alternatives.md) |
-| Compare the alternatives | [`docs/research/comparison.md`](../docs/research/comparison.md) |
-| Gap analysis | [`docs/research/gap-analysis.md`](../docs/research/gap-analysis.md) |
-| Value proposition | [`docs/research/value-proposition.md`](../docs/research/value-proposition.md) |
+| Compare the alternatives | [`docs/research/comparison.md`](../../docs/research/comparison.md) |
+| Gap analysis | [`docs/research/gap-analysis.md`](../../docs/research/gap-analysis.md) |
+| Value proposition | [`docs/research/value-proposition.md`](../../docs/research/value-proposition.md) |
 | Research board | [Link to research board](https://www.figma.com/design/7bwb24mxusLGMo43t5VsVH/Untitled) |
 | Meeting script | [`meeting-script.md`](./meeting-script.md) |
 | Customer kickoff | [`meeting-report.md`](./meeting-report.md), and [`meeting-transcript.md`](./meeting-transcript.md) |
@@ -56,7 +55,7 @@ none is visible in the repository files.
 
 | Evidence | Link / location |
 |----------|-----------------|
-| `main` branch protection screenshot | [`reports/week-01/images/branch-protection.png`](./reports/week-01/images/branch-protection.png) |
+| `main` branch protection screenshot | [`reports/week-01/images/branch-protection.png`](./images/branch-protection.png) |
 | Merged PR approved by another member | [Link](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/3) |
 | Latest green link check run | [Link](https://github.com/Team8TemporaryName/Team8DebuggingGym/actions/runs/37218041214) |
 
