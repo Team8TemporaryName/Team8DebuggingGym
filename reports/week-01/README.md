@@ -47,6 +47,7 @@ kickoff.
 | Meeting script | [`meeting-script.md`](./meeting-script.md) |
 | Customer kickoff | [`meeting-report.md`](./meeting-report.md), and [`meeting-transcript.md`](./meeting-transcript.md) |
 | AI usage | [`ai-usage.md`](./ai-usage.md) |
+| License | [`LICENSE`](../../LICENSE) |
 
 ## Repository evidence
 
@@ -76,7 +77,7 @@ none is visible in the repository files.
 | Tedor49         | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/393fc7a7630c8f97a9a38d4a3326ba74600a3d6b) [2](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/e25143fdbaa675e31c330425abfcaca0b90cfa67) [3](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/3051048e52430f443428438bba1a8650c31cc835) [4](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/dc7b6774c3c61d69f5f77d209b982e560a532ac8) [5](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/32fc0b25731019a796119f4379c36353882ce5be) [6](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/57590cd30a2d7655f75d99bf21f27ede071c1cf4)     | None    | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/1) [2](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/2) [3](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/3) [4](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/4)       | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/6) [2](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/7) [3](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/8) [4](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/9)     |
 | Magel0n         | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/6d1d9e776fd8af6fe52dcc4fb16194b306ec32cb) [2](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/606aaed1cde834a0a89ea4ff27b12acbe73dda0c)     | None    | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/8) [2](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/9)           | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/1) [2](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/4)     |
 | NikitaRUniverse | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/870a67ec9ae5596b4f9638f2d78efadb746aaf62) [2](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/239cc9b4572475d03b93d31ff952f0c7b1cacb2e) [3](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/8cacf5465fb094d987f8ed4b07a40c646f35b95d)     | None    | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/6)           | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/3)    |
-| Doosuur14       | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/aa6bd314e78f043c9c3138f68bcc4506a6b5b346)     | None    | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/7)           | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/2)     |
+| Doosuur14       | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/commit/aa6bd314e78f043c9c3138f68bcc4506a6b5b346)     | None    | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/7)           | [1](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/2 )     |
 
 ## Deviations
 
