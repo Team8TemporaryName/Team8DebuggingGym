@@ -4,10 +4,6 @@ This file records which AI tools we used, for what, and what we accepted,
 changed, or rejected, per the course AI rules. If we had used none, this file
 would be a single line saying so.
 
-*To be filled in by the team as work progresses. A starter row for the
-research writing is provided; add rows for every tool and every meaningful
-accept/change/reject decision.*
-
 ## Tools and usage
 
 | Tool | What we used it for | Accepted | Changed | Rejected |
@@ -26,6 +22,3 @@ accept/change/reject decision.*
 - **Rejected:** Copilot producing *conclusions* about the market as
   established fact, and any fabricated URLs or metrics; those are flagged as
   assumptions (A1..A6) to test with the customer instead.
-
-*Team members: add your own tool use (search engines, LLMs, docs, etc.) and
-your accept/change/reject decisions here before submission.*
