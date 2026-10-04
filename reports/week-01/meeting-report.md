@@ -1,14 +1,13 @@
 # Meeting report — Customer kickoff
-
-> **Customer:** course instructor (referred to only as *Customer* in all
-> artifacts).
+ 
 > **Date:** 2026-10-02.
-> **Team (all attending):** Tedor49, Magel0n, NikitaRUniverse, Doosuur14.
-> **Attendees (roles):** Interviewer — Magel0n · Note taker — Doosuur14 ·
+> **Attendees:** Customer, Tedor49, Magel0n, NikitaRUniverse, Doosuur14.
+> **Roles:** Interviewer — Magel0n · Note taker — Doosuur14 ·
 > Observer — Tedor49.
 > **Permissions:** asked and granted before recording — audio/video recording:
 > quoting in public artifacts: **granted** · naming the meeting in the
 > week report: **granted**.
+> **Transcript:** [`meeting-transcript.md`](./meeting-transcript.md)
 
 ## 1. Objective
 
