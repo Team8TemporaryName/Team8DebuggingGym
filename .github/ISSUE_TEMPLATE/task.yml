@@ -1,0 +1,40 @@
+name: Task
+description: A unit of work that closes via a merged pull request, with its own acceptance criteria.
+labels: ["task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Task
+
+        A bounded unit of work. One pull request closes exactly one task
+        issue. The reviewer ticks the acceptance criteria before approving.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What this task does and why it is needed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: story
+    attributes:
+      label: Story
+      description: "Each story issue this task works toward, with its AC-nn it works toward in parentheses, one per line. Leave empty for work that is not on a story, such as a report or a workflow."
+      value: |
+        - #<issue> (AC-01, AC-02)
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: "Checklist, one AC-nn per item, observable and pass/fail. The reviewer ticks these before approving."
+      value: |
+        - [ ] AC-01: 
+        - [ ] AC-02: 
+    validations:
+      required: true
