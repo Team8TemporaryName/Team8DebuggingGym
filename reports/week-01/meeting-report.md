@@ -1,5 +1,5 @@
 # Meeting report — Customer kickoff
- 
+
 > **Date:** 2026-10-02.
 > **Attendees:** Customer, Tedor49, Magel0n, NikitaRUniverse, Doosuur14.
 > **Roles:** Interviewer — Magel0n · Note taker — Doosuur14 ·
@@ -123,7 +123,7 @@ creators of platforms like LeetCode or Codeforces.
 ## 3. Decisions
 
 | # | Decision | Source (GAP/VP) | Who it affects |
-|---|----------|-----------------|----------------|
+| - | -------- | --------------- | -------------- |
 | D1 | First release should do "debugging in the user's own IDE" well; exercise generation is second priority; public gallery is lower priority. | VP-03 | Engineering, product |
 | D2 | Target audience: university students and non-beginners who know debugging; not complete beginners; general audience possible but only students allow controlled assessment. | VP-01 | Product, research |
 | D3 | Problems must be self-contained (program + harness), reproducible via Docker containers or NixOS VMs on the provided 16 GB / 8 CPU VM, with minimal student prerequisites. | GAP-03 | Engineering |
@@ -131,7 +131,7 @@ creators of platforms like LeetCode or Codeforces.
 ## 4. Action points
 
 | # | Action | Owner | Due date (Week 2) |
-|---|--------|-------|-------------------|
+| - | ------ | ----- | ----------------- |
 | A1 | Build a single-language (Python) prototype focused on debugging in the user's own IDE. | Magel0n | Fri of Week 2 |
 | A2 | Design the system so it is extensible to multiple languages (language server, debugger, extensions pluggable per language). | Tedor49 | Fri of Week 2 |
 | A3 | Define the exercise layout (buggy code + harness) and the reproducible container/VM setup within the 16 GB / 8 CPU constraints. | NikitaRUniverse | Fri of Week 2 |
@@ -140,7 +140,7 @@ creators of platforms like LeetCode or Codeforces.
 ## 5. Disagreements
 
 | Position we held | Customer's objection | How we will respond |
-|------------------|----------------------|---------------------|
+| ---------------- | -------------------- | ------------------- |
 | LeetCode is the closest competitor worth watching. | Codeforces also offers similar "hack a solution" practice after contests. | Add Codeforces to the competitive landscape; position our differentiator as modern in-IDE debugging. |
 | Success can be measured by time spent debugging. | Time is unreliable (ambiguous idle vs. thinking); no confident learning signal. | Drop time-based metrics; measure topic/problem coverage tied to goals. |
 | An agent in the environment can help learners debug. | Using an agent to solve the task defeats the purpose of the exercise. | Design the agent as a guide that coaches the learner rather than solving the bug for them. |

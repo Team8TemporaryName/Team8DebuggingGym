@@ -74,7 +74,7 @@ and why — that list is not optional; it is what the customer will argue with.
 ## Rejected gaps (and why)
 
 | Rejected gap | Why we rejected it |
-|--------------|--------------------|
+| ------------ | ------------------ |
 | **A full debugging curriculum / course** (modules, lessons, certificates). | Scope is too large and it competes with MOOC-style courses (C02/C05/C06/C16 in the candidate list) that already do curricula well. Our alternatives research found no demand for *us* being a school; the pain is targeted practice, not more courseware. |
 | **Debugging interview-prep platform** (human-reviewed mock sessions). | Pramp/Interviewing.io already own interview prep (C07/C08). It requires expensive human grading and a different audience; it does not close a gap the alternatives leave open. |
 | **A community forum / Q&A for debugging questions.** | Stack Overflow et al. already serve Q&A. No defensible gap; would dilute our focus. |

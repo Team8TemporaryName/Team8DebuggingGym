@@ -82,7 +82,7 @@ We are assuming these are true; the kickoff meeting with the customer is where
 we test them. Everything below is falsifiable.
 
 | # | Assumption | Why it matters | How we will test it |
-|---|-----------|----------------|---------------------|
+| - | ---------- | -------------- | ------------------- |
 | A1 | A real audience wants *skill-category* debugging practice, not just general coding practice. | If false, GAP-01 collapses. | Customer kickoff + existing "fix-the-bug" demand signals (candidate list). |
 | A2 | Learners will accept connecting their IDE for practice (the setup cost is worth it). | If false, GAP-03 collapses. | Customer kickoff; ask about willingness to set up VS Code. |
 | A3 | An LLM can reliably generate exercises that (a) contain the intended bug and (b) are solvable, within our quality budget. | If false, VP-02 and the whole generation premise fail. | Small generation experiment in Week 2; measure defect-presence and solvability rates. |

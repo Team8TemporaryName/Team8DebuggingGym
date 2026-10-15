@@ -4,17 +4,17 @@
 **Participants:** Magel0n, Customer, Tedor49, NikitaRUniverse, Doosuur14
 
 [00:00] Magel0n: Secondly, may we quote you in public research architects?
-[00:09] Customer: Sorry, I couldn't hear you well. 
+[00:09] Customer: Sorry, I couldn't hear you well.
 [00:11] Magel0n: May we quote you in public research archifacts?
 [00:17] Customer: Yes.
 [00:20] Magel0n: And can we name the meeting in the week report?
 [00:25] Customer: Okay.
-[00:29] Magel0n: So, thank you very much for coming. 
+[00:29] Magel0n: So, thank you very much for coming.
 [00:37] Magel0n: Well, how should I start?
 [00:43] Magel0n: We have checked the alternatives on the market.
 [00:48] Magel0n: We have seen other options like CodinGame, LeetCode and Rustlings.
 [00:54] Magel0n: We have devised their strengths, weaknesses, some of our observations.
-[01:00] Magel0n: All of this you can find on our repository. 
+[01:00] Magel0n: All of this you can find on our repository.
 [01:12] Magel0n: And we have devised that there is a research gap with the target audience still needing to train that programming skill of debugging but with a deployable version where you could try on your own VS Code and see it helping you lock to a separate like hosting and lock to some of the other things like use code, request from your own thing.
 [01:45] Magel0n: Actually there are some of the other things like
 [01:49] Magel0n: I'll try not to be too frantic.
@@ -22,17 +22,17 @@
 [02:15] Customer: Yes, something like that.
 [02:18] Customer: Sorry for interrupting you, but I can hardly hear what you're saying.
 [02:23] Customer: Maybe you should direct your words at your mic, I don't know.
-[02:33] Magel0n: Well, I am... 
+[02:33] Magel0n: Well, I am...
 [02:35] Magel0n: Give me a second I'll try to fix this
-[03:02] Magel0n: Greetings. 
+[03:02] Magel0n: Greetings.
 [03:06] Customer: Hi. Okay.
 [03:08] Magel0n: This should make it easier.
 [03:12] Customer: Sounds much better.
 [03:14] Magel0n: Sounds much better?
-[03:15] Customer: Yes. 
+[03:15] Customer: Yes.
 [03:19] Magel0n: Where were I?
 [03:22] Customer: So you compared some competitors.
-[03:26] Magel0n: Yes, precisely. 
+[03:26] Magel0n: Yes, precisely.
 [03:27] Magel0n: And we have devised our own analysis, but today we have a goal of understanding where we got it wrong and where we need to design something differently from your perspective.
 [03:39] Customer: Aha
 [03:42] Magel0n: So, primarily, I believe we need you to answer a couple of our questions.
@@ -64,8 +64,8 @@
 [06:59] Customer: But for general audience, I can't guarantee
 [07:04] Customer: There is no reasonable test that will confidently show that the person learned something, because they could ask an agent to complete the task for them.
 [07:23] Magel0n: Well, thank you. Anything else?
-[07:27] Customer: No, no. 
-[07:30] Magel0n: So, another question. 
+[07:27] Customer: No, no.
+[07:30] Magel0n: So, another question.
 [07:33] Magel0n: Who in your world feels the pain of "I keep hitting the same kind of bug" most acutely?
 [07:41] Customer: Could you please repeat the question?
 [07:47] Magel0n: Who in your world feels the pain of "I keep hitting the same kind of bug" most acutely?
@@ -89,7 +89,7 @@
 [10:06] Magel0n: Okay.
 [10:10] Magel0n: And I would also like to ask, we assume that they are novices but not complete beginners in programming.
 [10:20] Customer: I agree because this need to practice debugging would more probably appear in someone who is forced to practice debugging at the university or someone who likes programming so much that they want to practice debugging.
-[10:49] Customer: The target users do have some experience with the languages that they want to practice. 
+[10:49] Customer: The target users do have some experience with the languages that they want to practice.
 [10:58] Customer: Most probably.
 [11:00] Magel0n: Alright.
 [11:02] Magel0n: Okay, so would you rather see learning spend more time debugging or more skills per hour?
