@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Debugging Gym repo guide
+    url: https://github.com/Team8TemporaryName/shadow
+    about: Read the README and week reports before opening an issue.
