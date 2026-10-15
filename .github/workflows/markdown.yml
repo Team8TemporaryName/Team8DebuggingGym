@@ -1,0 +1,26 @@
+name: Markdown check
+
+# Runs on every pull request and on every push to main. Fails the build on
+# Markdown style violations found by markdownlint-cli2.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Run markdownlint-cli2
+        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
+        with:
+          # The .markdownlint-cli2.jsonc file at the repo root is discovered
+          # automatically; only the globs to check are passed here.
+          globs: "**/*.md"

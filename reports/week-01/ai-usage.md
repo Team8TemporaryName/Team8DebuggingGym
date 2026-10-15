@@ -7,7 +7,7 @@ would be a single line saying so.
 ## Tools and usage
 
 | Tool | What we used it for | Accepted | Changed | Rejected |
-|------|---------------------|----------|---------|----------|
+| ---- | ------------------- | -------- | ------- | -------- |
 | GitHub Copilot | Drafting the Week 1 research structure: candidate list, alternatives, comparison table, gap analysis, value proposition, repository scaffolding. | Structural framing, property list, GAP/VP naming scheme. | All product claims were reviewed against the sources we actually looked at before being kept; competitor claims must still be verified by the team on the real sites. | Anything that asserted competitor facts we had not checked; generation-quality claims that are really assumptions (A3). |
 
 ## Accepted / changed / rejected detail

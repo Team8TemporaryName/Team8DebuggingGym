@@ -21,7 +21,7 @@ For every claim below we point at what we actually looked at. The working
 evidence (screenshots and notes) lives on the shared research board; link it
 here once created:
 
-> **Research board (view-only):** *TODO — add link when you create the board.*
+> **Research board (view-only):** [Link to research board](https://www.figma.com/design/7bwb24mxusLGMo43t5VsVH/Untitled)
 > At least two screenshots per alternative of the screens that matter for the
 > comparison properties are stored on the board and referenced in the sections
 > below.
@@ -42,7 +42,7 @@ are fixed in
 ## ALT-01 — CodinGame
 
 **Type:** adjacent substitute (interactive game-based coding practice).
-**URL:** https://www.codingame.com
+**URL:** [codingame.com](https://www.codingame.com)
 
 ### Observations (what we looked at)
 
@@ -89,7 +89,7 @@ browser).
 
 **Type:** adjacent substitute / general baseline (the coding-problem platform
 developers already use).
-**URL:** https://leetcode.com
+**URL:** [leetcode.com](https://leetcode.com)
 
 ### Observations (what we looked at)
 
@@ -137,7 +137,7 @@ practising by topic — which validates our "choose a problem category" idea.
 ## ALT-03 — Rustlings
 
 **Type:** open-source, self-hostable "fix the broken code" track.
-**URL:** https://github.com/rustlings/rustlings
+**URL:** [rustlings](https://github.com/rustlings/rustlings)
 
 ### Observations (what we looked at)
 
