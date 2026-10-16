@@ -148,3 +148,8 @@ and the runtime is ours to control. The boundary items hand jobs to LeetCode,
 CodinGame, HackerRank, Pramp, Interviewing.io, Stack Overflow, MOOC platforms,
 course platforms, and universities; each appears as an external actor or system
 on the diagram.
+
+## Where The Detail Lives
+
+- [User stories](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues?q=label%3Auser-story)
+- [Week 2 report](../reports/week-02/README.md)
