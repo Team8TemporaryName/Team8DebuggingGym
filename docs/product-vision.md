@@ -125,7 +125,7 @@ Provide lessons, modules, or certificates.
 
 ## System context
 
-![](\docs\architecture\context.png)
+![System context diagram](.\architecture\context.png)
 
 The product sits among the actors and systems it exchanges data with. The
 external actors and systems are described in prose here; the diagram draws
