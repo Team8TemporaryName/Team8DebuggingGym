@@ -125,11 +125,7 @@ Provide lessons, modules, or certificates.
 
 ## System context
 
-> **TODO (team):** add the system context diagram here and its source under
-> `docs/architecture/context.<ext>` (e.g. `context.svg`, or a Mermaid/PlantUML
-> `.puml` source). The diagram must be embedded in this file as an image that
-> GitHub renders, and must agree with the boundary list. A text description
-> follows so the diagram and its source stay consistent.
+![](\docs\architecture\context.png)
 
 The product sits among the actors and systems it exchanges data with. The
 external actors and systems are described in prose here; the diagram draws
