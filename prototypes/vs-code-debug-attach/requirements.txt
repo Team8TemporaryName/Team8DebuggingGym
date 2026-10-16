@@ -1,0 +1,3 @@
+# Dependencies for the exercise runtime container. Pinned so the spike is
+# reproducible. debugpy must match the Python in the container.
+debugpy==1.8.5
