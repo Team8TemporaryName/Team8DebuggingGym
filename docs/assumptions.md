@@ -23,7 +23,7 @@ Learners will accept connecting their IDE for practice, because the setup cost i
   and confirm with the VS Code prototype in Week 2.
 - **Outcome:** the VS Code prototype attached successfully and let the team
   debug a buggy program with breakpoints, and the customer confirmed the local
-  debugging experience is the right priority ([DEC-004](../../docs/decisions.md#dec-004)).
+  debugging experience is the right priority ([DEC-004](./decisions.md#dec-004)).
   Whether learners themselves accept the setup remains to be seen.
 
 ## ASM-03
@@ -45,7 +45,7 @@ Running user-attached debug sessions safely on a VPS is achievable within our ti
 - **Outcome:** the prototype proved a learner can attach their own VS Code to
   a hosted container over DAP and hit breakpoints on code running remotely.
   The team still needs to address sandboxing and controlling what task authors
-  can ship ([DEC-008](../../docs/decisions.md#dec-008)).
+  can ship ([DEC-008](./decisions.md#dec-008)).
 
 ## ASM-05
 
@@ -66,4 +66,4 @@ Developers and learners are a single reachable audience, and interview-prep cand
 - **Outcome:** the customer confirmed university students and non-beginners
   are the target (not interview-prep), but then said the system should also
   accommodate complete beginners, as long as instructions are clear, precise,
-  and concise ([DEC-002](../../docs/decisions.md#dec-002)).
+  and concise ([DEC-002](./decisions.md#dec-002)).

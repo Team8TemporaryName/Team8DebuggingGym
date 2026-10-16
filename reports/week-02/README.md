@@ -40,7 +40,7 @@ long as instructions are clear ([DEC-002](../../docs/decisions.md#dec-002)).
 | System context diagram | `docs/architecture/context.<ext>` and its source, embedded in [`docs/product-vision.md`](../../docs/product-vision.md) (TODO — team supplies) |
 | Assumptions | [`docs/assumptions.md`](../../docs/assumptions.md) |
 | Decisions | [`docs/decisions.md`](../../docs/decisions.md) |
-| Story issues | the `US-nn` issues, filtered by the `user-story` label ([list](https://github.com/Team8TemporaryName/shadow/issues?q=is%3Aissue+label%3Auser-story)) |
+| Story issues | the `US-nn` issues, filtered by the `user-story` label ([list](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues?q=is%3Aissue+label%3Auser-story)) |
 | Issue forms | `.github/ISSUE_TEMPLATE/user-story.yml`, `.github/ISSUE_TEMPLATE/task.yml`, `.github/ISSUE_TEMPLATE/config.yml` |
 | Labels | the repository's labels page, with `user-story`, `task`, and the `moscow:*` labels |
 | Pull request template | `.github/pull_request_template.md` |
