@@ -26,7 +26,7 @@ There is nothing to build or run yet. The research artifacts live under
 
 | Deliverable | Artifact |
 | ----------- | -------- |
-| Project definition | [README](./README) |
+| Project definition | [README](./README.md) |
 | Candidate list | [`reports/week-01/candidate-list.md`](reports/week-01/candidate-list.md) |
 | Alternatives research | [`docs/research/alternatives.md`](docs/research/alternatives.md) |
 | Comparison | [`docs/research/comparison.md`](docs/research/comparison.md) |
