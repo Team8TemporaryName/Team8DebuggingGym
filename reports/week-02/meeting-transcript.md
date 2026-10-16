@@ -11,9 +11,9 @@
 [00:01:18] Tedor49: Okay, so give me a second.
 [00:01:26] Tedor49: I thought I would have a little bit more time.
 [00:01:32] Magel0n: If you need more time, I can, for example, discuss about our decisions regarding the previous meeting and like the constraints that we have.
-[00:01:40] Tedor49: No, no, it's okay. Let me share this. We have this VS Code client with some buggy program, and this buggy program is sourced from a server. where the only thing that the user needs to connect remotely is this visual code launch configuration after which it can after which they can well just use the vs code buttons to attach and then we can start debugging session like this. It's run all the way through right now and it's gone into the harness. 
+[00:01:40] Tedor49: No, no, it's okay. Let me share this. We have this VS Code client with some buggy program, and this buggy program is sourced from a server. where the only thing that the user needs to connect remotely is this visual code launch configuration after which it can after which they can well just use the vs code buttons to attach and then we can start debugging session like this. It's run all the way through right now and it's gone into the harness.
 [00:02:40] Tedor49: You can see some debugging information here, but this is not the point. The point is that we can put breakpoints. If only I could click. This will be okay. Then we can
-[00:03:00] Tedor49: attach and then we can do the same thing again, debugging. Now we are on this line and the code is running on a remote server, not on our system. Then we can look at debugging information. and then we can like continue so in this test and it prints our passes and fails right now so the bug in this code is that we do not iterate all the numbers and it's supposed to return the average of all numbers verse so we can see that here well one of the test cases is one two three so we can continue oh Okay yeah I think I continued too much little bit but well it also shows us the 
+[00:03:00] Tedor49: attach and then we can do the same thing again, debugging. Now we are on this line and the code is running on a remote server, not on our system. Then we can look at debugging information. and then we can like continue so in this test and it prints our passes and fails right now so the bug in this code is that we do not iterate all the numbers and it's supposed to return the average of all numbers verse so we can see that here well one of the test cases is one two three so we can continue oh Okay yeah I think I continued too much little bit but well it also shows us the
 [00:03:59] Tedor49: the expected and actual results that we get from our programs
 [00:04:06] Tedor49: programs and then it shows us that we have failed and this will need to be removed but this is a prototype okay and so then we can try to change the program then we will need to push it back to the server this does not work well right now But then we can attach to debugger again and you can see all the test cases have passed and this code runs on a remote server, not an ARM machine. So the biggest pain point from previous week, which is, are we able to remotely debug? It is possible to remotely debug. I think this is all for the prototype.
 [00:05:10] Customer: Okay, thank you. i think if you need my feedback then please show the i keep showing the prototype um i'd like to see its parts in more detail and discuss them okay uh so where is the code stored
@@ -23,9 +23,9 @@
 [00:06:33] Customer: Okay
 [00:06:45] Tedor49: And also this proves that the code that is running is not on our machine since we have changed it and the result did not
 [00:07:00] Customer: Right. I mean, this code is on your machine, but there is another copy on the actual server.
-[00:07:07] Tedor49: Yes, exactly. 
+[00:07:07] Tedor49: Yes, exactly.
 [00:07:08] Customer: Okay. So, which VS Code is this? Is it a standalone application or in a browser?
-[00:07:19] Tedor49: This is the standalone application. 
+[00:07:19] Tedor49: This is the standalone application.
 [00:07:25] Customer: Okay.
 [00:07:29] Customer: Did you think about moving it to the browser? Maybe it will open from the side. Are there any obstacles to this?
 [00:07:41] Tedor49: We will need to see how it works in the browser and what kind of file storage is there, but I think it will work. But then we need to do it with actual IPs and not just getting everything on localhost.
@@ -46,14 +46,14 @@
 [00:10:34] Customer: Okay, so there is launch.json. What's in there?
 [00:10:39] Tedor49: This is a standard VS Code launch configuration so that this appears in here and we can just press a button to start a remote debugging session. and this is a prerequisite to start debugging but i think and we will need to provide a way to download it somehow so here it just says where to connect to our server that we try to that it's not another device and it's a remote device and where we copy the code
 [00:11:24] Customer: Okay. So is this configuration expected to be static?
-[00:11:38] Tedor49: Yes, it is. 
+[00:11:38] Tedor49: Yes, it is.
 [00:11:40] Customer: For this debugging session?
-[00:11:41] Tedor49: Yes, it is. 
+[00:11:41] Tedor49: Yes, it is.
 [00:11:46] Customer: So it won't need to change?
 [00:11:48] Tedor49: No, it will not need to change.
 [00:11:57] Customer: Uh maybe provided not via a file somehow an alternative is VSCode extension
 [00:12:05] Tedor49: yes we plan on doing something like that oh oh but well this is this is a very minimal prototype just for the riskiest part
-[00:12:15] Customer: sure yeah 
+[00:12:15] Customer: sure yeah
 [00:12:23] Customer: so the triggering bug works and fixing bug leads to all tests passing right but uh i can't really see ah so they're there in the debug console
 [00:12:39] Tedor49: Yes
 [00:12:44] Customer: so the person should Be somehow instructed to open the debug console
@@ -70,7 +70,7 @@
 [00:17:21] Tedor49: Like oh okay uh they probably can be just this no well right now they can do it just because the code is very simple uh but uh uh i don't know how it should work for the final version uh what do you think
 [00:17:46] Customer: Uh i think they they should be able to to use any provider tools to debug the program including running the program with print statements maybe so right now they can open the terminal write python uh i guess minus m up dot buggy program dot Or something like this.
 [00:18:16] Tedor49: Well, they can since the code is mirrored to their device. I was more thinking of something inside, well, VS Code itself.
-[00:18:33] Customer: I don't know. 
+[00:18:33] Customer: I don't know.
 [00:18:37] Customer: I think Python has dog tests or something. like some tool to run code inside doc strings i'm not sure like haskell has it so maybe they can there can be some comments inside the code working where they can press a button and run some line of code to see the output but i think this this is not very convenient and they will see the output inside comments i think a better better solution is to let them run on the terminal or provide some button to run this whole module so if if you build an extension there should be at least like two buttons to run a module and to attached to the debug session maybe to also to reconnect to the server the short button um and maybe some instructions on what each button does and like what is expected uh from this program uh i mean the the this box strings inside the function explain what this function does but what if there are multiple functions where can the user discover the task that they need to solve i think it should be somewhere near the program so that the user doesn't need to switch to another window to go to the site and see the original task again what do you think
 [00:20:43] Tedor49: Oh yes i think this is very reasonable or we can add the task just to the top of the top of the file and also to extension but well we will need to do that in the future yeah or consider maybe if it if you come up with better design uh we'll let you know
 [00:21:02] Customer: yeah but i think Having a task statement somewhere in the IDE might help the student keep the focus on the task and navigate this program better. OK. So breakpoints work. Uh-huh. So this program has a single module. Should we support multi-module programs, do you think?
@@ -78,7 +78,7 @@
 [00:22:23] Customer: right um hopefully the harness does not have bugs um
 [00:22:37] Customer: How can we ensure that that's a discussion for another brainstorm probably like what do we do with harnesses how do we test them should we discard bad harnesses but it's worth thinking about Should students be able to report bad harnesses? And so on. Bad harness may misbehave, like the whole memory. As I understand, it runs on the student's device, right? The student's computer.
 [00:23:28] Customer: Does it?
-[00:23:29] Tedor49: Could you please repeat the question? 
+[00:23:29] Tedor49: Could you please repeat the question?
 [00:23:33] Customer: Does the harness run on the student's computer?
 [00:23:35] Tedor49: No, it does not. It runs on the server. Everything runs on the server.
 [00:23:43] Customer: Ah, okay. So the student can't... Okay, which... For example, if a student wants to profile the program... how do they get the tools to profile it or to run commands um inside their id so does the terminal have the same environment as the server
@@ -88,7 +88,7 @@
 [00:25:05] Customer: So if I want to use some linter or typeshaker and I don't have it installed in VS Code, what do I do? Should I install it on my machine or can I use some tool on the terminal or can I somehow receive the diagnostics from the server?
 [00:25:36] Tedor49: I think, well, if you want to use a linter, then it would probably be more idiomatic to download your own linter. But we can definitely add support for different checks, not just that the code runs correctly. and as for will the tools for these checks like like if we require our like if we require like with some of our own linting rules i think these tools should be provided well by the extension and they should be installed automatically with the task
 [00:26:07] Customer: Um yeah i think i agree here uh so uh one more question so you right now accept any um any code from but from the buggy program on the server i mean until you run it
-[00:26:58] Tedor49: yes so obviously it will need to be sandboxed and probably virtualized as well 
+[00:26:58] Tedor49: yes so obviously it will need to be sandboxed and probably virtualized as well
 [00:27:10] Customer: yeah maybe it can also be inspected using an agent but yeah but it will increase the cost of operating this this whole system Okay, so my initial assumption was that both programs and harnesses are written by agents. Can they be authored by humans? What do you think? Should they be authored by humans too?
 [00:27:52] Tedor49: Are you asking if the humans should be able to create their own harnesses?
 [00:28:01] Customer: Yes, not the students, but task creators.
@@ -96,7 +96,7 @@
 [00:28:29] Customer: Probably there should be some moderation system on the side so that you can remove malicious tasks and so on. Monitor how the harness behaves at runtime. Maybe it eats the whole memory, so it should be replaced. Okay. I can't come up with more questions right now. Maybe you have some questions for me.
 [00:29:27] Magel0n: Yes, we actually do have some questions for you. So, well, first of all, is this the general setup that the learner would accept, like with the attachment of the VS code?
 [00:29:58] Customer: Is there any sticking points that stick out to you uh-huh where they can get stuck so um yeah so if all these files are i mean both files are opened automatically after connecting to the server and they there are understandable instructions in the sidebar somewhere else on what to do then i think the learner won't get stuck really they may get stuck when they need to install the extensions but as we discussed you you might probably somehow install the necessary extensions or prompt to install necessary extensions when providing the task to the user maybe provide the file with the recommended extensions but it's a technical issue maybe there are more elegant ways other places so if the user knows like step by step what they need to do and when can when can they know how can they know that they succeeded with the task then they probably want to get stuck also there should be instructions on what to do if the server has disconnected for some reason Maybe you see some points where they can get stuck.
-[00:31:42] Magel0n: Well, as of right now, all of the points were already discussed by Tedor49 that we have found, and I think we will find more whilst we'll be implementing it. 
+[00:31:42] Magel0n: Well, as of right now, all of the points were already discussed by Tedor49 that we have found, and I think we will find more whilst we'll be implementing it.
 [00:31:57] Customer: Right. Okay.
 [00:32:01] Magel0n: Is there something that would make you trust the harness's pass-fail signal?
 [00:32:09] Customer: Sorry? Could you please repeat?
@@ -109,33 +109,33 @@
 [00:37:08] Magel0n: Okay, let's proceed. So, is debugging in the user's own VS Code still the right priority given what the prototype shows?
 [00:37:25] Customer: I think this code is a very capable IDE. And so yeah, let's keep it as a debugging tool, debugging environment.
 [00:37:38] Magel0n: Excellent. May I then talk with you about the decisions that we have made and then to the constraints and the boundaries that we have just devised?
-[00:37:48] Customer: Yeah, sure. 
+[00:37:48] Customer: Yeah, sure.
 [00:37:50] Magel0n: So, for the decisions, the first one is that, well, debugging in the user's own IDE is the first priority.
 [00:37:59] Magel0n: Secondly, we target...
 [00:38:02] Customer: Okay, not in the IDE. I mean, the VSCode installed.
 [00:38:08] Magel0n: Yeah, but in a sense that users do everything, like, on their machine.
 [00:38:16] Customer: Like local debugging experience, basically. Yes. But there is an open question, should this happen in the standalone application or inside the browser?
 [00:38:35] Magel0n: Yeah.
-[00:38:37] Customer: So we keep it open for now. uh i mean this question whether this should be a standalone application or browser yeah this is open but debugging of lock and having files available locally is closed like yes the user should have the files available locally 
-[00:39:02] Magel0n: okay then the target is the Like a university students and like non-beginners basically not being complete beginners as we have discussed 
+[00:38:37] Customer: So we keep it open for now. uh i mean this question whether this should be a standalone application or browser yeah this is open but debugging of lock and having files available locally is closed like yes the user should have the files available locally
+[00:39:02] Magel0n: okay then the target is the Like a university students and like non-beginners basically not being complete beginners as we have discussed
 [00:39:17] Customer: uh yes
 [00:39:21] Magel0n: uh okay and the problems are self-contained and reproducible on the provided virtual machine
-[00:39:34] Customer:  uh yes no flaky harnesses 
+[00:39:34] Customer:  uh yes no flaky harnesses
 [00:39:39] Magel0n: yeah yeah okay uh then uh based on that we have already devised our constraints and our boundaries obviously and among the constraints the first one is that the exercise environments run on a university virtual machine with like 16 gigabytes of ram and eight CPUs
 [00:40:04] Customer: Yes for this project um i'm pinging the it department but they don't reply for several days so yeah unless um if they don't provide this virtual machines then the the server should be runnable locally luckily i think it's possible right now
-[00:40:35] Magel0n: Okay. The API key budget is like $5 to $10. 
-[00:40:46] Customer: Yes. 
-[00:40:46] Magel0n: Okay. The in-environment agent must coach the learner, not solve the exercise. 
+[00:40:35] Magel0n: Okay. The API key budget is like $5 to $10.
+[00:40:46] Customer: Yes.
+[00:40:46] Magel0n: Okay. The in-environment agent must coach the learner, not solve the exercise.
 [00:40:58] Customer: That's right.
 [00:41:00] Magel0n: And every exercise ships as a self-contained reproducible unit.
-[00:41:12] Customer: Yes. 
+[00:41:12] Customer: Yes.
 [00:41:13] Magel0n: Excellent. Then for the boundaries, the first one is to host a fixed catalog of hand-curated problems. The second one is to run code in a browser editor or in the IDE itself. Third one is to run mock interviews or human-reviewed debugging sessions, perhaps, as we have advised before, and even host debugging Q&A.
 [00:41:44] Customer: So that's what you're not going to do or what you're going to do?
 [00:41:51] Magel0n: Well, we are hoping that this is, like, the next step after, like, we are not planning to do it, but this is what we're going to do. Like, this is... uh how should i put it future work basically yeah okay i agree uh to the same boundaries come like host debugging q a so that somebody could use our thing and uh debug it then we perhaps we could uh expand to teach programming from scratch and provide lessons, modules, or even certificates.
 [00:42:09] Customer: Yes, this is not your responsibility for this project.
 [00:42:41] Magel0n: Excellent. Now, so, no, the elements were wrong. And so we should not teach complete beginners. Or should we try to include complete beginners as a target?
 [00:43:05] Customer: Define complete beginners.
-[00:43:07] Magel0n: Somebody that is practically, like, it's their third time seeing code. 
+[00:43:07] Magel0n: Somebody that is practically, like, it's their third time seeing code.
 [00:43:17] Customer: Mm-hmm.
 [00:43:19] Magel0n:  I understand that ultimately we will not be able to guide them completely towards the system, but perhaps we should accommodate for their existence.
 [00:43:37] Customer: Yeah, basically you should assume that... Okay, they saw the code. They know it can be edited. They know how to type and they know how to read instructions. I think instructions for users should assume that users are not very patient, very attentive readers. And then you can target the beginners too. The instructions for what to do in the system should be very clear, precise, concise. And then I guess even beginners will understand.
@@ -143,7 +143,7 @@
 [00:45:02] Customer: Sounds good. Yeah, it doesn't anchor the design.
 [00:45:07] Magel0n: Yep. Second one. As a learner, I want to see the list of debugging problem kinds the site supports so that I can choose what to practice.
 [00:45:24] Customer: This is a bit technical story. Maybe as a user, I want to be able to choose. or what what what could you choose from list what to practice what so it couldn't exercise yeah Okay, so as a learner, I want to choose an exercise that I don't practice what I've already completed, something like this, or what I already saw, or so that I improve my skill in a new environment.
-[00:45:41] Magel0n: Okay. So you asked us to change that a little bit to that. 
+[00:45:41] Magel0n: Okay. So you asked us to change that a little bit to that.
 [00:45:51] Customer: Yeah, I mean, it might be a list, might be a grid or some other implementation of a list. You should capture the intention of the user in the user story and the value.
 [00:46:20] Magel0n: Okay. Next one then.
 [00:46:51] Magel0n: As a learner, I want to open the exercise in my own VS Code so I can debug it with the tools I already use.
@@ -162,7 +162,7 @@
 [00:50:30] Magel0n: Then, as a learner, I want to browse the public gallery of generated exercises so that I can practice a wider variety of problems.
 [00:50:52] Customer: Uh so this is this one is very similar to what we had before like i want to to select an exercise that i don't practice like the same environment in the same stuff
 [00:51:05] Magel0n: We tried to separate them based on one being more over how it should look and like towards the listing and whatnot. And the other one about just overall having the generated exercises somewhere. Plus the browser capability.
-[00:51:24] Customer: I'm not sure i understand the distinction between the list and the gallery right now um yeah but okay 
+[00:51:24] Customer: I'm not sure i understand the distinction between the list and the gallery right now um yeah but okay
 [00:51:42] Magel0n: well if you don't understand the distinction perhaps this is an unnecessary user story then
 [00:51:50] Customer:  it might be like what we we should i think the the public gallery should exist uh why should it exist so maybe like i want to i want to as a user or the student i want to choose exercises from a like public pool of exercises so that I can solve the same problems that my friend solves, for example, right now. So that we can try to debug it together or discuss the debugging process. Basically, yeah. And as a teacher, I want to select exercises prepared by someone else so that I don't spend time writing them on my own. Maybe something like this. And this will justify the existence of a gallery that contains exercises prepared by someone.
 [00:53:15] Magel0n: OK, thank you very much. We will add it later. uh last user story then okay as a learner i want to practice in several languages python typescript java so that i can train the language i actually use uh yes i mean uh i want to
@@ -172,7 +172,7 @@
 [00:54:48] Magel0n: Okay, thank you very much. That is it for the user stories. Now, if we can only build the candidate stories, can a learner complete the core task and what is missing if not?
 [00:55:15] Customer: Which stories do you consider for a core task?
 [00:55:20] Magel0n: Well, if we build based off all of these user stories to try to satisfy them, is there anything else missing?
-[00:55:23] Customer: o all these user stories combined serve some core task? 
+[00:55:23] Customer: o all these user stories combined serve some core task?
 [00:55:23] Magel0n: Well, more or less, no?
 [00:55:36] Customer: uh i mean yes but uh well okay the public gallery may serve such a core task but as for a usable product version it's not very much required to have like real public gallery it may be like a single account um site and the user will just choose exercises from a given list. So this will demonstrate that the user can complete a single task, core task. I think this set can be reduced a bit.
 [00:56:47] Customer: Um and i'd like to hear like which user stories you consider for for a core task
@@ -183,12 +183,12 @@
 [00:59:05] Customer: What was the other one?
 [00:59:08] Magel0n: Public gallery.  So, any verdicts on the candidate?
 [00:59:36] Customer: okay so so you should implement the core task like go to the site get the exercise uh connect somehow to the server and sorry go to the site connect somehow to the server and get the task probably in the IDE together with like during the process of getting the task and then like solve the task to bug the program get the verdict from the harness that the program is solved and then finish and then I don't know either go to the site again to see the verdict on the side like this problem counts are solved um yeah i think that this is like a logical engine you should not get stuck in the idea and this will be like the core task okay uh then do you have any extra questions yeah how did you implement the environment containerization on the server did you use docker
-[01:01:13] Tedor49: yes we use the docker for the server 
-[01:01:20] Customer: so you'll have in future you will have some containers with some specific tools or specific languages right 
+[01:01:13] Tedor49: yes we use the docker for the server
+[01:01:20] Customer: so you'll have in future you will have some containers with some specific tools or specific languages right
 [01:01:32] Tedor49: probably yes
 [01:01:36] Customer: okay what if okay this may be like very far future but what if the task also wants to supply own tools in a container how do they do that
 [01:01:55] Magel0n: What do you mean by their own tools?
-[01:02:07] Customer: I assume that there will be some registry of docker files that you use to build containers. What if a task author wants to supply 
+[01:02:07] Customer: I assume that there will be some registry of docker files that you use to build containers. What if a task author wants to supply
 [01:02:42] Magel0n: Well, for now, it is a little too early in development to say for sure. but overall uh to avoid any malicious actors i believe we will have to either deny that possibility or restrict it heavily
 [01:03:01] Customer: yeah probably yeah you don't want bad actors provide malicious software in containers
 [01:03:17] Magel0n: Perhaps another option that we can try to implement is to allow them to connect their own servers so that we could transfer their own Docker images on their own server so that a user would transfer it to them directly. But that is not among our first priorities.

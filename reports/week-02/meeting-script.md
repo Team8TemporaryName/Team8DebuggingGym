@@ -50,10 +50,6 @@ product candidate are right.
 ## Roles
 
 Interviewer — Magel0n; note taker — Doosuur14; observer — Tedor49.
-=======
-## Roles
-
-Interviewer — Magel0n; note taker — Doosuur14; observer — Tedor49.
 
 ## Key improvements
 

@@ -26,17 +26,17 @@ There is nothing to build or run yet. The research artifacts live under
 
 | Deliverable | Artifact |
 | ----------- | -------- |
-| Project definition       | [README](#readme)                                     |
-| Candidate list           | [`reports/week-01/candidate-list.md`](reports/week-01/candidate-list.md) |
-| Alternatives research    | [`docs/research/alternatives.md`](docs/research/alternatives.md) |
-| Comparison               | [`docs/research/comparison.md`](docs/research/comparison.md) |
-| Gap analysis             | [`docs/research/gap-analysis.md`](docs/research/gap-analysis.md) |
-| Value proposition        | [`docs/research/value-proposition.md`](docs/research/value-proposition.md) |
-| Decisions                | [`docs/decisions.md`](docs/decisions.md) |
-| Assumptions              | [`docs/assumptions.md`](docs/assumptions.md) |
-| Product vision           | [`docs/product-vision.md`](docs/product-vision.md) |
-| Week 1 report            | [`reports/week-01/README.md`](reports/week-01/README.md) |
-| Week 2 report            | [`reports/week-02/README.md`](reports/week-02/README.md) |
+| Project definition | [README](./README) |
+| Candidate list | [`reports/week-01/candidate-list.md`](reports/week-01/candidate-list.md) |
+| Alternatives research | [`docs/research/alternatives.md`](docs/research/alternatives.md) |
+| Comparison | [`docs/research/comparison.md`](docs/research/comparison.md) |
+| Gap analysis | [`docs/research/gap-analysis.md`](docs/research/gap-analysis.md) |
+| Value proposition | [`docs/research/value-proposition.md`](docs/research/value-proposition.md) |
+| Decisions | [`docs/decisions.md`](docs/decisions.md) |
+| Assumptions | [`docs/assumptions.md`](docs/assumptions.md) |
+| Product vision | [`docs/product-vision.md`](docs/product-vision.md) |
+| Week 1 report | [`reports/week-01/README.md`](reports/week-01/README.md) |
+| Week 2 report | [`reports/week-02/README.md`](reports/week-02/README.md) |
 
 ## License
 
