@@ -79,9 +79,9 @@ server becomes a follow-up for the next iteration.
 
 | Evidence | Link / location |
 | -------- | --------------- |
-| A merged pull request that closed its task issue | *TODO — PR link* |
-| Latest green link check run | *TODO — Actions run link* |
-| Latest green Markdown check run on `main` | *TODO — Actions run link* |
+| A merged pull request that closed its task issue | [PR link](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/28) |
+| Latest green link check run | [checker](https://github.com/Team8TemporaryName/Team8DebuggingGym/actions/runs/38815220433/job/116698073182) |
+| Latest green Markdown check run on `main` | [linter](https://github.com/Team8TemporaryName/Team8DebuggingGym/actions/runs/38815220481/job/116698074736) |
 
 ## Deviations
 
