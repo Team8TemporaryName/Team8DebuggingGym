@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debugging Gym</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Debugging Gym</h1>
+      <p class="tagline">Pick a problem kind and get a generated exercise</p>
+    </header>
+
+    <section id="choose" class="card">
+      <h2>Choose a problem kind</h2>
+      <div id="kinds" class="kinds"><p class="hint">Loading…</p></div>
+    </section>
+
+    <section id="exercise" class="card hidden">
+      <h2>Your exercise</h2>
+      <p id="task" class="task"></p>
+      <div class="tabs">
+        <button id="tab-source" class="tab active">Program</button>
+        <button id="tab-harness" class="tab">Harness</button>
+        <!-- <button id="tab-launch" class="tab">VS Code</button> --!>
+      </div>
+      <pre id="code" class="code"></pre>
+      <textarea id="editor" class="editor hidden" spellcheck="false"></textarea>
+    </section>
+
+    <section id="verify" class="card hidden">
+      <h2>Verify your fix</h2>
+      <button id="run-verify" class="primary">Run the harness</button>
+      <pre id="result" class="result"></pre>
+    </section>
+
+    <footer>
+      <p>Week 3 minimum usable product — Debugging Gym team 8.</p>
+    </footer>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

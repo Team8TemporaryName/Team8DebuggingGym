@@ -1,0 +1,94 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #2a2f3a;
+  --text: #e6e8ec;
+  --muted: #9aa3b2;
+  --accent: #4f8cff;
+  --ok: #3fb27f;
+  --fail: #e56a5a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+main { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+header h1 { margin: 0 0 0.25rem; font-size: 2rem; }
+.tagline { color: var(--muted); margin-top: 0; }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.card h2 { margin-top: 0; font-size: 1.15rem; }
+
+.hidden { display: none; }
+.hint { color: var(--muted); }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+.kind {
+  background: #1e232e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+}
+.kind:hover { border-color: var(--accent); }
+.kind strong { display: block; }
+.kind span { color: var(--muted); font-size: 0.85rem; }
+
+.task { font-weight: 500; }
+
+.tabs { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+.tab {
+  background: #1e232e;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.tab.active { color: var(--text); border-color: var(--accent); }
+
+.code, .editor {
+  width: 100%;
+  background: #0b0d11;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  min-height: 12rem;
+}
+.editor { color: var(--text); resize: vertical; }
+
+.primary {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.primary:hover { filter: brightness(1.08); }
+
+.result { background: #0b0d11; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem; font-family: ui-monospace, Menlo, monospace; font-size: 0.85rem; min-height: 3rem; }
+.result.ok { border-color: var(--ok); color: var(--ok); }
+.result.fail { border-color: var(--fail); color: var(--fail); }
+
+footer { color: var(--muted); font-size: 0.85rem; margin-top: 2rem; }
