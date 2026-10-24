@@ -13,14 +13,63 @@ them as they would debug real code. A public gallery collects community
 exercises.
 
 This is the course repository for the Debugging Gym project. Week 1 was a
-research week (no product); Week 2 turns that direction into requirements and
-a prototype. This README describes the project and points at the weekly
-artifacts.
+research week (no product); Week 2 turned that direction into requirements and
+a prototype; Week 3 built the minimum usable product. This README describes the
+project and points at the weekly artifacts.
 
 ## Getting started
 
-There is nothing to build or run yet. The research artifacts live under
-`docs/research/`, `reports/week-01/` and `reports/week-02/`.
+- **Documentation site:** <https://team8temporaryname.github.io/Team8DebuggingGym/>
+- **Setup and run:** [docs/setup.md](docs/setup.md)
+- **Maintained documentation:** under [`docs/`](docs/)
+- **Current week's report:** [`reports/week-03/README.md`](reports/week-03/README.md)
+
+To run the product, follow [docs/setup.md](docs/setup.md). A clean checkout,
+then the setup page, completes the core task end to end.
+
+## Repository layout
+
+```text
+.
+├── README.md                 # this file
+├── LICENSE                   # MIT
+├── .gitignore
+├── .lycheeignore
+├── .markdownlint-cli2.jsonc
+├── .github/
+│   ├── dependabot.yml
+│   ├── pull_request_template.md
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── user-story.yml
+│   │   ├── task.yml
+│   │   └── config.yml
+│   └── workflows/
+│       ├── lychee.yml
+│       └── markdown.yml
+├── docs/
+│   ├── decisions.md
+│   ├── assumptions.md
+│   ├── product-vision.md
+│   ├── architecture/
+│   └── research/
+│       ├── alternatives.md
+│       ├── comparison.md
+│       ├── gap-analysis.md
+│       └── value-proposition.md
+├── app/                         # the product (FastAPI + static front end)
+│   ├── main.py
+│   ├── generator.py
+│   ├── harness_runner.py
+│   └── static/
+├── requirements.txt
+├── .env.example
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+└── reports/
+    ├── week-01/
+    ├── week-02/
+    └── week-03/
+```
 
 ## Research index
 
@@ -37,6 +86,13 @@ There is nothing to build or run yet. The research artifacts live under
 | Product vision | [`docs/product-vision.md`](docs/product-vision.md) |
 | Week 1 report | [`reports/week-01/README.md`](reports/week-01/README.md) |
 | Week 2 report | [`reports/week-02/README.md`](reports/week-02/README.md) |
+| Week 3 report | [`reports/week-03/README.md`](reports/week-03/README.md) |
+| Threshold of success | [`docs/threshold-of-success.md`](docs/threshold-of-success.md) |
+| Project plan | [`docs/project-plan.md`](docs/project-plan.md) |
+| Risk register | [`docs/risks.md`](docs/risks.md) |
+| Definition of done | [`docs/definition-of-done.md`](docs/definition-of-done.md) |
+| Contributing guide | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
+| Setup and run | [`docs/setup.md`](docs/setup.md) |
 
 ## License
 
