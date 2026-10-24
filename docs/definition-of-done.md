@@ -19,8 +19,8 @@ A story closes only on the customer's acceptance, per [Showing Working Software]
 - A pull request closes exactly one task issue and links it.
 - The accountable reviewer ticks every task acceptance criterion before approving.
 - The approval comes from a member other than the author.
-- The repository checks are green: the [link check](https://github.com/Team8TemporaryName/Team8DebuggingGym/blob/main/.github/workflows/lychee.yml) and the [Markdown check](https://github.com/Team8TemporaryName/Team8DebuggingGym/blob/main/.github/workflows/markdown.yml).
-- A user-visible change updates the `[Unreleased]` section of CHANGELOG.md.
+- The repository checks are green: the [link check](../.github/workflows/lychee.yml) and the [Markdown check](../.github/workflows/markdown.yml).
+- A user-visible change updates the `[Unreleased]` section of [CHANGELOG.md](../CHANGELOG.md).
 - The acceptance criteria this pull request claims pass on its branch, and on `main` after it merges.
 - No secret, recording, or private-only material is committed.
 - Implementation notes in the pull request description record the decisions made and how the change was checked.
