@@ -12,3 +12,14 @@ updates:
           - "*"
     commit-message:
       prefix: ci
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    # Group dependency bumps into one pull request per week.
+    groups:
+      python:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: deps
