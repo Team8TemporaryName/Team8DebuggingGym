@@ -38,8 +38,8 @@ A learner can reach the product and its documentation without cloning the reposi
 
 ## Failure And Success Statements
 
-| Goal              | Success statement | Failure statement |
-| ----------------- | ----------------- | ----------------- |
+| Goal | Success statement | Failure statement |
+| ---- | ----------------- | ----------------- |
 | [TOS-01](#tos-01) | A learner completes the core task end to end. | We never put a runnable core task in front of anyone. |
 | [TOS-01](#tos-01) | A clean checkout runs the slice by following the setup. | Nobody outside the team could run the product code. |
 | [TOS-02](#tos-02) | The harness reports the planted defect and its fix. | The learner could not tell whether the bug was actually gone. |

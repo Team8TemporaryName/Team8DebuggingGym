@@ -1,11 +1,11 @@
 # Risks
 
-| ID                  | Status | Impact | Likelihood | Risk |
-| ------------------- | ------ | ------ | ---------- | ---- |
-| [RISK-01](#risk-01) | Open   | High   | Medium     | The team has not built a VS Code attach-to-server flow end to end in the product, so the connect story may take longer than the sprint allows, which would leave the core task incomplete. |
-| [RISK-02](#risk-02) | Open   | High   | Medium     | The LLM provider's API key and budget are constrained, so generated exercises may be slow or unavailable during the Week 3 meeting, which would leave the generation story unproven. |
-| [RISK-03](#risk-03) | Open   | Medium | Medium     | The documentation site and the setup page may be left to too few members near the deadline, which would push them past the sprint. |
-| [RISK-04](#risk-04) | Open   | Medium | Low       | The university VM may not be provisioned in time, so the debug environments may have nowhere to run, which would block the connect story. |
+| ID | Status | Impact | Likelihood | Risk |
+| -- | ------ | ------ | ---------- | ---- |
+| [RISK-01](#risk-01) | Open | High | Medium | The team has not built a VS Code attach-to-server flow end to end in the product, so the connect story may take longer than the sprint allows, which would leave the core task incomplete. |
+| [RISK-02](#risk-02) | Open | High | Medium | The LLM provider's API key and budget are constrained, so generated exercises may be slow or unavailable during the Week 3 meeting, which would leave the generation story unproven. |
+| [RISK-03](#risk-03) | Open | Medium | Medium | The documentation site and the setup page may be left to too few members near the deadline, which would push them past the sprint. |
+| [RISK-04](#risk-04) | Open | Medium | Low | The university VM may not be provisioned in time, so the debug environments may have nowhere to run, which would block the connect story. |
 
 ## RISK-01
 

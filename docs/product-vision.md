@@ -157,5 +157,5 @@ on the diagram.
 
 ## Where The Detail Lives
 
-- [User stories](https://github.com/Team8TemporaryName/shadow/issues?q=label%3Auser-story)
+- [User stories](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues?q=label%3Auser-story)
 - [Week 2 report](../reports/week-02/README.md)

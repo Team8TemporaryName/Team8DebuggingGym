@@ -36,7 +36,7 @@ The increment turns the core task into a guided, measurable learning loop.
 A learner can choose a problem kind, get a generated exercise, connect their own VS Code, and verify the fix against the harness.
 
 - **Due:** 2026-10-17
-- **Sprint Backlog:** [the issues scheduled into SPRINT-03](https://github.com/Team8TemporaryName/shadow/milestone/1)
+- **Sprint Backlog:** [the issues scheduled into SPRINT-03](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/1)
 
 #### REL-03
 
@@ -45,7 +45,7 @@ A learner can choose a problem kind, get a generated exercise, connect their own
 A learner can run the exercise from a clean checkout, see a recorded result, and the product keeps working through the next set of stories.
 
 - **Due:** 2026-10-22
-- **Sprint Backlog:** [the issues scheduled into SPRINT-04](https://github.com/Team8TemporaryName/shadow/milestone/2)
+- **Sprint Backlog:** [the issues scheduled into SPRINT-04](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/2)
 
 #### REL-04
 
@@ -54,7 +54,7 @@ A learner can run the exercise from a clean checkout, see a recorded result, and
 A learner reaches the product through a browser and the product is deployed to a production host, so a learner can return to their practice.
 
 - **Due:** 2026-10-29
-- **Sprint Backlog:** [the issues scheduled into SPRINT-05](https://github.com/Team8TemporaryName/shadow/milestone/3)
+- **Sprint Backlog:** [the issues scheduled into SPRINT-05](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/3)
 
 #### REL-05
 
@@ -63,7 +63,7 @@ A learner reaches the product through a browser and the product is deployed to a
 The product records a learner's progress after each exercise, so a learner and an instructor can see improvement over time. *(Provisional.)*
 
 - **Due:** 2026-11-05
-- **Sprint Backlog:** [the issues scheduled into SPRINT-06](https://github.com/Team8TemporaryName/shadow/milestone/4)
+- **Sprint Backlog:** [the issues scheduled into SPRINT-06](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/4)
 
 #### REL-06
 
@@ -72,7 +72,7 @@ The product records a learner's progress after each exercise, so a learner and a
 The in-environment guide coaches a stuck learner without solving the exercise, per the "coach, do not solve" constraint. *(Provisional.)*
 
 - **Due:** 2026-11-12
-- **Sprint Backlog:** [the issues scheduled into SPRINT-07](https://github.com/Team8TemporaryName/shadow/milestone/5)
+- **Sprint Backlog:** [the issues scheduled into SPRINT-07](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/5)
 
 #### REL-07
 
@@ -81,7 +81,7 @@ The in-environment guide coaches a stuck learner without solving the exercise, p
 The onboarding and first-session flow are usability-tested, so a complete beginner can follow them without frustration. *(Provisional.)*
 
 - **Due:** 2026-11-19
-- **Sprint Backlog:** [the issues scheduled into SPRINT-08](https://github.com/Team8TemporaryName/shadow/milestone/6)
+- **Sprint Backlog:** [the issues scheduled into SPRINT-08](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/6)
 
 #### REL-08
 
@@ -90,7 +90,7 @@ The onboarding and first-session flow are usability-tested, so a complete beginn
 The repository is finalised, the pitch is ready, and every supported story is released and documented. *(Provisional.)*
 
 - **Due:** 2026-11-26
-- **Sprint Backlog:** [the issues scheduled into SPRINT-09](https://github.com/Team8TemporaryName/shadow/milestone/7)
+- **Sprint Backlog:** [the issues scheduled into SPRINT-09](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/7)
 
 #### REL-09
 
