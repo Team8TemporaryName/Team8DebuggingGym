@@ -129,3 +129,63 @@ Build the minimum usable product on a Python stack: a FastAPI backend, a minimal
   HTML/JS front end is enough to choose a problem kind and get an exercise;
   exercise generation goes through the LLM provider's API with a deterministic
   local fallback for the constrained budget ([RISK-02](risks.md#risk-02)).
+
+## DEC-010
+
+Only instructors generate exercises; students access instructor-curated problems from a public gallery, and do not generate their own.
+
+- **Status:** Active
+- **Date:** 2026-10-24
+- **Made by:** Customer
+- **Source:** [the Week 3 validation meeting](../reports/week-03/meeting-report.md)
+- **Why:** the customer re-scoped the MUP around the course use case: a teacher
+  produces a problem, verifies it, and students practice what is provided. For
+  the current version "we should let only instructors to generate problems for
+  a given topic... students should not have this opportunity; they should only
+  be able to access curated problems." A student's request for a generated
+  exercise is not stored or executed on the platform — they only receive the
+  code and harness.
+
+## DEC-011
+
+The public gallery, with instructor-curated and instructor-moderated problems, is a core part of the product.
+
+- **Status:** Active
+- **Date:** 2026-10-24
+- **Made by:** Customer
+- **Source:** [the Week 3 validation meeting](../reports/week-03/meeting-report.md)
+- **Why:** the customer said a public gallery "is a very important part of the
+  system": it lets an instructor author problems, pass them to students, and
+  reuse them. Only problems verified by instructors can be stored, to keep the
+  gallery free from malicious problems; a student's generated exercise is not
+  stored or executed on the platform.
+
+## DEC-012
+
+The product moves toward a VS Code extension in future releases, with pre-installed relevant plugins.
+
+- **Status:** Active
+- **Date:** 2026-10-24
+- **Made by:** Customer
+- **Source:** [the Week 3 validation meeting](../reports/week-03/meeting-report.md)
+- **Why:** the customer concluded that using VS Code "makes it necessary to have
+  an extension for VS Code where the user can interact with the system: run some
+  tests, click buttons, see the instructions for a problem right inside VS Code."
+  The team agreed the product should move toward VS Code in future releases; the
+  extension was not included in the MUP because the testing functionality could
+  not be finished in time.
+
+## DEC-013
+
+No AI agent inside the learner's environment for now; keep the experience static with clear instructions and read-only code parts.
+
+- **Status:** Active
+- **Date:** 2026-10-24
+- **Made by:** Customer
+- **Source:** [the Week 3 validation meeting](../reports/week-03/meeting-report.md)
+- **Why:** the customer is not sure an in-environment agent benefits education,
+  so "let's keep things more or less static and not introduce an agent." Focus
+  first on clear instructions for the learner (probably inside the VS Code
+  extension) and on limiting where the learner should expect to find the bug,
+  for example by making some parts of the code read-only. An agent, if any,
+  comes last.
