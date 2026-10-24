@@ -29,7 +29,7 @@ The minimum usable product, built in Week 3, is a working slice that completes t
 
 ## Resources around the project
 
-- [Repository](https://github.com/Team8TemporaryName/shadow) — the code and weekly reports.
-- [Contributing guide](https://github.com/Team8TemporaryName/shadow/blob/main/CONTRIBUTING.md) — how changes get in.
+- [Repository](https://github.com/Team8TemporaryName/Team8DebuggingGym) — the code and weekly reports.
+- [Contributing guide](../CONTRIBUTING.md) — how changes get in.
 
 This is a work in progress for the ITPD course.
