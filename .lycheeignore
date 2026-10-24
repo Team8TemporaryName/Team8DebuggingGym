@@ -5,3 +5,6 @@
 # Returns 403 to the checker.
 # Verified manually in a browser on 2026-10-04.
 ^https://www\.hackerearth\.com/
+
+# Localhost hosted app, not a resource that needs to be accessible.
+^http://127.0.0.1:8000/
