@@ -12,6 +12,8 @@ it in their own VS Code, proving the fix against a harness.
 [VP-02](research/value-proposition.md#vp-02),
 [VP-03](research/value-proposition.md#vp-03).
 
+**Success is:** [the threshold of success](threshold-of-success.md).
+
 ## Stakeholders
 
 - **Learner**: the primary user, who debugs an exercise to train a skill, in
@@ -125,7 +127,11 @@ Provide lessons, modules, or certificates.
 
 ## System context
 
-![System context diagram](.\architecture\context.png)
+> **TODO (team):** add the system context diagram here and its source under
+> `docs/architecture/context.<ext>` (e.g. `context.svg`, or a Mermaid/PlantUML
+> `.puml` source). The diagram must be embedded in this file as an image that
+> GitHub renders, and must agree with the boundary list. A text description
+> follows so the diagram and its source stay consistent.
 
 The product sits among the actors and systems it exchanges data with. The
 external actors and systems are described in prose here; the diagram draws

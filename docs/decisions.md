@@ -112,3 +112,20 @@ Task authors may not modify the containers; the server controls what runs.
   supply their own container tools invites malicious software: "let's not give
   regular task creators options to modify the containers in any way so that we
   can control what's running on our server."
+
+## DEC-009
+
+Build the minimum usable product on a Python stack: a FastAPI backend, a minimal web front end, and debugpy-based debug environments, with LLM-based exercise generation.
+
+- **Status:** Active
+- **Date:** 2026-10-15
+- **Made by:** Team
+- **Source:** the stack decision for Week 3
+- **Why:** the Week 2 prototype already proved the riskiest part — attaching a
+  learner's own VS Code to a hosted runtime over the Debug Adapter Protocol —
+  in Python with `debugpy`. Reusing that proven path and keeping one language
+  across the backend, the debug environments, and the generator lets the team
+  reach a working slice fastest. FastAPI is a small, modern backend; a minimal
+  HTML/JS front end is enough to choose a problem kind and get an exercise;
+  exercise generation goes through the LLM provider's API with a deterministic
+  local fallback for the constrained budget ([RISK-02](risks.md#risk-02)).
