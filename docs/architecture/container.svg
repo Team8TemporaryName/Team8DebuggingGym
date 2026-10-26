@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <style>
+      .container { fill:#e8f0fe; stroke:#1a73e8; stroke-width:1.5; rx:6; }
+      .external { fill:#f1f3f4; stroke:#5f6368; stroke-width:1.5; stroke-dasharray:6 4; rx:6; }
+      .label { fill:#202124; }
+      .text { fill:#202124; font-size:12px; }
+      .edge { stroke:#555; stroke-width:1.5; fill:none; }
+      .legend { font-size:12px; fill:#202124; }
+    </style>
+  </defs>
+
+  <!-- legend -->
+  <rect x="10" y="10" width="16" height="16" rx="4" class="container"/>
+  <text x="32" y="24" class="legend">container (application/data store we deploy)</text>
+  <rect x="10" y="34" width="16" height="16" rx="4" class="external"/>
+  <text x="32" y="48" class="legend">external actor / system</text>
+  <line x1="10" y1="62" x2="26" y2="62" class="edge" marker-end="url(#arrow)"/>
+  <text x="32" y="66" class="legend">one exchange (protocol)</text>
+
+  <!-- learner (browser) -->
+  <rect x="20" y="150" width="130" height="46" class="external"/>
+  <text x="85" y="178" text-anchor="middle" class="label">learner</text>
+  <text x="85" y="192" text-anchor="middle" class="text">(browser)</text>
+
+  <!-- webapp -->
+  <rect x="270" y="150" width="180" height="46" class="container"/>
+  <text x="360" y="178" text-anchor="middle" class="label">webapp</text>
+  <text x="360" y="192" text-anchor="middle" class="text">(FastAPI)</text>
+
+  <!-- debug-runtime -->
+  <rect x="270" y="330" width="180" height="46" class="container"/>
+  <text x="360" y="358" text-anchor="middle" class="label">debug-runtime</text>
+  <text x="360" y="372" text-anchor="middle" class="text">(debugpy)</text>
+
+  <!-- database -->
+  <rect x="540" y="150" width="150" height="46" class="container"/>
+  <text x="615" y="178" text-anchor="middle" class="label">database</text>
+  <text x="615" y="192" text-anchor="middle" class="text">(SQLite)</text>
+
+  <!-- LLM provider -->
+  <rect x="540" y="330" width="150" height="46" class="external"/>
+  <text x="615" y="358" text-anchor="middle" class="label">LLM provider</text>
+
+  <!-- learner VS Code -->
+  <rect x="20" y="330" width="150" height="46" class="external"/>
+  <text x="95" y="358" text-anchor="middle" class="label">learner's VS Code</text>
+
+  <!-- vscode-extension -->
+  <rect x="270" y="240" width="180" height="46" class="container"/>
+  <text x="360" y="268" text-anchor="middle" class="label">vscode-extension</text>
+
+  <!-- edges -->
+  <line x1="150" y1="173" x2="268" y2="173" class="edge" marker-end="url(#arrow)"/>
+  <text x="209" y="165" text-anchor="middle" class="text">HTTPS</text>
+
+  <line x1="95" y1="330" x2="360" y2="340" class="edge" marker-end="url(#arrow)"/>
+  <text x="200" y="352" text-anchor="middle" class="text">DAP</text>
+
+  <line x1="360" y1="196" x2="360" y2="238" class="edge" marker-end="url(#arrow)"/>
+  <text x="428" y="222" text-anchor="middle" class="text">HTTPS</text>
+
+  <line x1="360" y1="286" x2="360" y2="328" class="edge" marker-end="url(#arrow)"/>
+  <text x="400" y="312" text-anchor="middle" class="text">runs per session</text>
+
+  <line x1="450" y1="173" x2="538" y2="173" class="edge" marker-end="url(#arrow)"/>
+  <text x="494" y="165" text-anchor="middle" class="text">SQL</text>
+
+  <line x1="540" y1="352" x2="392" y2="352" class="edge" marker-end="url(#arrow)"/>
+  <text x="466" y="344" text-anchor="middle" class="text">REST/API</text>
+</svg>

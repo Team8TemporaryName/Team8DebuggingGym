@@ -1,0 +1,10 @@
+graph LR
+    Learner["learner (browser)"] -->|HTTPS| Webapp["webapp (FastAPI)"]
+    VSCode["learner's VS Code"] -->|DAP| Runtime["debug-runtime (debugpy)"]
+    Ext["vscode-extension"] -->|HTTPS| Webapp
+    Webapp -->|runs per session| Runtime
+    Webapp -->|SQL| Database[("database (SQLite)")]
+    Webapp -->|REST/API| LLM["LLM provider"]
+    VSCode -->|installs| Ext
+    classDef external stroke-dasharray: 5 5
+    class Learner,VSCode,LLM external
