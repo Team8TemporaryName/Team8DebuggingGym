@@ -11,7 +11,7 @@ This week the Debugging Gym product gained the requirements and the architecture
 
 In response to the Week 3 customer feedback, we also built the first **VS Code extension** (`vscode-extension/`) that brings the choose–generate–verify flow into the learner's editor, and added web-app UX polish the customer asked for: code highlighting, a loading/busy state on the harness run, horizontal scrolling for long output, and a finish button. The extension is recorded as [`FR-006`](../../docs/functional-requirements/fr/FR-006.md) and added to the [container view](../../docs/architecture/README.md#container-view).
 
-- **Release:** `REL-04`, tagged v0.1.1.
+- **Release:** [`REL-04`](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.1.1), tagged v0.1.1.
 - **What moved out of the sprint:** nothing
 
 ## Customer-meeting outcome
@@ -41,16 +41,16 @@ The meeting also settled the quality requirements and architecture: the customer
 | Meeting script | [`reports/week-04/meeting-script.md`](meeting-script.md) |
 | Customer validation | [`reports/week-04/meeting-report.md`](meeting-report.md), the transcript when there is one, and each story's verdict |
 | `REL-04` | the tag, the changelog's released section, and the plan's `REL-04` line |
-| Sprint retrospective | *TODO* |
+| Sprint retrospective | [`reports/week-04/sprint-retrospective.md`](sprint-retrospective.md) |
 | AI usage | [`reports/week-04/ai-usage.md`](ai-usage.md) |
 
 ## Repository evidence
 
 | Evidence | Link / location |
 | -------- | --------------- |
-| A merged pull request that closed its task issue | *TODO — PR link* |
-| Latest green link check run | *TODO — Actions run link* |
-| Latest green Markdown check run on `main` | *TODO — Actions run link* |
+| A merged pull request that closed its task issue | [Pull request](https://github.com/Team8TemporaryName/Team8DebuggingGym/pull/45) |
+| Latest green link check run | [Link check](https://github.com/Team8TemporaryName/Team8DebuggingGym/actions/runs/40405353674/job/121861571269) |
+| Latest green Markdown check run on `main` | [Markdown lint](https://github.com/Team8TemporaryName/Team8DebuggingGym/actions/runs/40405353964/job/121861574196) |
 
 ## What we found out we were wrong about
 

@@ -47,7 +47,7 @@ The product carries the requirements and the architecture behind the MUP: qualit
 - **Due:** 2026-10-24
 - **Sprint Backlog:** [the issues scheduled into SPRINT-04](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/2)
 - **Planned Velocity:** 13
-- **Actual Velocity:** *TODO — set at the sprint's close from the completed stories.*
+- **Actual Velocity:** 16
 
 #### REL-04
 
