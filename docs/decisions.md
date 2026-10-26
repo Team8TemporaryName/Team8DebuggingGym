@@ -189,3 +189,85 @@ No AI agent inside the learner's environment for now; keep the experience static
   extension) and on limiting where the learner should expect to find the bug,
   for example by making some parts of the code read-only. An agent, if any,
   comes last.
+
+## DEC-014
+
+Multi-file exercises are required; the web-app's editable code field is deprecated in favour of the VS Code extension.
+
+- **Status:** Active
+- **Date:** 2026-10-26
+- **Made by:** Customer
+- **Source:** [the Week 4 validation meeting](../reports/week-04/meeting-report.md)
+- **Why:** the customer wants multi-file setups because they let students train
+  realistic conditions where they jump between files to find bugs: "I think we
+  do need multi-file setups." Because VS Code is already a full editor, the
+  customer sees no need for the editable code field on the site: "I don't think
+  we need this code preview on the site, honestly. Like, we already have an
+  editor, like VS Code."
+
+## DEC-015
+
+Prioritize the VS Code extension over the web application for the learner experience.
+
+- **Status:** Active
+- **Date:** 2026-10-26
+- **Made by:** Customer
+- **Source:** [the Week 4 validation meeting](../reports/week-04/meeting-report.md)
+- **Why:** the customer confirmed the product should "move away from a web
+  application and focus our efforts on the extension", because the web-app
+  editor cannot handle large or multi-file exercises and lacks language-server
+  tooling. The extension is the primary surface going forward.
+
+## DEC-016
+
+Learner-submitted code runs on the server inside sandboxed containers with capped resources.
+
+- **Status:** Active
+- **Date:** 2026-10-26
+- **Made by:** Customer
+- **Source:** [the Week 4 validation meeting](../reports/week-04/meeting-report.md)
+- **Why:** the customer and team agreed that remote evaluation is the only way
+  to prevent a student from falsely claiming success, and that student-submitted
+  code may crash the server unless sandboxed. The decision is to run code in
+  separate containers, cap the resources a program may use, and limit networking
+  inside containers.
+
+## DEC-017
+
+The harness is editable by the learner, with an option to restore the server version.
+
+- **Status:** Active
+- **Date:** 2026-10-26
+- **Made by:** Customer
+- **Source:** [the Week 4 validation meeting](../reports/week-04/meeting-report.md)
+- **Why:** the customer agreed the harness is a learning tool and the learner
+  should be able to edit it, while also being able to revert it to the server
+  version. The harness as an ordinary, editable file lets the learner run it
+  from the terminal, and hidden tests on the server decide the true verdict.
+
+## DEC-018
+
+Each exercise opens as its own folder/workspace with automatic versioning, so learners manage and back up their work.
+
+- **Status:** Active
+- **Date:** 2026-10-26
+- **Made by:** Customer
+- **Source:** [the Week 4 validation meeting](../reports/week-04/meeting-report.md)
+- **Why:** the customer wants a per-exercise folder so a learner can manage and
+  delete exercises and see their progress, and wants versioning (a git
+  repository per exercise) so learners do not lose progress and can back up to
+  GitHub. This also lets teachers review a student's work as proof of work.
+
+## DEC-019
+
+The recommended VS Code settings and language extensions are generated dynamically per exercise.
+
+- **Status:** Active
+- **Date:** 2026-10-26
+- **Made by:** Customer
+- **Source:** [the Week 4 validation meeting](../reports/week-04/meeting-report.md)
+- **Why:** the customer asked for a ready-to-use `settings.json` and recommended
+  extensions generated dynamically depending on the languages an exercise
+  covers, rather than packaging every language extension up front. Language
+  extensions should be recommended (not force-installed) as the learner takes
+  exercises in a given language.
