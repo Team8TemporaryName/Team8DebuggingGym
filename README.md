@@ -84,14 +84,20 @@ then the setup page, completes the core task end to end.
 | Decisions | [`docs/decisions.md`](docs/decisions.md) |
 | Assumptions | [`docs/assumptions.md`](docs/assumptions.md) |
 | Product vision | [`docs/product-vision.md`](docs/product-vision.md) |
+| Quality requirements | [`docs/quality-requirements/README.md`](docs/quality-requirements/README.md) |
+| Functional requirements | [`docs/functional-requirements/README.md`](docs/functional-requirements/README.md) |
+| Architecture | [`docs/architecture/README.md`](docs/architecture/README.md) |
+| Glossary | [`docs/glossary.md`](docs/glossary.md) |
 | Week 1 report | [`reports/week-01/README.md`](reports/week-01/README.md) |
 | Week 2 report | [`reports/week-02/README.md`](reports/week-02/README.md) |
 | Week 3 report | [`reports/week-03/README.md`](reports/week-03/README.md) |
+| Week 4 report | [`reports/week-04/README.md`](reports/week-04/README.md) |
 | Threshold of success | [`docs/threshold-of-success.md`](docs/threshold-of-success.md) |
 | Project plan | [`docs/project-plan.md`](docs/project-plan.md) |
 | Risk register | [`docs/risks.md`](docs/risks.md) |
 | Definition of done | [`docs/definition-of-done.md`](docs/definition-of-done.md) |
 | Contributing guide | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
+| Agent instructions | [`AGENTS.md`](AGENTS.md) |
 | Setup and run | [`docs/setup.md`](docs/setup.md) |
 
 ## License
