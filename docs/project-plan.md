@@ -13,7 +13,7 @@ This increment also publishes the documentation site and the setup page so the s
 
 ### MLS-05
 
-- **Due:** 2026-10-29
+- **Due:** 2026-10-31
 - **Sprints:** [SPRINT-04](#sprint-04), [SPRINT-05](#sprint-05)
 - **Advances:** [TOS-01](threshold-of-success.md#tos-01)
 
@@ -22,7 +22,7 @@ The increment advances the core task from a local slice to a deployed service a 
 
 ### MLS-07
 
-- **Due:** 2026-11-12
+- **Due:** 2026-11-14
 - **Sprints:** [SPRINT-06](#sprint-06), [SPRINT-07](#sprint-07)
 - **Advances:** [TOS-01](threshold-of-success.md#tos-01)
 
@@ -42,10 +42,12 @@ A learner can choose a problem kind, get a generated exercise, connect their own
 
 ### SPRINT-04
 
-A learner can run the exercise from a clean checkout, see a recorded result, and the product keeps working through the next set of stories.
+The product carries the requirements and the architecture behind the MUP: quality requirements that can be failed, a container view of what the product runs as, functional requirements behind the stories, architectural decision records, and the sprint records behind them, released as `REL-04`.
 
-- **Due:** 2026-10-22
+- **Due:** 2026-10-24
 - **Sprint Backlog:** [the issues scheduled into SPRINT-04](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/2)
+- **Planned Velocity:** 13
+- **Actual Velocity:** *TODO — set at the sprint's close from the completed stories.*
 
 #### REL-04
 
@@ -53,7 +55,7 @@ A learner can run the exercise from a clean checkout, see a recorded result, and
 
 A learner reaches the product through a browser and the product is deployed to a production host, so a learner can return to their practice.
 
-- **Due:** 2026-10-29
+- **Due:** 2026-10-31
 - **Sprint Backlog:** [the issues scheduled into SPRINT-05](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/3)
 
 #### REL-05
@@ -62,7 +64,7 @@ A learner reaches the product through a browser and the product is deployed to a
 
 The product records a learner's progress after each exercise, so a learner and an instructor can see improvement over time. *(Provisional.)*
 
-- **Due:** 2026-11-05
+- **Due:** 2026-11-07
 - **Sprint Backlog:** [the issues scheduled into SPRINT-06](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/4)
 
 #### REL-06
@@ -71,7 +73,7 @@ The product records a learner's progress after each exercise, so a learner and a
 
 The in-environment guide coaches a stuck learner without solving the exercise, per the "coach, do not solve" constraint. *(Provisional.)*
 
-- **Due:** 2026-11-12
+- **Due:** 2026-11-14
 - **Sprint Backlog:** [the issues scheduled into SPRINT-07](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/5)
 
 #### REL-07
@@ -80,7 +82,7 @@ The in-environment guide coaches a stuck learner without solving the exercise, p
 
 The onboarding and first-session flow are usability-tested, so a complete beginner can follow them without frustration. *(Provisional.)*
 
-- **Due:** 2026-11-19
+- **Due:** 2026-11-21
 - **Sprint Backlog:** [the issues scheduled into SPRINT-08](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/6)
 
 #### REL-08
@@ -89,7 +91,7 @@ The onboarding and first-session flow are usability-tested, so a complete beginn
 
 The repository is finalised, the pitch is ready, and every supported story is released and documented. *(Provisional.)*
 
-- **Due:** 2026-11-26
+- **Due:** 2026-11-28
 - **Sprint Backlog:** [the issues scheduled into SPRINT-09](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/7)
 
 #### REL-09
