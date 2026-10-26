@@ -4,9 +4,19 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Released]
+## [Unreleased]
 
-## [0.1.0](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.1.0) - 2026-10-15
+### Added
+
+- A VS Code extension that brings the choose, generate, and verify flow into the learner's editor (`vscode-extension/`).
+- Syntax highlighting for the exercise program and harness in the web app.
+
+### Changed
+
+- The web app harness run now shows a busy/loading state, and passes horizontally for long output.
+- A finish button completes an exercise and returns the learner to the problem kinds.
+
+## [0.1.0](https://github.com/Team8TemporaryName/shadow/releases/tag/v0.1.0) - 2026-10-15
 
 ### Added
 

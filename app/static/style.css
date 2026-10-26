@@ -74,7 +74,16 @@ header h1 { margin: 0 0 0.25rem; font-size: 2rem; }
   white-space: pre-wrap;
   min-height: 12rem;
 }
-.editor { color: var(--text); resize: vertical; }
+.editor { color: var(--text); resize: vertical; white-space: pre; overflow-x: auto; }
+
+.code { white-space: pre; overflow-x: auto; }
+
+.tok-kw { color: #c792ea; }
+.tok-str { color: #c3e88d; }
+.tok-num { color: #f78c6c; }
+.tok-comment { color: #546e7a; }
+.tok-line { color: #546e7a; }
+.tok-doc { color: #82aaff; }
 
 .primary {
   background: var(--accent);
@@ -86,8 +95,11 @@ header h1 { margin: 0 0 0.25rem; font-size: 2rem; }
   cursor: pointer;
 }
 .primary:hover { filter: brightness(1.08); }
+.primary:disabled { opacity: 0.55; cursor: progress; }
+.primary.busy { background: #3a4a6b; }
+.finish { margin-top: 0.75rem; margin-left: 0.5rem; background: var(--ok); }
 
-.result { background: #0b0d11; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem; font-family: ui-monospace, Menlo, monospace; font-size: 0.85rem; min-height: 3rem; }
+.result { background: #0b0d11; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem; font-family: ui-monospace, Menlo, monospace; font-size: 0.85rem; min-height: 3rem; white-space: pre; overflow-x: auto; }
 .result.ok { border-color: var(--ok); color: var(--ok); }
 .result.fail { border-color: var(--fail); color: var(--fail); }
 
