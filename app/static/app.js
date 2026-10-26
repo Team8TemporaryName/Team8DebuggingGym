@@ -2,6 +2,31 @@
 
 const state = { exercise: null, activeTab: "source", currentCode: "" };
 
+// ---- A small, dependency-free Python syntax highlighter ---------------------
+const KEYWORDS =
+  /\b(def|return|if|elif|else|for|while|import|from|as|class|with|pass|None|True|False|not|and|or|in|is|lambda|raise|try|except|finally|yield|global|del|break|continue)\b/;
+
+function highlightPython(code) {
+  // Escape HTML first, then wrap tokens in spans. Split lines to preserve layout.
+  const esc = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return esc.replace(
+    /(\/\/.*$)|('''[\s\S]*?'''|"""(?:[^"\\]|\\.|"(?!""))*""")|(#.*$)|(\b\d+(?:\.\d+)?\b)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(\b(?:def|return|if|elif|else|for|while|import|from|as|class|with|pass|None|True|False|not|and|or|in|is|lambda|raise|try|except|finally|yield|global|del|break|continue)\b)/gm,
+    (match, lineComment, triple, hash, num, str, kw) => {
+      if (lineComment) return `<span class="tok-line">${lineComment}</span>`;
+      if (triple) return `<span class="tok-doc">${triple}</span>`;
+      if (hash) return `<span class="tok-comment">${hash}</span>`;
+      if (num) return `<span class="tok-num">${num}</span>`;
+      if (str) return `<span class="tok-str">${str}</span>`;
+      if (kw) return `<span class="tok-kw">${kw}</span>`;
+      return match;
+    }
+  );
+}
+
+function renderHighlighted(source) {
+  document.getElementById("code").innerHTML = highlightPython(source);
+}
+
 async function loadKinds() {
   const res = await fetch("/api/kinds");
   const kinds = await res.json();
@@ -24,9 +49,11 @@ async function newExercise(kind) {
   });
   state.exercise = await res.json();
   document.getElementById("task").textContent = state.exercise.task;
-  document.getElementById("code").textContent = state.exercise.source;
   state.currentCode = state.exercise.source;
   document.getElementById("editor").value = state.exercise.source;
+  document.getElementById("finish").classList.add("hidden");
+  document.getElementById("result").textContent = "";
+  document.getElementById("result").className = "result";
   show("exercise");
   show("verify");
   setTab("source");
@@ -38,26 +65,22 @@ function show(id) {
 }
 
 function setTab(tab) {
-  const code = document.getElementById("code");
   const editor = document.getElementById("editor");
-  if (state.activeTab === "source") {
-    state.currentCode = code.textContent;
-  }
+  const code = document.getElementById("code");
   state.activeTab = tab;
   document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.textContent.trim() === tabLabel(tab)));
   if (tab === "source") {
-    code.textContent = state.currentCode;
-    code.contentEditable = "true";
-    code.classList.remove("hidden");
-    editor.classList.add("hidden");
+    editor.value = state.currentCode;
+    code.classList.add("hidden");
+    editor.classList.remove("hidden");
   } else if (tab === "harness") {
-    code.textContent = state.exercise.harness;
-    code.contentEditable = "false";
+    renderHighlighted(state.exercise.harness);
     code.classList.remove("hidden");
     editor.classList.add("hidden");
   } else if (tab === "launch") {
     showLaunch();
-    code.contentEditable = "false";
+    code.classList.remove("hidden");
+    editor.classList.add("hidden");
   }
 }
 
@@ -77,22 +100,46 @@ async function showLaunch() {
 
 async function runVerify() {
   const result = document.getElementById("result");
+  const runBtn = document.getElementById("run-verify");
   result.className = "result";
   result.textContent = "Running the harness…";
-  const res = await fetch(`/api/exercises/${state.exercise.id}/verify`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ source: document.getElementById("code").textContent }),
-  });
-  const data = await res.json();
-  result.textContent = data.output || (data.passed ? "All cases passed." : "Harness failed.");
-  result.classList.toggle("ok", !!data.passed);
-  result.classList.toggle("fail", !data.passed);
+  runBtn.disabled = true;
+  runBtn.classList.add("busy");
+  const source = document.getElementById("editor").value;
+  try {
+    const res = await fetch(`/api/exercises/${state.exercise.id}/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source }),
+    });
+    const data = await res.json();
+    result.textContent = data.output || (data.passed ? "All cases passed." : "Harness failed.");
+    result.classList.toggle("ok", !!data.passed);
+    result.classList.toggle("fail", !data.passed);
+    const finish = document.getElementById("finish");
+    if (data.passed) {
+      finish.classList.remove("hidden");
+    } else {
+      finish.classList.add("hidden");
+    }
+  } finally {
+    runBtn.disabled = false;
+    runBtn.classList.remove("busy");
+  }
+}
+
+function finishExercise() {
+  const finish = document.getElementById("finish");
+  finish.classList.add("hidden");
+  const result = document.getElementById("result");
+  result.className = "result ok";
+  result.textContent = "Exercise completed. You can choose another problem kind to keep practising.";
+  document.getElementById("choose").scrollIntoView({ behavior: "smooth" });
 }
 
 document.getElementById("tab-source").addEventListener("click", () => setTab("source"));
 document.getElementById("tab-harness").addEventListener("click", () => setTab("harness"));
-// document.getElementById("tab-launch").addEventListener("click", () => setTab("launch"));
 document.getElementById("run-verify").addEventListener("click", runVerify);
+document.getElementById("finish").addEventListener("click", finishExercise);
 
 loadKinds();

@@ -172,23 +172,26 @@ async def _llm_exercise(kind: str) -> dict[str, Any] | None:
         f"kind '{kind}' ({KINDS[kind]['summary']}). Return a JSON object with "
         f"keys 'source' (the buggy program), 'harness' (a runnable harness that "
         f"prints PASS/FAIL per case and exits non-zero while the bug is present), "
-        f"and 'task' (one-sentence instruction). Keep it short and self-contained."
+        f"and 'task' (one-sentence instruction). Keep it self-contained."
+        f"Harness will already have the solution in scope, you do not need to import anything."
+        f"Aim for 10 lines of code in the source, other fields can be any length."
+        f"Keep comments to a minimum, add other operations to the code if you need more lines"
     )
     try:
+        import json
         async with httpx.AsyncClient(timeout=20.0) as client:
             resp = await client.post(
                 LLM_ENDPOINT,
                 headers={"Authorization": f"Bearer {LLM_API_KEY}"},
-                json={
+                data=json.dumps({
                     "model": LLM_MODEL,
-                    "response_format": {"type": "json_object"},
                     "messages": [{"role": "user", "content": prompt}],
-                },
+                }),
             )
+            print(resp.content)
             resp.raise_for_status()
-            data = resp.json()
+            data = json.loads(resp.content)
         content = data["choices"][0]["message"]["content"]
-        import json
 
         parsed = json.loads(content)
         return {
@@ -199,7 +202,8 @@ async def _llm_exercise(kind: str) -> dict[str, Any] | None:
             "harness": parsed.get("harness", _harness(kind)),
             "generator": "llm",
         }
-    except Exception:
+    except Exception as e:
+        print(e)
         return None
 
 
