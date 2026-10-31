@@ -17,8 +17,9 @@ This increment also publishes the documentation site and the setup page so the s
 - **Sprints:** [SPRINT-04](#sprint-04), [SPRINT-05](#sprint-05)
 - **Advances:** [TOS-01](threshold-of-success.md#tos-01)
 
-A learner practices repeatedly and sees progress: repeat sessions across more problem kinds, a result recorded after each exercise, and the product deployed to a production host that a learner reaches through a browser.
-The increment advances the core task from a local slice to a deployed service a learner can come back to.
+A learner completes the core debugging exercise in VS Code: the task is visible in the extension sidebar, the learner can run the local editable harness, and the official verdict is determined by server-side verification tests. The verification service is deployed to staging and production on the university VM and is reachable from the university network.
+
+This increment shifts the learner experience from the web application's editable code field to the VS Code extension while keeping official verification under server control.
 
 ### MLS-07
 
@@ -53,10 +54,11 @@ The product carries the requirements and the architecture behind the MUP: qualit
 
 ### SPRINT-05
 
-A learner reaches the product through a browser and the product is deployed to a production host, so a learner can return to their practice.
+A learner can complete the core exercise flow through the VS Code extension: choose a problem kind, generate an exercise, read the task in the sidebar, run the editable local harness, and request an authoritative verdict from server-side tests. The verification service is deployed to staging and production on the university VM and verified from the university network.
 
 - **Due:** 2026-10-31
 - **Sprint Backlog:** [the issues scheduled into SPRINT-05](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/3)
+- **Planned Velocity:** 10
 
 #### REL-05
 
