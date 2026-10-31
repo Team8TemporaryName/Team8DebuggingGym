@@ -1,9 +1,10 @@
 """Verify a learner's fix against an exercise harness.
 
-The harness is a fixed part of the exercise: it is not modifiable by the
-learner (DEC-006). We run the learner's source together with the harness in an
-isolated subprocess and report the pass/fail verdict and the output. No network
-or filesystem is exposed to the running code.
+The harness is a pytest test file that imports the learner's ``exercise``
+module. We run the learner's source together with the harness in an isolated
+subprocess with ``pytest`` and report the pass/fail verdict and the output.
+Pytest gives the learner the standard, coloured, structured output — expected
+vs. got and stack traces on failure — that the customer asked for.
 """
 
 from __future__ import annotations
@@ -14,21 +15,20 @@ from pathlib import Path
 
 
 def verify_fix(exercise_id: str, source: str, harness: str) -> dict[str, object]:
-    """Run the learner's ``source`` with the exercise's ``harness``.
+    """Run the learner's ``source`` with the exercise's pytest ``harness``.
 
     Returns a dict with ``passed`` (bool), ``output`` (str), and ``returncode``.
     """
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp)
-        # The learner's program is written as a fixed module name, and the
-        # harness imports every name it needs from it.
-        program = tmp_path / "solution.py"
+        # The learner's program is written as the fixed module name the harness
+        # imports from, and the harness is written alongside it.
+        program = tmp_path / "exercise.py"
         program.write_text(source, encoding="utf-8")
-        harness_source = "from solution import *\n\n" + harness
-        (tmp_path / "harness.py").write_text(harness_source, encoding="utf-8")
+        (tmp_path / "harness.py").write_text(harness, encoding="utf-8")
 
         result = subprocess.run(
-            ["python", "harness.py"],
+            ["python", "-m", "pytest", "harness.py", "-q", "--color=yes"],
             cwd=tmp,
             capture_output=True,
             text=True,

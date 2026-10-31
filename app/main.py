@@ -117,6 +117,26 @@ async def verify(request: Request, exercise_id: str) -> JSONResponse:
     return JSONResponse(result)
 
 
+@app.post("/api/verify")
+async def verify_submission(request: Request) -> JSONResponse:
+    """Verify a learner's source against an explicit harness.
+
+    Used when a learner reopens a previously saved exercise whose id is no
+    longer in the server's memory: the harness is sent with the source, and the
+    product still runs it in an isolated subprocess so a learner cannot tamper
+    with the verdict (DEC-016 direction).
+    """
+    body = await request.json()
+    source = body.get("source")
+    harness = body.get("harness")
+    if not source:
+        raise HTTPException(status_code=400, detail="missing source")
+    if not harness:
+        raise HTTPException(status_code=400, detail="missing harness")
+    result = verify_fix("local", source, harness)
+    return JSONResponse(result)
+
+
 # Static assets (CSS, JS).
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 

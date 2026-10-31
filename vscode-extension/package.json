@@ -2,7 +2,7 @@
   "name": "debugging-gym",
   "displayName": "Debugging Gym",
   "description": "Solve Debugging Gym exercises from VS Code: choose a problem kind, get an exercise, and verify your fix against the harness.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "debugging-gym",
   "engines": {
     "vscode": "^1.80.0"
@@ -13,11 +13,25 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "debuggingGym",
+          "title": "Debugging Gym",
+          "icon": "media/gym.svg"
+        }
+      ]
+    },
+    "views": {
+      "debuggingGym": [
+        {
+          "type": "webview",
+          "id": "debuggingGym.sidebar",
+          "name": "Exercises"
+        }
+      ]
+    },
     "commands": [
-      {
-        "command": "debuggingGym.chooseKind",
-        "title": "Debugging Gym: Choose a problem kind"
-      },
       {
         "command": "debuggingGym.newExercise",
         "title": "Debugging Gym: New exercise"
