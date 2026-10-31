@@ -31,8 +31,9 @@ The image is [`container.svg`](./container.svg), and its Mermaid source is [`con
 
 ## Architectural Decisions
 
-| ADR | Status | Addresses | Decision |
-| --- | ------ | --------- | -------- |
+| ADR                       | Status | Addresses | Decision |
+|---------------------------| ------ | --------- | -------- |
 | [ADR-001](adr/ADR-001.md) | Accepted | [FR-001](../functional-requirements/fr/FR-001.md), [FR-002](../functional-requirements/fr/FR-002.md), [FR-003](../functional-requirements/fr/FR-003.md), [FR-004](../functional-requirements/fr/FR-004.md), [FR-005](../functional-requirements/fr/FR-005.md), [FR-006](../functional-requirements/fr/FR-006.md), [QR-02](../quality-requirements/qr/QR-02.md), [QR-03](../quality-requirements/qr/QR-03.md) | One webapp, a debug runtime, a database, and a VS Code extension |
 | [ADR-002](adr/ADR-002.md) | Accepted | [FR-004](../functional-requirements/fr/FR-004.md), [QR-01](../quality-requirements/qr/QR-01.md) | Attach the learner's VS Code over the Debug Adapter Protocol |
 | [ADR-003](adr/ADR-003.md) | Accepted | [FR-002](../functional-requirements/fr/FR-002.md), [QR-02](../quality-requirements/qr/QR-02.md) | Generate exercises with an LLM and a deterministic fallback |
+| [ADR-004](adr/ADR-004.md) | Accepted | [`FR-003`](../../functional-requirements/fr/FR-003.md), [`FR-009`](../../functional-requirements/fr/FR-009.md) | [`DEC-017`](../../decisions.md#dec-017) |

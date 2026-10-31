@@ -77,7 +77,7 @@ Accept the minimum usable product candidate, pulling the multi-language and publ
 
 The harness must not be modifiable by the student, so the success state is fixed.
 
-- **Status:** Active
+- **Status:** reversed by [DEC-017](#dec-017)
 - **Date:** 2026-10-14
 - **Made by:** Customer (agrees with the team)
 - **Source:** [the Week 2 validation meeting](../reports/week-02/meeting-report.md)
@@ -237,6 +237,7 @@ Learner-submitted code runs on the server inside sandboxed containers with cappe
 The harness is editable by the learner, with an option to restore the server version.
 
 - **Status:** Active
+- **Reverses:** [DEC-006](#dec-006)
 - **Date:** 2026-10-26
 - **Made by:** Customer
 - **Source:** [the Week 4 validation meeting](../reports/week-04/meeting-report.md)
