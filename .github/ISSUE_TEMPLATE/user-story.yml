@@ -1,7 +1,6 @@
 name: User story
 description: A user need with acceptance criteria, traceable to a value proposition.
 title: "US-000: <need>"
-labels: ["user-story"]
 body:
   - type: markdown
     attributes:
@@ -67,3 +66,15 @@ body:
       placeholder: "Must Have: without it, the core task does not complete; a neighbouring story is Should/Could because ..."
     validations:
       required: true
+
+  - type: textarea
+    id: specified-by
+    attributes:
+      label: Specified by
+      description: >
+        The FR-nnn and ADR-nnn that specify this story.
+        Use full links to files on main, one per line.
+      value: |
+        -
+    validations:
+      required: false
