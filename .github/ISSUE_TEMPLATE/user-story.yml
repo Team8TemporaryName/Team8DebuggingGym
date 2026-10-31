@@ -1,6 +1,6 @@
 name: User story
 description: A user need with acceptance criteria, traceable to a value proposition.
-title: "US-000: <need>"
+title: "US-00: <need>"
 body:
   - type: markdown
     attributes:
@@ -53,8 +53,8 @@ body:
       label: Acceptance criteria
       description: "AC-nn criteria somebody else can run, each starting with its AC-nn. Each must be observable and pass/fail."
       value: |
-        - AC-01: 
-        - AC-02: 
+        - [ ] AC-01:
+        - [ ] AC-02:
     validations:
       required: true
 
@@ -62,7 +62,10 @@ body:
     id: priority-reason
     attributes:
       label: Priority reason
-      description: "Why this priority and not the one above or below it, citing the CON-nn that drives it when one does. Apply one moscow:* label to the issue."
+      description: >
+        Why this priority rather than the one above or below it.
+        Link a CON-nn when a constraint drives it.
+        Set the MoSCoW issue field after creating the issue; do not use a label.
       placeholder: "Must Have: without it, the core task does not complete; a neighbouring story is Should/Could because ..."
     validations:
       required: true
