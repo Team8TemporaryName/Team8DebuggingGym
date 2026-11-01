@@ -3,6 +3,7 @@
 These tests cover the subprocess-based verifier. They do not prove remote Docker
 container cleanup; that separate QR-03 scenario requires the deployed manual test.
 """
+
 from __future__ import annotations
 
 import subprocess

@@ -1,4 +1,5 @@
 """Unit tests for the sanitized staging-availability monitor."""
+
 from __future__ import annotations
 
 import json
