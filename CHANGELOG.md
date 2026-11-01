@@ -4,7 +4,19 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.5.0](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.5.0) - 2026-11-1
+
+### Added
+
+- A Debugging Gym sidebar in VS Code that lists the problem kinds, generates exercises, and verifies a fix against the harness.
+- Each exercise now opens in its own folder (with the program, an editable harness, and the task), versioned in a local git repository.
+
+### Changed
+
+- Exercise verification now runs under pytest, so the learner sees the standard expected-vs-got output and stack traces.
+- The exercise harness is now an editable pytest file.
+
+## [0.1.1](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.1.1) - 2026-10-25
 
 ### Added
 
