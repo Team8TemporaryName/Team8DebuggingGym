@@ -5,8 +5,8 @@ Run with: python -m pytest
 
 import asyncio
 
-from ..app import generator
-from ..app.harness_runner import verify_fix
+from app import generator
+from app.harness_runner import verify_fix
 
 
 def _run(coro):
@@ -33,8 +33,9 @@ def test_harness_reports_defect_present_and_absent():
     """The verdict flips from fail to pass once the defect is gone."""
     ex = _run(generator.create_exercise("off-by-one"))
     before = verify_fix(ex["id"], ex["source"], ex["harness"])
-    after = verify_fix(ex["id"], ex["source"].replace(
-        "range(len(nums) - 1)", "range(len(nums))"), ex["harness"])
+    after = verify_fix(
+        ex["id"], ex["source"].replace("range(len(nums) - 1)", "range(len(nums))"), ex["harness"]
+    )
     assert before["passed"] is False
     assert after["passed"] is True
 
@@ -52,7 +53,7 @@ def test_webapp_serves_the_ux_polish_front_end():
     """The web app serves the front end with the Week 4 UX polish: an editable
     editor, a finish button, and a harness-run control."""
     from fastapi.testclient import TestClient
-    from ..app.main import app
+    from app.main import app
 
     client = TestClient(app)
     index = client.get("/").text
@@ -69,7 +70,7 @@ def test_webapp_serves_the_ux_polish_front_end():
 def test_webapp_generate_verify_and_launch_flow():
     """The web app API supports choose, generate, verify, and launch."""
     from fastapi.testclient import TestClient
-    from ..app.main import app
+    from app.main import app
 
     client = TestClient(app)
 

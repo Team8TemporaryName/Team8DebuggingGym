@@ -5,7 +5,7 @@ Run with: python -m pytest
 
 from fastapi.testclient import TestClient
 
-from ..app.main import app
+from app.main import app
 
 
 def _client() -> TestClient:
@@ -89,13 +89,13 @@ def test_generic_verify_with_harness():
     """
     import asyncio
 
-    from ..app import generator
+    from app import generator
 
-    ex = asyncio.new_event_loop().run_until_complete(
-        generator.create_exercise("off-by-one")
-    )
+    ex = asyncio.new_event_loop().run_until_complete(generator.create_exercise("off-by-one"))
     client = _client()
-    buggy = client.post("/api/verify", json={"source": ex["source"], "harness": ex["harness"]}).json()
+    buggy = client.post(
+        "/api/verify", json={"source": ex["source"], "harness": ex["harness"]}
+    ).json()
     assert buggy["passed"] is False
 
     fixed = ex["source"].replace("range(len(nums) - 1)", "range(len(nums))")

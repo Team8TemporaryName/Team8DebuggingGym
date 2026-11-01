@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -41,10 +40,7 @@ async def index() -> str:
 async def kinds() -> JSONResponse:
     """The catalogue of problem kinds a learner can choose from."""
     return JSONResponse(
-        {
-            kind: {"summary": meta["summary"]}
-            for kind, meta in generator.KINDS.items()
-        }
+        {kind: {"summary": meta["summary"]} for kind, meta in generator.KINDS.items()}
     )
 
 
@@ -90,9 +86,7 @@ async def launch(exercise_id: str) -> JSONResponse:
                         "type": "debugpy",
                         "request": "attach",
                         "connect": {"host": host, "port": port},
-                        "pathMappings": [
-                            {"localRoot": "${workspaceFolder}", "remoteRoot": "/app"}
-                        ],
+                        "pathMappings": [{"localRoot": "${workspaceFolder}", "remoteRoot": "/app"}],
                     }
                 ],
             },

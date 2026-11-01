@@ -47,7 +47,7 @@ EXERCISES: dict[str, dict[str, Any]] = {}
 def _program(kind: str, n: int) -> str:
     """The buggy program template for a kind, parameterised by n."""
     if kind == "off-by-one":
-        return f'''"""Exercise: find the bug in ``total``."""
+        return '''"""Exercise: find the bug in ``total``."""
 
 
 def total(nums):
@@ -65,7 +65,7 @@ def average(nums):
     return total(nums) / len(nums)
 '''
     if kind == "wrong-initial-value":
-        return f'''"""Exercise: find the bug in ``product``."""
+        return '''"""Exercise: find the bug in ``product``."""
 
 
 def product(nums):
@@ -76,7 +76,7 @@ def product(nums):
     return result
 '''
     if kind == "wrong-comparison":
-        return f'''"""Exercise: find the bug in ``classify``."""
+        return '''"""Exercise: find the bug in ``classify``."""
 
 
 def classify(value):
@@ -111,8 +111,7 @@ def _harness(kind: str) -> str:
         ]
 
     case_lines = "\n".join(
-        f'    ("{label}", lambda: {expr}, {expected}),'
-        for label, expr, expected in cases
+        f'    ("{label}", lambda: {expr}, {expected}),' for label, expr, expected in cases
     )
     return f'''"""Harness for the exercise. Reports pass/fail for each case."""
 
@@ -179,14 +178,17 @@ async def _llm_exercise(kind: str) -> dict[str, Any] | None:
     )
     try:
         import json
+
         async with httpx.AsyncClient(timeout=20.0) as client:
             resp = await client.post(
                 LLM_ENDPOINT,
                 headers={"Authorization": f"Bearer {LLM_API_KEY}"},
-                data=json.dumps({
-                    "model": LLM_MODEL,
-                    "messages": [{"role": "user", "content": prompt}],
-                }),
+                data=json.dumps(
+                    {
+                        "model": LLM_MODEL,
+                        "messages": [{"role": "user", "content": prompt}],
+                    }
+                ),
             )
             print(resp.content)
             resp.raise_for_status()

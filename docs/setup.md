@@ -8,17 +8,26 @@ connect your own VS Code, and verify the fix against the harness.
 ## Prerequisites
 
 - Python 3.11 or newer.
+- Node.js 22 or newer, required for frontend tests and the VS Code extension build.
+- Node.js package manager `npm` (included with Node.js).
 - A terminal. Docker is needed only for the real debug-environment container;
   the web slice runs without it.
 
 ## Install
 
-Create a virtual environment and install the dependencies:
+Create a virtual environment and install the Python dependencies, including the
+pinned development linter:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
+```
+
+Install the VS Code extension's locked dependencies:
+
+```bash
+npm ci --prefix vscode-extension
 ```
 
 ## Configure
@@ -61,7 +70,24 @@ docker run --rm -p 5678:5678 -v "$PWD/deploy/example/exercise.py:/app/exercise.p
 Then, in VS Code, paste the `launch.json` from the app, set a breakpoint, and
 attach. This is the same path the Week 2 prototype proved.
 
-## Run the checks and the tests
+## Run the checks and tests
+
+Run Python linting and formatting checks:
+
+```bash
+ruff check app tests
+ruff format --check app tests
+```
+
+Type-check and build the VS Code extension:
+
+```bash
+cd vscode-extension
+npm ci
+npx tsc --noEmit -p tsconfig.json
+npm run compile
+cd ..
+```
 
 Check Markdown and links (as CI does):
 
@@ -70,11 +96,15 @@ npx --yes markdownlint-cli2 '**/*.md'
 lychee './**/*.md'
 ```
 
-Run the automated tests:
+Run the full automated test suite from the repository root. This runs the Python
+tests and the Node.js tests for `app/static/app.js`:
 
 ```bash
 python -m pytest tests/ -q
 ```
 
-The tests assert that every generated exercise starts with a planted defect the
-harness reports, and that the verdict flips to a pass once the fix is applied.
+Run the frontend tests directly when debugging them:
+
+```bash
+node --test tests/test_frontend.cjs
+```
