@@ -30,9 +30,9 @@ Instructors can prepare self-contained [exercises](glossary.md#exercise) for lea
 
 **Decisions:**
 
-- [DEC-010: Exercise Generation and Access](decisions/DEC-010.md)
-- [DEC-011: Public Gallery](decisions/DEC-011.md)
-- [ADR-001: Architecture Decision Record](decisions/ADR-001.md)
+- [DEC-010: Exercise Generation and Access](decisions.md#dec-010)
+- [DEC-011: Public Gallery](decisions.md#dec-011)
+- [ADR-001: Architecture Decision Record](architecture/adr/ADR-001.md)
 
 ## Debug exercises in VS Code
 
@@ -50,10 +50,10 @@ Learners can work on an exercise in their own [VS Code extension](glossary.md#vs
 
 **Decisions:**
 
-- [DEC-004: Learner Uses Own IDE](decisions/DEC-004.md)
-- [DEC-012: VS Code Extension](decisions/DEC-012.md)
-- [DEC-015: VS Code as Priority IDE](decisions/DEC-015.md)
-- [ADR-001: Architecture Decision Record](decisions/ADR-001.md)
+- [DEC-004: Learner Uses Own IDE](decisions.md#dec-004)
+- [DEC-012: VS Code Extension](decisions.md#dec-012)
+- [DEC-015: VS Code as Priority IDE](decisions.md#dec-015)
+- [ADR-001: Architecture Decision Record](architecture/adr/ADR-001.md)
 
 ## Run the harness and verify a fix
 
@@ -73,9 +73,9 @@ Learners can inspect and run the local [harness](glossary.md#harness), then rece
 
 **Decisions:**
 
-- [DEC-016: Server-Side Sandboxing](decisions/DEC-016.md)
-- [DEC-017: Local Harness and Official Verification](decisions/DEC-017.md)
-- [ADR-001: Architecture Decision Record](decisions/ADR-001.md)
+- [DEC-016: Server-Side Sandboxing](decisions.md#dec-016)
+- [DEC-017: Local Harness and Official Verification](decisions.md#dec-017)
+- [ADR-001: Architecture Decision Record](architecture/adr/ADR-001.md)
 
 ## Work on multi-file exercises
 
@@ -91,6 +91,6 @@ Learners can work on an [exercise](glossary.md#exercise) containing multiple rel
 
 **Decisions:**
 
-- [DEC-014: Multi-file Exercises](decisions/DEC-014.md)
-- [DEC-018: Exercise Workspace and Versioning](decisions/DEC-018.md)
-- [ADR-001: Architecture Decision Record](decisions/ADR-001.md)
+- [DEC-014: Multi-file Exercises](decisions.md#dec-014)
+- [DEC-018: Exercise Workspace and Versioning](decisions.md#dec-018)
+- [ADR-001: Architecture Decision Record](architecture/adr/ADR-001.md)
