@@ -1,0 +1,55 @@
+name: Product code CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Applicability: Ruff lints and formats the Python application; tsc checks and
+# builds the TypeScript VS Code extension; pytest runs Python and Node.js tests.
+# All five product-code check categories apply, so none is silently skipped.
+jobs:
+  product-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: vscode-extension/package-lock.json
+
+      - name: Install Python dependencies and lint tools
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Install VS Code extension dependencies
+        working-directory: vscode-extension
+        run: npm ci
+
+      - name: Lint Python product code and tests with Ruff
+        run: ruff check app tests
+
+      - name: Check Python formatting with Ruff
+        run: ruff format --check app tests
+
+      - name: Type-check the VS Code extension
+        working-directory: vscode-extension
+        run: npx tsc --noEmit -p tsconfig.json
+
+      - name: Build the VS Code extension
+        working-directory: vscode-extension
+        run: npm run compile
+
+      - name: Run automated tests for Python and browser frontend
+        run: python -m pytest tests/ -q
