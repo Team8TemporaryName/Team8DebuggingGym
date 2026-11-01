@@ -51,5 +51,5 @@ jobs:
         working-directory: vscode-extension
         run: npm run compile
 
-      - name: Run the automated product test suite from a clean checkout
+      - name: Run automated tests for Python and browser frontend
         run: python -m pytest tests/ -q

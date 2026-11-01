@@ -53,13 +53,13 @@ def test_exercises_are_not_identical_for_same_kind():
     assert first["id"] != second["id"]
 
 
-def test_each_kind_has_a_standalone_harness():
-    """Every kind's harness has cases importing the learner's module."""
+def test_each_kind_has_a_pytest_harness():
+    """Every kind's harness is a pytest file importing the learner's module."""
     for kind in generator.KINDS:
         harness = generator._harness(kind)
-        assert "CASES = [" in harness
-        assert "def run():" in harness
-        assert 'if __name__ == "__main__":' in harness
+        assert "from exercise import *" in harness
+        assert harness.count("def test_") >= 3
+        assert "pytest" in harness
 
 
 def test_unknown_kind_rejected():

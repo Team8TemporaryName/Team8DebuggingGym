@@ -8,10 +8,9 @@ connect your own VS Code, and verify the fix against the harness.
 ## Prerequisites
 
 - Python 3.11 or newer.
-- Node.js 22 or newer, required for frontend tests and the VS Code extension build.
-- Node.js package manager `npm` (included with Node.js).
-- A terminal. Docker is needed only for the real debug-environment container;
-  the web slice runs without it.
+- Node.js 22 or newer, required for the browser frontend tests.
+- A terminal.
+- Docker, required only for the real debug-environment container.
 
 ## Install
 

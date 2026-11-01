@@ -119,10 +119,10 @@ def _harness(kind: str) -> str:
         ]
 
     test_lines = "\n".join(
-        f'''
+        f"""
 def {name}():
     assert {expr} == {expected}
-'''
+"""
         for name, expr, expected in cases
     )
     return f'''"""Harness for the exercise, written as a pytest test file.
