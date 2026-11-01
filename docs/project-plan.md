@@ -54,11 +54,12 @@ The product carries the requirements and the architecture behind the MUP: qualit
 
 ### SPRINT-05
 
-A learner can complete the core exercise flow through the VS Code extension: choose a problem kind, generate an exercise, read the task in the sidebar, run the editable local harness, and request an authoritative verdict from server-side tests. The verification service is deployed to staging and production on the university VM and verified from the university network.
+A learner reaches the product through a browser and the product is deployed to a production host, so a learner can return to their practice.
 
 - **Due:** 2026-10-31
 - **Sprint Backlog:** [the issues scheduled into SPRINT-05](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/3)
 - **Planned Velocity:** 10
+- **Actual Velocity:** 10
 
 #### REL-05
 
