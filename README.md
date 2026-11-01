@@ -22,7 +22,7 @@ project and points at the weekly artifacts.
 - **Documentation site:** <https://team8temporaryname.github.io/Team8DebuggingGym/>
 - **Setup and run:** [docs/setup.md](docs/setup.md)
 - **Maintained documentation:** under [`docs/`](docs/)
-- **Current week's report:** [`reports/week-03/README.md`](reports/week-03/README.md)
+- **Current week's report:** [`reports/week-05/README.md`](reports/week-05/README.md)
 
 To run the product, follow [docs/setup.md](docs/setup.md). A clean checkout,
 then the setup page, completes the core task end to end.
@@ -92,6 +92,7 @@ then the setup page, completes the core task end to end.
 | Week 2 report | [`reports/week-02/README.md`](reports/week-02/README.md) |
 | Week 3 report | [`reports/week-03/README.md`](reports/week-03/README.md) |
 | Week 4 report | [`reports/week-04/README.md`](reports/week-04/README.md) |
+| Week 5 report | [`reports/week-05/README.md`](reports/week-05/README.md) |
 | Threshold of success | [`docs/threshold-of-success.md`](docs/threshold-of-success.md) |
 | Project plan | [`docs/project-plan.md`](docs/project-plan.md) |
 | Risk register | [`docs/risks.md`](docs/risks.md) |
