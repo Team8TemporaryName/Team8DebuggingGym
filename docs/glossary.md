@@ -18,9 +18,9 @@ A named category of debugging problem a learner trains, such as a null pointer, 
 
 ### Harness
 
-The fixed, non-modifiable test that runs a learner's source and reports pass or fail on whether the planted defect is gone.
+The learner-accessible test program included with an exercise, which can be run and edited locally, while separate server-side tests determine the official pass/fail verdict.
 
-**Defined by:** [`FR-003`](functional-requirements/fr/FR-003.md).
+**Defined by:** [`FR-003`](functional-requirements/fr/FR-003.md), [`FR-009`](functional-requirements/fr/FR-009.md).
 
 ## Gallery
 
