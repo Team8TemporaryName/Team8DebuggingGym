@@ -13,6 +13,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+HARNESS_TIMEOUT_SECONDS = 10
+
 
 def verify_fix(exercise_id: str, source: str, harness: str) -> dict[str, object]:
     """Run the learner's ``source`` with the exercise's pytest ``harness``.
@@ -32,8 +34,9 @@ def verify_fix(exercise_id: str, source: str, harness: str) -> dict[str, object]
             cwd=tmp,
             capture_output=True,
             text=True,
-            timeout=10,
+            timeout=HARNESS_TIMEOUT_SECONDS,
         )
+        print(result)
         output = result.stdout + result.stderr
     return {
         "exercise_id": exercise_id,
