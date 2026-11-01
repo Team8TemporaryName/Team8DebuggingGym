@@ -28,12 +28,13 @@ does not re-implement generation or the harness; it calls:
 Configure the app's base URL with the `debuggingGym.baseUrl` setting (default
 `http://localhost:8000`).
 
-## Build package
+## Build and run
 
 ```bash
 cd vscode-extension
 npm install
-vsce package
+npm run compile        # compiles src/ to out/
+code --extensionDevelopmentPath=.   # or F5 from the extension in VS Code
 ```
 
 ## Run the app it talks to

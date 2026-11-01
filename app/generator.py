@@ -89,56 +89,53 @@ def classify(value):
 
 
 def _harness(kind: str) -> str:
-    """The harness for a kind: known-good cases and a pass/fail verdict."""
+    """The harness for a kind as a pytest script.
+
+    Using pytest gives a learner the standard, coloured output the customer
+    asked for (expected vs. got, and stack traces on failure) through the same
+    testing framework they would use on real code. The harness imports every
+    name it needs from the learner's ``exercise`` module. The learner may edit
+    this file (DEC-017); the server's hidden tests still decide the true
+    verdict.
+    """
     if kind == "off-by-one":
         cases = [
-            ("empty", "average([])", "0.0"),
-            ("single", "average([5])", "5.0"),
-            ("three", "average([1, 2, 3])", "2.0"),
-            ("two", "average([10, 20])", "15.0"),
+            ("test_average_empty", "average([])", "0.0"),
+            ("test_average_single", "average([5])", "5.0"),
+            ("test_average_three", "average([1, 2, 3])", "2.0"),
+            ("test_average_two", "average([10, 20])", "15.0"),
         ]
     elif kind == "wrong-initial-value":
         cases = [
-            ("single", "product([3])", "3.0"),
-            ("three", "product([1, 2, 3])", "6.0"),
-            ("two", "product([4, 5])", "20.0"),
+            ("test_product_single", "product([3])", "3.0"),
+            ("test_product_three", "product([1, 2, 3])", "6.0"),
+            ("test_product_two", "product([4, 5])", "20.0"),
         ]
     else:  # wrong-comparison
         cases = [
-            ("ten", "classify(10)", '"small"'),
-            ("eleven", "classify(11)", '"big"'),
-            ("minus", "classify(-1)", '"small"'),
+            ("test_classify_ten", "classify(10)", '"small"'),
+            ("test_classify_eleven", "classify(11)", '"big"'),
+            ("test_classify_minus", "classify(-1)", '"small"'),
         ]
 
-    case_lines = "\n".join(
-        f'    ("{label}", lambda: {expr}, {expected}),' for label, expr, expected in cases
-    )
-    return f'''"""Harness for the exercise. Reports pass/fail for each case."""
-
-
-def check(label, fn, expected):
-    actual = fn()
-    ok = actual == expected
-    print(f"{{'PASS' if ok else 'FAIL'}}: {{label:12s}} expected={{expected!r:10}} got={{actual!r:10}}")
-    return ok
-
-
-CASES = [
-{case_lines}
-]
-
-
-def run():
-    results = [check(label, fn, expected) for label, fn, expected in CASES]
-    print(f"\\n{{sum(results)}}/{{len(results)}} cases passed")
-    return all(results)
-
-
-if __name__ == "__main__":
-    import sys
-
-    sys.exit(0 if run() else 1)
+    test_lines = "\n".join(
+        f'''
+def {name}():
+    assert {expr} == {expected}
 '''
+        for name, expr, expected in cases
+    )
+    return f'''"""Harness for the exercise, written as a pytest test file.
+
+The learner may edit this file (DEC-017); the server's hidden tests still
+decide the true verdict. Run it locally with:
+
+    python -m pytest harness.py -q
+
+"""
+
+from exercise import *  # noqa: F401,F403  (the learner's module)
+{test_lines}'''
 
 
 def _task_statement(kind: str, n: int) -> str:
@@ -169,12 +166,13 @@ async def _llm_exercise(kind: str) -> dict[str, Any] | None:
     prompt = (
         f"Write a small Python exercise that has exactly one planted bug of "
         f"kind '{kind}' ({KINDS[kind]['summary']}). Return a JSON object with "
-        f"keys 'source' (the buggy program), 'harness' (a runnable harness that "
-        f"prints PASS/FAIL per case and exits non-zero while the bug is present), "
-        f"and 'task' (one-sentence instruction). Keep it self-contained."
-        f"Harness will already have the solution in scope, you do not need to import anything."
-        f"Aim for 10 lines of code in the source, other fields can be any length."
-        f"Keep comments to a minimum, add other operations to the code if you need more lines"
+        f"keys 'source' (the buggy program), 'harness' (a pytest test file that "
+        f"imports everything it needs from the learner's 'exercise' module with "
+        f"'from exercise import *', with one 'def test_...():' function per case "
+        f"using plain asserts), and 'task' (one-sentence instruction). Keep it "
+        f"self-contained. The harness runs under pytest. Aim for 10 lines of "
+        f"code in the source, other fields can be any length. Keep comments to "
+        f"a minimum."
     )
     try:
         import json
