@@ -1,7 +1,6 @@
 """Unit tests for the sanitized staging-availability monitor."""
 from __future__ import annotations
 
-import io
 import json
 from unittest.mock import patch
 
