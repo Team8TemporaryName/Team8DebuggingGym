@@ -29,6 +29,18 @@ body:
       required: false
 
   - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements
+      description: >
+        Assignment parts, project requirements, and artifacts this task must satisfy.
+        Link the exact files/sections; list each requirement on its own line.
+      value: |
+        - Assignment 6, Part <n>
+    validations:
+      required: true
+
+  - type: textarea
     id: acceptance-criteria
     attributes:
       label: Acceptance criteria
