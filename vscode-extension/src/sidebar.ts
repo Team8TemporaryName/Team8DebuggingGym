@@ -28,6 +28,21 @@ interface ExerciseMeta {
   harness: string;
 }
 
+interface ServerExercise {
+  id: string;
+  kind: string;
+  task: string;
+  name?: string | null;
+  description?: string | null;
+  folderName?: string;
+  missing?: boolean;
+}
+
+function exerciseFolderName(kind: string, id: string): string {
+  const slug = kind.replace(/[^a-z0-9]+/gi, "-").toLowerCase().replace(/(^-|-$)/g, "");
+  return `exercise-${slug}-${id.slice(-6)}`;
+}
+
 export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
   public static readonly viewType = "debuggingGym.sidebar";
 
@@ -35,6 +50,7 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
   private current?: ExerciseMeta;
   private currentFolder?: vscode.Uri;
   private lastKinds: string[] = [];
+  private teacherSession?: string;
 
   resolveWebviewView(view: vscode.WebviewView): void {
     this.view = view;
@@ -74,6 +90,7 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
   <div class="section">
     <label for="kind">Problem kind</label>
     <select id="kind"></select>
+    <button id="teacherLogin" class="secondary">Enter teacher access key</button>
     <button id="generate">Generate exercise</button>
   </div>
   <div id="task" class="task" style="display:none"></div>
@@ -98,6 +115,8 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
 
     function setStatus(text) { status.textContent = text; }
 
+    document.getElementById('teacherLogin').onclick = () =>
+      vscode.postMessage({ command: 'teacherLogin' });
     document.getElementById('generate').onclick = () =>
       vscode.postMessage({ command: 'generate', kind: kindSel.value });
     document.getElementById('verify').onclick = () =>
@@ -126,8 +145,22 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
         for (const ex of msg.exercises) {
           const div = document.createElement('div');
           div.className = 'item';
-          div.textContent = ex.name;
-          div.onclick = () => vscode.postMessage({ command: 'open', name: ex.name });
+          const label = document.createElement('div');
+          label.textContent = ex.name || ex.kind + ' (' + ex.id + ')';
+          div.appendChild(label);
+          if (ex.missing) {
+            const warning = document.createElement('div');
+            warning.className = 'status';
+            warning.textContent = 'Expected exercise folder is missing or renamed.';
+            div.appendChild(warning);
+            const restore = document.createElement('button');
+            restore.className = 'secondary';
+            restore.textContent = 'Refetch exercise';
+            restore.onclick = () => vscode.postMessage({ command: 'refetch', id: ex.id });
+            div.appendChild(restore);
+          } else {
+            div.onclick = () => vscode.postMessage({ command: 'open', name: ex.folderName });
+          }
           list.appendChild(div);
         }
       } else if (msg.command === 'task') {
@@ -166,15 +199,29 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
       return;
     }
     try {
-      const saved = await listExerciseFolders(folders[0].uri);
-      this.post({ command: "exercises", exercises: saved.map((s) => ({ name: s.name })) });
+      const [serverExercises, localFolders] = await Promise.all([
+        api<ServerExercise[]>("/api/exercises"),
+        listExerciseFolders(folders[0].uri),
+      ]);
+      const localNames = new Set(localFolders.map((folder) => folder.name));
+      const items = serverExercises.map((exercise) => {
+        const folderName = exerciseFolderName(exercise.kind, exercise.id);
+        return { ...exercise, folderName, missing: !localNames.has(folderName) };
+      });
+      this.post({ command: "exercises", exercises: items });
+      if (items.some((exercise) => exercise.missing)) {
+        this.post({ command: "status", text: "One or more server exercises have a missing or renamed local folder. Use Refetch exercise to restore it." });
+      }
     } catch (e) {
-      this.post({ command: "status", text: `Cannot read exercises: ${String(e)}` });
+      this.post({ command: "status", text: `Cannot refresh server exercises: ${String(e)}` });
     }
   }
 
-  private async handle(msg: { command: string; kind?: string; name?: string }): Promise<void> {
+  private async handle(msg: { command: string; kind?: string; name?: string; id?: string }): Promise<void> {
     switch (msg.command) {
+      case "teacherLogin":
+        await this.teacherLogin();
+        break;
       case "generate":
         await this.generate(msg.kind);
         break;
@@ -192,10 +239,44 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
           await this.open(msg.name);
         }
         break;
+      case "refetch":
+        if (msg.id) {
+          await this.refetch(msg.id);
+        }
+        break;
+    }
+  }
+
+  private async teacherLogin(): Promise<void> {
+    const key = await vscode.window.showInputBox({
+      prompt: "Enter the teacher access key",
+      password: true,
+      ignoreFocusOut: true,
+    });
+    if (!key) {
+      return;
+    }
+    try {
+      const auth = await api<{ session: string; role: string }>("/api/auth/teacher", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key }),
+      });
+      this.teacherSession = auth.session;
+      this.post({ command: "status", text: "Teacher access enabled for this VS Code session." });
+    } catch (e) {
+      this.post({ command: "status", text: `Teacher access was not granted: ${String(e)}` });
+      vscode.window.showErrorMessage("Invalid teacher access key.");
     }
   }
 
   async generate(kind?: string): Promise<void> {
+    if (!this.teacherSession) {
+      await this.teacherLogin();
+      if (!this.teacherSession) {
+        return;
+      }
+    }
     if (!kind) {
       if (this.lastKinds.length === 0) {
         this.post({ command: "status", text: "Cannot reach the Debugging Gym server. Try the refresh button once it is back." });
@@ -216,7 +297,10 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
         async () =>
           api<ExerciseMeta>("/api/exercises", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "x-session": this.teacherSession || "",
+            },
             body: JSON.stringify({ kind }),
           }),
       );
@@ -295,6 +379,22 @@ export class DebuggingGymSidebar implements vscode.WebviewViewProvider {
       return;
     }
     this.post({ command: "task", task: this.current.task });
+  }
+
+  private async refetch(id: string): Promise<void> {
+    try {
+      this.post({ command: "status", text: "Refetching exercise from the server…" });
+      const ex = await api<ExerciseMeta>(`/api/exercises/${id}`);
+      const folder = await createExerciseFolder(ex);
+      this.current = ex;
+      this.currentFolder = folder;
+      await openExerciseFolder(folder);
+      this.post({ command: "task", task: ex.task });
+      this.post({ command: "status", text: "Exercise folder restored from the server." });
+      await this.refreshExercises();
+    } catch (e) {
+      this.post({ command: "status", text: `Could not refetch exercise: ${String(e)}` });
+    }
   }
 
   private async open(name: string): Promise<void> {

@@ -94,3 +94,50 @@ Learners can work on an [exercise](glossary.md#exercise) containing multiple rel
 - [DEC-014: Multi-file Exercises](decisions.md#dec-014)
 - [DEC-018: Exercise Workspace and Versioning](decisions.md#dec-018)
 - [ADR-001: Architecture Decision Record](architecture/adr/ADR-001.md)
+
+## Store exercises and browse the server library
+
+Teachers' generated exercises are stored on the server, and learners can browse and reopen the available exercises.
+
+**Stories:**
+
+- [US-13: Store exercises on the server](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/84)
+- [US-16: Browse and solve exercises](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/87)
+
+**Behavior:** [FR-011](functional-requirements/fr/FR-011.md)
+
+## Teacher and student access
+
+Teachers can enter the teacher interface with an access key and create named exercises. Student accounts are a later Should Have capability.
+
+**Stories:**
+
+- [US-14: Teacher/student interfaces](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/85)
+- [US-15: Teacher exercise generation](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/86)
+- [US-18: Student and teacher accounts](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/89)
+
+**Behavior:** [FR-012](functional-requirements/fr/FR-012.md), [FR-013](functional-requirements/fr/FR-013.md), [FR-018](functional-requirements/fr/FR-018.md)
+
+## Extension download and learner progress
+
+Learners can download the VS Code extension from the web app and see which server exercises they have completed.
+
+**Stories:**
+
+- [US-17: Download the VS Code extension](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/88)
+- [US-19: Track completed exercises](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/90)
+
+**Behavior:** [FR-014](functional-requirements/fr/FR-014.md), [FR-015](functional-requirements/fr/FR-015.md)
+
+## Product analytics and operational observability
+
+The product records core-task events and exposes operating signals so the team can understand usage and diagnose failures.
+
+**Stories:**
+
+- [US-20: Product analytics](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/91)
+- [US-21: Operational observability](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/92)
+
+**Behavior:** [FR-016](functional-requirements/fr/FR-016.md), [FR-017](functional-requirements/fr/FR-017.md), [QR-05](quality-requirements/qr/QR-05.md)
+
+**Architecture:** [ADR-005](architecture/adr/ADR-005.md), [ADR-006](architecture/adr/ADR-006.md)

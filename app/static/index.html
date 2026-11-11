@@ -11,10 +11,34 @@
     <header>
       <h1>Debugging Gym</h1>
       <p class="tagline">Pick a problem kind and get a generated exercise</p>
+      <div id="rolebar" class="rolebar">
+        <span id="role-label" class="role-label">Student view</span>
+        <span id="teacher-access" class="teacher-access">
+          <input id="teacher-key" type="password" placeholder="Teacher access key" aria-label="Teacher access key">
+          <button id="teacher-login" class="secondary">Enter</button>
+        </span>
+      </div>
     </header>
 
-    <section id="choose" class="card">
-      <h2>Choose a problem kind</h2>
+    <section id="teacher-panel" class="card hidden">
+      <h2>Teacher — create an exercise</h2>
+      <label for="t-prompt">Prompt</label>
+      <textarea id="t-prompt" class="prompt" placeholder="e.g. a function that stops one element short"></textarea>
+      <label for="t-name">Name</label>
+      <input id="t-name" class="input" placeholder="e.g. Off-by-one in total">
+      <label for="t-desc">Description</label>
+      <textarea id="t-desc" class="prompt" placeholder="Short description shown to students"></textarea>
+      <button id="t-generate" class="primary">Generate and store</button>
+      <pre id="t-result" class="result"></pre>
+    </section>
+
+    <section id="browse" class="card">
+      <h2>Exercises on the server</h2>
+      <div id="library" class="kinds"><p class="hint">Loading…</p></div>
+    </section>
+
+    <section id="choose" class="card hidden">
+      <h2>Choose a problem kind to generate</h2>
       <div id="kinds" class="kinds"><p class="hint">Loading…</p></div>
     </section>
 
@@ -24,7 +48,6 @@
       <div class="tabs">
         <button id="tab-source" class="tab active">Program</button>
         <button id="tab-harness" class="tab">Harness</button>
-        <!-- <button id="tab-launch" class="tab">VS Code</button> --!>
       </div>
       <pre id="code" class="code"></pre>
       <textarea id="editor" class="editor" spellcheck="false"></textarea>
@@ -37,8 +60,14 @@
       <button id="finish" class="primary finish hidden">Finish exercise</button>
     </section>
 
+    <section id="extension" class="card">
+      <h2>VS Code extension</h2>
+      <p>Install the Debugging Gym extension to debug exercises in your own editor.</p>
+      <a id="ext-download" class="primary button" href="/api/extension/download" download>Download the extension</a>
+    </section>
+
     <footer>
-      <p>Week 3 minimum usable product — Debugging Gym team 8.</p>
+      <p>Debugging Gym — team 8.</p>
     </footer>
   </main>
   <script src="/static/app.js"></script>

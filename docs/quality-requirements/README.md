@@ -11,3 +11,4 @@ The current results of each quality requirement test are recorded in the [qualit
 | [QR-02](qr/QR-02.md) | A developer can run the checks that cover the generator and the harness from a clean checkout, and a broken change fails them. | High | Medium | Maintainability | Testability | Active |
 | [QR-03](qr/QR-03.md) | A debug session that ends mid-run releases its runtime within one minute and keeps no learner code on the server. | High | High | Security | Resistance | Active |
 | [QR-04](qr/QR-04.md) | The product stays available for 99.9% of a week once deployed to the production host. | Medium | High | Reliability | Availability | Active |
+| [QR-05](qr/QR-05.md) | A failed request in the core task is diagnosable from operating signals within five seconds for the log point and one minute for the SLI P95. | High | Medium | Maintainability | Analysability | Active |

@@ -34,7 +34,9 @@ def test_harness_reports_defect_present_and_absent():
     ex = _run(generator.create_exercise("off-by-one"))
     before = verify_fix(ex["id"], ex["source"], ex["harness"])
     after = verify_fix(
-        ex["id"], ex["source"].replace("range(len(nums) - 1)", "range(len(nums))"), ex["harness"]
+        ex["id"],
+        ex["source"].replace("range(len(nums) - 1)", "range(len(nums))"),
+        ex["harness"],
     )
     assert before["passed"] is False
     assert after["passed"] is True
@@ -77,7 +79,16 @@ def test_webapp_generate_verify_and_launch_flow():
     kinds = client.get("/api/kinds").json()
     assert "off-by-one" in kinds
 
-    ex = client.post("/api/exercises", json={"kind": "off-by-one"}).json()
+    from app import store
+
+    store.TEACHER_KEY = "teacher-demo-key"
+    session_response = client.post("/api/auth/teacher", json={"key": "teacher-demo-key"})
+    session = session_response.json()["session"]
+    ex = client.post(
+        "/api/exercises",
+        json={"kind": "off-by-one"},
+        headers={"x-session": session},
+    ).json()
     assert ex["id"] and ex["source"] and ex["harness"]
 
     buggy = client.post(f"/api/exercises/{ex['id']}/verify", json={"source": ex["source"]}).json()
@@ -89,3 +100,12 @@ def test_webapp_generate_verify_and_launch_flow():
 
     launch = client.get(f"/api/exercises/{ex['id']}/launch").json()
     assert launch["launch_json"]["configurations"][0]["type"] == "debugpy"
+
+
+def test_server_verification_runs_every_harness_case():
+    """The server executes all four generated pytest cases, not a partial subset."""
+    ex = _run(generator.create_exercise("off-by-one"))
+    result = verify_fix(ex["id"], ex["source"], ex["harness"])
+    assert result["passed"] is False
+    assert "3 failed" in result["output"]
+    assert "1 passed" in result["output"]
