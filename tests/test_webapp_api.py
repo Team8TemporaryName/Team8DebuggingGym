@@ -107,3 +107,99 @@ def test_generic_verify_requires_harness():
     """POST /api/verify rejects a missing harness."""
     resp = _client().post("/api/verify", json={"source": "x"})
     assert resp.status_code == 400
+
+
+def test_learner_id_persists_and_first_visit_is_tracked(monkeypatch):
+    from app import main
+
+    events = []
+
+    async def fake_track_event(event_name, learner_id, properties):
+        events.append((event_name, learner_id, properties))
+        return True
+
+    monkeypatch.setattr(main, "track_event", fake_track_event)
+
+    client = _client()
+    first_response = client.get("/")
+    second_response = client.get("/")
+
+    assert first_response.cookies.get("dg_learner_id")
+    assert (
+        first_response.cookies["dg_learner_id"]
+        == second_response.cookies["dg_learner_id"]
+    )
+
+    visits = [event for event in events if event[0] == "app_opened"]
+    assert len(visits) == 2
+    assert visits[0][2]["first_visit"] is True
+    assert visits[1][2]["first_visit"] is False
+
+
+def test_exercise_routes_track_analytics_events(monkeypatch):
+    from app import main
+
+    events = []
+
+    async def fake_track_event(event_name, learner_id, properties):
+        events.append((event_name, learner_id, properties))
+        return True
+
+    monkeypatch.setattr(main, "track_event", fake_track_event)
+
+    client = _client()
+    exercise = client.post(
+        "/api/exercises",
+        json={"kind": "off-by-one"},
+    ).json()
+
+    client.get(f"/api/exercises/{exercise['id']}/launch")
+
+    fixed_source = exercise["source"].replace(
+        "range(len(nums) - 1)",
+        "range(len(nums))",
+    )
+
+    response = client.post(
+        f"/api/exercises/{exercise['id']}/verify",
+        json={"source": fixed_source},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["passed"] is True
+
+    event_names = [event[0] for event in events]
+    assert "exercise_generated" in event_names
+    assert "exercise_started" in event_names
+    assert "verification_run" in event_names
+    assert "exercise_completed" in event_names
+
+    learner_ids = {event[1] for event in events}
+    assert len(learner_ids) == 1
+
+
+def test_analytics_events_include_valid_sources(monkeypatch):
+    from app import main
+
+    events = []
+
+    async def fake_track_event(event_name, learner_id, properties):
+        events.append(properties)
+        return True
+
+    monkeypatch.setattr(main, "track_event", fake_track_event)
+
+    client = _client()
+    exercise = client.post(
+        "/api/exercises",
+        json={"kind": "off-by-one"},
+    ).json()
+
+    client.get(f"/api/exercises/{exercise['id']}/launch")
+
+    for properties in events:
+        assert properties["source"] in {
+            "web",
+            "usability-test",
+            "smoke",
+        }
