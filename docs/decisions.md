@@ -272,3 +272,14 @@ The recommended VS Code settings and language extensions are generated dynamical
   covers, rather than packaging every language extension up front. Language
   extensions should be recommended (not force-installed) as the learner takes
   exercises in a given language.
+
+
+## DEC-020
+
+Use OpenPanel for privacy-conscious product analytics, with separate staging and production scopes and best-effort event delivery.
+
+- **Status:** Active
+- **Date:** 2026-11-12
+- **Made by:** Development Team
+- **Source:** Issue [#79](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/79)
+- **Why:** The team needs reliable product metrics to understand learner engagement and exercise outcomes. OpenPanel provides event collection, while separate environment scopes prevent staging and smoke-test traffic from contaminating production metrics. Analytics failures must not interrupt core application functionality.

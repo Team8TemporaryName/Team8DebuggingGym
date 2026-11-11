@@ -133,3 +133,54 @@ For every release, record at least:
 | Production deployment | Date/time, commit SHA, core-task verification result, evidence link. |
 | Rollback | Previous commit restored, reason, and verification result; or `None`. |
 | Public-address handling | Confirm real staging and production addresses are present only in the private Moodle submission, not the repository. |
+
+
+
+## Analytics Deployment
+
+The application uses OpenPanel for product analytics. Analytics configuration is managed through environment variables documented in [`../.env.example`](../.env.example).
+
+Required variables:
+
+- `OPENPANEL_API_URL`: OpenPanel tracking endpoint.
+- `OPENPANEL_CLIENT_ID`: Environment-specific OpenPanel client ID.
+- `OPENPANEL_CLIENT_SECRET`: Environment-specific OpenPanel client secret.
+- `COOKIE_SECURE`: Set to `true` when running behind HTTPS.
+
+### Environment Configuration
+
+Staging and production must use separate OpenPanel projects or isolated scopes with distinct credentials.
+
+- Staging events must be sent only to the staging OpenPanel project.
+- Production events must be sent only to the production OpenPanel project.
+- Smoke-test events must be sent only to staging.
+- Production analytics queries must exclude smoke and usability-test traffic.
+- OpenPanel credentials must remain outside the repository and must not be included in deployment documentation, logs, or screenshots.
+
+Analytics delivery is best-effort. Missing credentials disable event delivery, and provider or network failures must not interrupt application functionality.
+
+### Deployment Status
+
+OpenPanel deployment and dashboard configuration have not yet been completed.
+
+These tasks are deferred to Sprint 7 because university VM access is currently unavailable. No successful staging or production analytics deployment is claimed.
+
+The following tasks remain:
+
+1. Configure separate staging and production OpenPanel projects and credentials.
+2. Install the corresponding environment variables on the university VM.
+3. Deploy the application with analytics enabled.
+4. Send a staging smoke event using `source = smoke`.
+5. Verify that the smoke event appears in the staging event list.
+6. Verify that smoke events are excluded from all product metric queries.
+7. Create and verify the staging and production analytics dashboards.
+8. Capture sanitized dashboard screenshots.
+
+### Analytics Evidence
+
+After deployment, add the following evidence:
+
+- `reports/week-06/images/analytics-staging.png`
+- `reports/week-06/images/analytics-production.png`
+
+Record the deployment configuration, smoke-event verification result, dashboard links, and outstanding issues in the relevant sprint report.
