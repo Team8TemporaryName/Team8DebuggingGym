@@ -37,3 +37,5 @@ The image is [`container.svg`](./container.svg), and its Mermaid source is [`con
 | [ADR-002](adr/ADR-002.md) | Accepted | [FR-004](../functional-requirements/fr/FR-004.md), [QR-01](../quality-requirements/qr/QR-01.md) | Attach the learner's VS Code over the Debug Adapter Protocol |
 | [ADR-003](adr/ADR-003.md) | Accepted | [FR-002](../functional-requirements/fr/FR-002.md), [QR-02](../quality-requirements/qr/QR-02.md) | Generate exercises with an LLM and a deterministic fallback |
 | [ADR-004](adr/ADR-004.md) | Accepted | [FR-003](../functional-requirements/fr/FR-003.md), [FR-009](../functional-requirements/fr/FR-009.md) | Keep local harness feedback separate from official verification |
+| [ADR-005](adr/ADR-005.md) | Accepted | [FR-016](../functional-requirements/fr/FR-016.md) | Collect analytics events in the web app container |
+| [ADR-006](adr/ADR-006.md) | Accepted | [FR-017](../functional-requirements/fr/FR-017.md), [QR-05](../quality-requirements/qr/QR-05.md) | Expose quality signals from the web app container |

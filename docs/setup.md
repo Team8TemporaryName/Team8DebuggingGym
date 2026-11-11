@@ -39,21 +39,17 @@ cp .env.example .env
 
 Leave `LLM_API_KEY` empty to use the deterministic local generator, which needs
 no network or budget. To use the LLM, set `LLM_API_KEY` to your provider key
-and, if needed, `LLM_ENDPOINT` and `LLM_MODEL`. `.env` is git-ignored and never
-committed.
+and, if needed, `LLM_ENDPOINT` and `LLM_MODEL`. Set `TEACHER_KEY` to a private access key before starting the app; do not use the example placeholder in a deployed environment. `DEBUGGING_GYM_DB` selects the SQLite file used for persistent server-side exercises. `.env` is git-ignored and never committed.
 
 ## Run the product
 
 Start the web server:
 
 ```bash
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --env-file .env
 ```
 
-Open <http://127.0.0.1:8000>. Choose a problem kind, read the generated
-exercise, and edit the program in the editor. Press **Run the harness** to get
-a pass/fail verdict: it fails while the planted defect is present and passes
-once you fix it.
+Open <http://127.0.0.1:8000>. Enter the configured teacher access key to open the teacher interface and create a named exercise. The student view can browse the server-stored library and open exercises, but cannot generate them. Press **Run the harness** to get a pass/fail verdict: it fails while the planted defect is present and passes once you fix it. Exercises and completion records are stored in the configured SQLite database. In the VS Code sidebar, use **Enter teacher access key** once per extension session before generating an exercise; students can browse and open exercises without teacher access.
 
 ### Connect your own VS Code
 

@@ -125,6 +125,9 @@ function makeFrontend(verificationResult) {
 
   const fetch = async (url, options = {}) => {
     requests.push({ url, options });
+    if (url === "/api/exercises" && !options.method) {
+      return jsonResponse([]);
+    }
     if (url === "/api/kinds") {
       return jsonResponse({ "off-by-one": { summary: "A sequence ends too early." } });
     }
