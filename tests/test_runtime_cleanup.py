@@ -48,14 +48,15 @@ def test_verifier_removes_temporary_workspace_after_normal_completion(monkeypatc
 
 def test_verifier_removes_temporary_workspace_when_code_times_out(monkeypatch):
     temporary_directories = _record_temporary_directories(monkeypatch)
-    # Shorten only this test's timeout so CI does not spend ten seconds here.
-    monkeypatch.setattr(harness_runner, "HARNESS_TIMEOUT_SECONDS", 0.2)
+
+    # Allow time for Python and pytest startup, while keeping the test bounded.
+    monkeypatch.setattr(harness_runner, "HARNESS_TIMEOUT_SECONDS", 1)
 
     with pytest.raises(subprocess.TimeoutExpired):
         harness_runner.verify_fix(
             "cleanup-timeout",
             "while True:\n    pass\n",
-            "print('This line is not reached')\n",
+            "import exercise\n",
         )
 
     assert len(temporary_directories) == 1
