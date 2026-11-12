@@ -332,3 +332,13 @@ After the MUP, run user-acceptance tests with real students, then hand the proje
 - **Made by:** Customer
 - **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
 - **Why:** the customer requested user-acceptance testing with real students after the minimum usable product, and handover at the end of the course.
+
+## DEC-026
+
+Use OpenPanel for privacy-conscious product analytics, with separate staging and production scopes and best-effort event delivery.
+
+- **Status:** Active
+- **Date:** 2026-11-12
+- **Made by:** Development Team
+- **Source:** Issue [#79](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/79)
+- **Why:** The team needs reliable product metrics to understand learner engagement and exercise outcomes. OpenPanel provides event collection, while separate environment scopes prevent staging and smoke-test traffic from contaminating production metrics. Analytics failures must not interrupt core application functionality.
