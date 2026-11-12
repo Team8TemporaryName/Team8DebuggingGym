@@ -28,15 +28,9 @@ EVENT_SCHEMAS = {
 
 VALID_SOURCES = {"web", "usability-test", "smoke"}
 
-ANALYTICS_ENABLED = (
-    os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
-)
-OBSERVABILITY_ENABLED = (
-    os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
-)
-ANALYTICS_URL = os.environ.get(
-    "ANALYTICS_URL", "http://localhost:5081/api"
-)
+ANALYTICS_ENABLED = os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
+OBSERVABILITY_ENABLED = os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
+ANALYTICS_URL = os.environ.get("ANALYTICS_URL", "http://localhost:5081/api")
 ANALYTICS_TOKEN = os.environ.get("ANALYTICS_TOKEN", "")
 
 
@@ -55,9 +49,7 @@ def validate_event(
 
     missing = EVENT_SCHEMAS[event_name] - properties.keys()
     if missing:
-        raise ValueError(
-            f"{event_name} is missing required properties: {sorted(missing)}"
-        )
+        raise ValueError(f"{event_name} is missing required properties: {sorted(missing)}")
 
     source = properties.get("source")
     if source not in VALID_SOURCES:
@@ -121,11 +113,7 @@ def track(
     payload = {"event": event, "source": source, **fields}
 
     try:
-        headers = (
-            {"Authorization": f"Bearer {ANALYTICS_TOKEN}"}
-            if ANALYTICS_TOKEN
-            else {}
-        )
+        headers = {"Authorization": f"Bearer {ANALYTICS_TOKEN}"} if ANALYTICS_TOKEN else {}
         httpx.post(
             f"{ANALYTICS_URL}/events",
             json=payload,

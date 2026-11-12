@@ -134,8 +134,6 @@ For every release, record at least:
 | Rollback | Previous commit restored, reason, and verification result; or `None`. |
 | Public-address handling | Confirm real staging and production addresses are present only in the private Moodle submission, not the repository. |
 
-
-
 ## Analytics Deployment
 
 The application uses OpenPanel for product analytics. Analytics configuration is managed through environment variables documented in [`../.env.example`](../.env.example).

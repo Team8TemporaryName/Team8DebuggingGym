@@ -1,4 +1,3 @@
-
 """Debugging Gym — MUP slice web application.
 
 FastAPI backend serving a minimal web front end. A learner chooses a problem
@@ -149,10 +148,7 @@ async def index() -> str:
 async def kinds() -> JSONResponse:
     """The catalogue of problem kinds a learner can choose from."""
     return JSONResponse(
-        {
-            kind: {"summary": meta["summary"]}
-            for kind, meta in generator.KINDS.items()
-        }
+        {kind: {"summary": meta["summary"]} for kind, meta in generator.KINDS.items()}
     )
 
 
@@ -478,9 +474,7 @@ async def get_exercise(request: Request, exercise_id: str) -> JSONResponse:
 @app.get("/api/extension/download")
 async def download_extension():
     """Serve the packaged VS Code extension for download."""
-    candidates = sorted(
-        (BASE_DIR.parent / "vscode-extension").glob("*.vsix")
-    )
+    candidates = sorted((BASE_DIR.parent / "vscode-extension").glob("*.vsix"))
 
     if candidates:
         return FileResponse(
@@ -510,4 +504,3 @@ async def http_exception_handler(
         {"detail": exc.detail},
         status_code=exc.status_code,
     )
-

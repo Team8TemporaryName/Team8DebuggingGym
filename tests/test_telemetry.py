@@ -21,9 +21,7 @@ def test_new_learner_ids_are_unique_and_opaque():
 
 def test_all_event_schemas_accept_valid_properties():
     for event_name, required_fields in EVENT_SCHEMAS.items():
-        properties = {
-            field: "test-value" for field in required_fields
-        }
+        properties = {field: "test-value" for field in required_fields}
         properties["source"] = "web"
 
         validate_event(event_name, properties)
@@ -52,10 +50,7 @@ def test_missing_required_property_is_rejected():
 
 def test_invalid_source_is_rejected():
     event_name = next(iter(EVENT_SCHEMAS))
-    properties = {
-        field: "test-value"
-        for field in EVENT_SCHEMAS[event_name]
-    }
+    properties = {field: "test-value" for field in EVENT_SCHEMAS[event_name]}
     properties["source"] = "invalid"
 
     try:

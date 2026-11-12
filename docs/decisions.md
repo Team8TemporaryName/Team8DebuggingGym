@@ -273,7 +273,6 @@ The recommended VS Code settings and language extensions are generated dynamical
   extensions should be recommended (not force-installed) as the learner takes
   exercises in a given language.
 
-
 ## DEC-020
 
 The exercise workspace uses one top-level git repository rather than a repository per exercise folder.
@@ -333,7 +332,6 @@ After the MUP, run user-acceptance tests with real students, then hand the proje
 - **Made by:** Customer
 - **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
 - **Why:** the customer requested user-acceptance testing with real students after the minimum usable product, and handover at the end of the course.
-
 
 ## DEC-026
 

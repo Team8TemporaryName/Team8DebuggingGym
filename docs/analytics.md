@@ -136,7 +136,7 @@ Allowed sources:
 - `smoke`: Deployment smoke testing.
 
 | Event | Required properties | Description |
-|---|---|---|
+| --- | --- | --- |
 | `app_opened` | `first_visit`, `source` | Learner opens the application. |
 | `exercise_generated` | `exercise_id`, `kind`, `generator`, `source` | An exercise is generated. |
 | `exercise_started` | `exercise_id`, `kind`, `source` | Learner requests the launch configuration. |
@@ -160,7 +160,7 @@ A smoke test should use an existing event, such as `app_opened`, with `source = 
 The following definitions describe the intended query logic independently of OpenPanel's exact query-builder syntax.
 
 | Metric | Event | Calculation | Filters |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Weekly active learners completing an exercise | `exercise_completed` | Distinct learner identifiers over seven days | `source = web` |
 | First visits | `app_opened` | Count events where `first_visit = true` | `source = web` |
 | Exercises generated | `exercise_generated` | Count events | `source = web` |
@@ -276,4 +276,3 @@ Required screenshot locations:
 
 - `reports/week-06/images/analytics-staging.png`
 - `reports/week-06/images/analytics-production.png`
-

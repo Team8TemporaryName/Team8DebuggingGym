@@ -31,7 +31,7 @@ def verify_fix(exercise_id: str, source: str, harness: str) -> dict[str, object]
         (tmp_path / "harness.py").write_text(harness, encoding="utf-8")
 
         result = subprocess.run(
-           [sys.executable, "-m", "pytest", "harness.py", "-q", "--color=yes"],
+            [sys.executable, "-m", "pytest", "harness.py", "-q", "--color=yes"],
             cwd=tmp,
             capture_output=True,
             text=True,

@@ -147,10 +147,7 @@ def test_learner_id_persists_and_first_visit_is_tracked(monkeypatch):
     second_response = client.get("/")
 
     assert first_response.cookies.get("dg_learner_id")
-    assert (
-        first_response.cookies["dg_learner_id"]
-        == second_response.cookies["dg_learner_id"]
-    )
+    assert first_response.cookies["dg_learner_id"] == second_response.cookies["dg_learner_id"]
 
     visits = [event for event in events if event[0] == "app_opened"]
     assert len(visits) == 2
@@ -176,9 +173,9 @@ def test_exercise_routes_track_analytics_events(monkeypatch):
     # ).json()
 
     exercise = client.post(
-    "/api/exercises",
-    json={"kind": "off-by-one"},
-    headers=_teacher_headers(),
+        "/api/exercises",
+        json={"kind": "off-by-one"},
+        headers=_teacher_headers(),
     ).json()
 
     client.get(f"/api/exercises/{exercise['id']}/launch")
@@ -223,9 +220,9 @@ def test_analytics_events_include_valid_sources(monkeypatch):
     #     json={"kind": "off-by-one"},
     # ).json()
     exercise = client.post(
-    "/api/exercises",
-    json={"kind": "off-by-one"},
-    headers=_teacher_headers(),
+        "/api/exercises",
+        json={"kind": "off-by-one"},
+        headers=_teacher_headers(),
     ).json()
 
     client.get(f"/api/exercises/{exercise['id']}/launch")
