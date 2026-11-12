@@ -5,11 +5,20 @@ Run with: python -m pytest
 
 from fastapi.testclient import TestClient
 
+from app import store
 from app.main import app
 
 
 def _client() -> TestClient:
+    store.TEACHER_KEY = "teacher-demo-key"
     return TestClient(app)
+
+
+def _teacher_headers() -> dict:
+    """A teacher session header, since only teachers can generate (US-016)."""
+    session_response = _client().post("/api/auth/teacher", json={"key": "teacher-demo-key"})
+    session = session_response.json()["session"]
+    return {"x-session": session}
 
 
 def test_root_serves_the_front_end():
@@ -30,8 +39,11 @@ def test_kinds_returns_the_catalogue():
 
 
 def test_create_exercise_returns_a_valid_exercise():
-    """POST /api/exercises returns a generated exercise."""
-    ex = _client().post("/api/exercises", json={"kind": "off-by-one"}).json()
+    """POST /api/exercises returns a generated exercise (teacher only)."""
+    client = _client()
+    ex = client.post(
+        "/api/exercises", json={"kind": "off-by-one"}, headers=_teacher_headers()
+    ).json()
     assert ex["id"].startswith("ex-")
     assert ex["kind"] == "off-by-one"
     assert ex["source"] and ex["harness"] and ex["task"]
@@ -39,14 +51,22 @@ def test_create_exercise_returns_a_valid_exercise():
 
 def test_create_exercise_rejects_unknown_kind():
     """POST /api/exercises with an unknown kind returns 400."""
-    resp = _client().post("/api/exercises", json={"kind": "no-such"})
+    resp = _client().post("/api/exercises", json={"kind": "no-such"}, headers=_teacher_headers())
     assert resp.status_code == 400
+
+
+def test_student_cannot_generate():
+    """US-016: a student (no session) cannot generate an exercise."""
+    resp = _client().post("/api/exercises", json={"kind": "off-by-one"})
+    assert resp.status_code == 403
 
 
 def test_verify_rejects_missing_source():
     """POST /api/exercises/{id}/verify without source returns 400."""
     client = _client()
-    ex = client.post("/api/exercises", json={"kind": "off-by-one"}).json()
+    ex = client.post(
+        "/api/exercises", json={"kind": "off-by-one"}, headers=_teacher_headers()
+    ).json()
     resp = client.post(f"/api/exercises/{ex['id']}/verify", json={})
     assert resp.status_code == 400
 
@@ -60,7 +80,9 @@ def test_verify_unknown_exercise_returns_404():
 def test_launch_returns_debugpy_config():
     """GET /api/exercises/{id}/launch returns a debugpy attach configuration."""
     client = _client()
-    ex = client.post("/api/exercises", json={"kind": "off-by-one"}).json()
+    ex = client.post(
+        "/api/exercises", json={"kind": "off-by-one"}, headers=_teacher_headers()
+    ).json()
     launch = client.get(f"/api/exercises/{ex['id']}/launch").json()
     conf = launch["launch_json"]["configurations"][0]
     assert conf["type"] == "debugpy"
@@ -148,9 +170,15 @@ def test_exercise_routes_track_analytics_events(monkeypatch):
     monkeypatch.setattr(main, "track_event", fake_track_event)
 
     client = _client()
+    # exercise = client.post(
+    #     "/api/exercises",
+    #     json={"kind": "off-by-one"},
+    # ).json()
+
     exercise = client.post(
-        "/api/exercises",
-        json={"kind": "off-by-one"},
+    "/api/exercises",
+    json={"kind": "off-by-one"},
+    headers=_teacher_headers(),
     ).json()
 
     client.get(f"/api/exercises/{exercise['id']}/launch")
@@ -190,9 +218,14 @@ def test_analytics_events_include_valid_sources(monkeypatch):
     monkeypatch.setattr(main, "track_event", fake_track_event)
 
     client = _client()
+    # exercise = client.post(
+    #     "/api/exercises",
+    #     json={"kind": "off-by-one"},
+    # ).json()
     exercise = client.post(
-        "/api/exercises",
-        json={"kind": "off-by-one"},
+    "/api/exercises",
+    json={"kind": "off-by-one"},
+    headers=_teacher_headers(),
     ).json()
 
     client.get(f"/api/exercises/{exercise['id']}/launch")

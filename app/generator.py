@@ -159,20 +159,20 @@ def _deterministic_exercise(kind: str) -> dict[str, Any]:
     }
 
 
-async def _llm_exercise(kind: str) -> dict[str, Any] | None:
+async def _llm_exercise(kind: str, prompt: str) -> dict[str, Any] | None:
     """Try to generate an exercise through the LLM; return None if unavailable."""
     if not LLM_API_KEY:
         return None
     prompt = (
-        f"Write a small Python exercise that has exactly one planted bug of "
-        f"kind '{kind}' ({KINDS[kind]['summary']}). Return a JSON object with "
+        f"Write a small Python exercise that has exactly one planted bug of kind '{kind}' "
+        f'with description "{prompt}". Return a JSON object with '
         f"keys 'source' (the buggy program), 'harness' (a pytest test file that "
         f"imports everything it needs from the learner's 'exercise' module with "
         f"'from exercise import *', with one 'def test_...():' function per case "
-        f"using plain asserts), and 'task' (one-sentence instruction). Keep it "
-        f"self-contained. The harness runs under pytest. Aim for 10 lines of "
-        f"code in the source, other fields can be any length. Keep comments to "
-        f"a minimum."
+        f"using plain asserts), and 'task' (one-sentence instruction). Write at "
+        f"least five test cases.Keep it self-contained. The harness runs under "
+        f"pytest. Aim for 10 lines of code in the source, other fields can be "
+        f"any length. Keep comments to a minimum."
     )
     try:
         import json
@@ -197,9 +197,9 @@ async def _llm_exercise(kind: str) -> dict[str, Any] | None:
         return {
             "id": f"ex-{secrets.token_hex(4)}",
             "kind": kind,
-            "task": parsed.get("task", _task_statement(kind, 0)),
-            "source": parsed.get("source", _program(kind, 0)),
-            "harness": parsed.get("harness", _harness(kind)),
+            "task": parsed["task"],
+            "source": parsed["source"],
+            "harness": parsed["harness"],
             "generator": "llm",
         }
     except Exception as e:
@@ -207,10 +207,12 @@ async def _llm_exercise(kind: str) -> dict[str, Any] | None:
         return None
 
 
-async def create_exercise(kind: str) -> dict[str, Any]:
+async def create_exercise(kind: str, prompt: str = "") -> dict[str, Any]:
     """Create and store an exercise for a kind, LLM first with a local fallback."""
     if kind not in KINDS:
         raise ValueError(f"unknown kind: {kind}")
-    exercise = await _llm_exercise(kind) or _deterministic_exercise(kind)
+    if prompt == "":
+        prompt = KINDS[kind]["summary"]
+    exercise = await _llm_exercise(kind, prompt) or _deterministic_exercise(kind)
     EXERCISES[exercise["id"]] = exercise
     return exercise

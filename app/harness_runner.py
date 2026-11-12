@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import subprocess
 import tempfile
+import sys
 from pathlib import Path
 
 HARNESS_TIMEOUT_SECONDS = 10
@@ -30,7 +31,7 @@ def verify_fix(exercise_id: str, source: str, harness: str) -> dict[str, object]
         (tmp_path / "harness.py").write_text(harness, encoding="utf-8")
 
         result = subprocess.run(
-            ["python", "-m", "pytest", "harness.py", "-q", "--color=yes"],
+           [sys.executable, "-m", "pytest", "harness.py", "-q", "--color=yes"],
             cwd=tmp,
             capture_output=True,
             text=True,

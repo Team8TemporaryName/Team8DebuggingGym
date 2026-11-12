@@ -11,9 +11,9 @@ const execAsync = promisify(exec);
  *
  * Each exercise opens in its own folder under the workspace, containing
  * `exercise.py` (the learner edits this), `harness.py` (a pytest file the
- * learner may also edit, DEC-017), and `task.md` (the task statement). The
- * folder is git-initialized so a learner does not lose progress and can back
- * up or revert.
+ * learner may also edit, DEC-017), and `task.md` (the task statement).
+ * Exercises are versioned in one top-level workspace repository, with a
+ * separately named commit for each new exercise (DEC-020).
  */
 
 export interface ExerciseFiles {
@@ -40,7 +40,7 @@ export async function createExerciseFolder(
     throw new Error("Open a workspace folder to save the exercise.");
   }
   const root = folders[0].uri;
-  const folderName = `exercise-${slugify(exercise.kind)}-${exercise.id.slice(0, 6)}`;
+  const folderName = `exercise-${slugify(exercise.kind)}-${exercise.id.slice(-6)}`;
   const dir = vscode.Uri.joinPath(root, folderName);
 
   await vscode.workspace.fs.createDirectory(dir);
@@ -75,20 +75,30 @@ export async function createExerciseFolder(
     ),
   );
 
-  await gitInit(dir);
+  await commitExerciseAtWorkspaceRoot(root, folderName);
   return dir;
 }
 
-/** Initialise a git repository in the exercise folder, if git is available. */
-async function gitInit(dir: vscode.Uri): Promise<void> {
+/** Keep one git repository at the workspace root and commit each exercise by name. */
+async function commitExerciseAtWorkspaceRoot(
+  root: vscode.Uri,
+  folderName: string,
+): Promise<void> {
   try {
-    const local = dir.fsPath;
-    await execAsync("git init -q", { cwd: local });
-    await execAsync('git add -A && git -c user.name="Debugging Gym" -c user.email="gym@localhost" commit -qm "Initial exercise"', {
-      cwd: local,
-    });
+    const cwd = root.fsPath;
+    try {
+      await execAsync("git rev-parse --show-toplevel", { cwd });
+    } catch {
+      await execAsync("git init -q", { cwd });
+    }
+    await execAsync(`git add -- "${folderName}"`, { cwd });
+    await execAsync(
+      `git -c user.name="Debugging Gym" -c user.email="gym@localhost" commit --only -qm "Add ${folderName}" -- "${folderName}"`,
+      { cwd },
+    );
   } catch {
-    // git may be unavailable; the exercise still works without versioning.
+    // Git may be unavailable or the workspace may not permit commits.
+    // The exercise still works without versioning.
   }
 }
 

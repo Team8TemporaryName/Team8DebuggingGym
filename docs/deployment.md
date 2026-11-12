@@ -1,6 +1,6 @@
 # Deployment Runbook
 
-This runbook describes how an authorized team member deploys a release candidate to the university VM. Local installation, dependency installation, and starting the application for development are documented in [Setup and run](setup.md); those instructions are intentionally not repeated here.
+This runbook describes how an authorized team member deploys a release candidate to the university VM. Local installation, dependency installation, and starting the application for development are documented in [Setup and run](setup.md); those instructions are intentionally not repeated here. The product's signals and SLI definitions are documented in the [Observability Plan](observability.md).
 
 ## Environments
 

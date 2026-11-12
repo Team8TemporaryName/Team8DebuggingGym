@@ -276,6 +276,67 @@ The recommended VS Code settings and language extensions are generated dynamical
 
 ## DEC-020
 
+The exercise workspace uses one top-level git repository rather than a repository per exercise folder.
+
+- **Status:** Active
+- **Date:** 2026-10-30
+- **Made by:** Customer
+- **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
+- **Why:** the customer preferred one repository at the top level so history survives deleting an exercise folder and is easy to back up; per-file history and per-exercise commit naming cover the clutter.
+
+## DEC-021
+
+Exercises are grouped visually into packages without changing the physical layout, and dependencies can be provided per package.
+
+- **Status:** Active
+- **Date:** 2026-10-30
+- **Made by:** Customer
+- **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
+- **Why:** the customer agreed to a packages concept for grouping exercises by name without moving files, and to run dependencies with `uv` for now; local container running is a later "should have".
+
+## DEC-022
+
+Hidden tests on the server are protected so the learner cannot read them, and the product uses `uv` for dependencies for now.
+
+- **Status:** Active
+- **Date:** 2026-10-30
+- **Made by:** Customer
+- **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
+- **Why:** the customer asked to protect hidden tests via server file permissions so printing the harness does not reveal them, and to use `uv` for dependencies rather than sandboxing immediately.
+
+## DEC-023
+
+Students and teachers have separate access and interfaces, a teacher interface in the extension and on the site, and a public, instructor-curated exercise library.
+
+- **Status:** Active
+- **Date:** 2026-10-30
+- **Made by:** Customer
+- **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
+- **Why:** the customer confirmed separate student/teacher access and a teacher interface, assignment of exercises to students, and a public (instructor-curated) library as confirmed scope for later sprints. Only instructors generate; students browse and solve. The access-key interface and teacher exercise creation are delivered as the first slice; assigning exercise sets to students is explicitly deferred to a separately refined future story and is not part of Issue #78.
+
+## DEC-024
+
+Support at least two languages (Python and one more), and one exercise and one package use one language.
+
+- **Status:** Active
+- **Date:** 2026-10-30
+- **Made by:** Customer
+- **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
+- **Why:** the customer asked for at least two supported languages in the exercise format, with each exercise and package tied to one language.
+
+## DEC-025
+
+After the MUP, run user-acceptance tests with real students, then hand the project over to the customer at the course's end.
+
+- **Status:** Active
+- **Date:** 2026-10-30
+- **Made by:** Customer
+- **Source:** [the Week 5 validation meeting](../reports/week-05/meeting-report.md)
+- **Why:** the customer requested user-acceptance testing with real students after the minimum usable product, and handover at the end of the course.
+
+
+## DEC-026
+
 Use OpenPanel for privacy-conscious product analytics, with separate staging and production scopes and best-effort event delivery.
 
 - **Status:** Active

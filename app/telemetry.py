@@ -1,15 +1,22 @@
-"""Privacy-conscious analytics event validation and delivery."""
+"""Telemetry for Debugging Gym.
+
+Supports OpenPanel analytics, the existing optional analytics pipeline,
+and request observability. Telemetry failures must never interrupt
+application functionality.
+"""
 
 from __future__ import annotations
 
 import logging
 import os
+import secrets
 from typing import Any
 from uuid import uuid4
 
 import httpx
 
 logger = logging.getLogger(__name__)
+_STRUCTURED_LOGGER = logging.getLogger("debugging_gym.requests")
 
 EVENT_SCHEMAS = {
     "app_opened": {"first_visit"},
@@ -20,6 +27,17 @@ EVENT_SCHEMAS = {
 }
 
 VALID_SOURCES = {"web", "usability-test", "smoke"}
+
+ANALYTICS_ENABLED = (
+    os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
+)
+OBSERVABILITY_ENABLED = (
+    os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
+)
+ANALYTICS_URL = os.environ.get(
+    "ANALYTICS_URL", "http://localhost:5081/api"
+)
+ANALYTICS_TOKEN = os.environ.get("ANALYTICS_TOKEN", "")
 
 
 def new_learner_id() -> str:
@@ -51,11 +69,7 @@ async def track_event(
     learner_id: str,
     properties: dict[str, Any],
 ) -> bool:
-    """Send an event when analytics is configured.
-
-    Analytics delivery failures must never interrupt application work.
-    Invalid event schemas are programmer errors and should still raise.
-    """
+    """Validate and send an event to OpenPanel when configured."""
     validate_event(event_name, properties)
 
     endpoint = os.getenv(
@@ -88,9 +102,68 @@ async def track_event(
                 },
             )
             response.raise_for_status()
-
         return True
-
     except httpx.HTTPError:
         logger.exception("Analytics delivery failed: %s", event_name)
         return False
+
+
+def track(
+    event: str,
+    fields: dict[str, Any],
+    *,
+    source: str = "web",
+) -> None:
+    """Send an event through the existing optional analytics pipeline."""
+    if not ANALYTICS_ENABLED:
+        return
+
+    payload = {"event": event, "source": source, **fields}
+
+    try:
+        headers = (
+            {"Authorization": f"Bearer {ANALYTICS_TOKEN}"}
+            if ANALYTICS_TOKEN
+            else {}
+        )
+        httpx.post(
+            f"{ANALYTICS_URL}/events",
+            json=payload,
+            headers=headers,
+            timeout=2.0,
+        )
+    except httpx.HTTPError:
+        pass
+
+
+def smoke_pipeline_check() -> None:
+    """Send a staging smoke event to verify the analytics pipeline."""
+    track(
+        "app_opened",
+        {
+            "learner_id": secrets.token_hex(8),
+            "first_visit": True,
+        },
+        source="smoke",
+    )
+
+
+def emit_request_signal(
+    request_id: str,
+    route: str,
+    outcome: str,
+    duration_ms: float,
+) -> None:
+    """Emit a structured request log when observability is enabled."""
+    if not OBSERVABILITY_ENABLED:
+        return
+
+    _STRUCTURED_LOGGER.info(
+        "request",
+        extra={
+            "request_id": request_id,
+            "route": route,
+            "outcome": outcome,
+            "duration_ms": duration_ms,
+        },
+    )

@@ -65,10 +65,11 @@ A learner reaches the product through a browser and the product is deployed to a
 
 ### SPRINT-06
 
-The product records a learner's progress after each exercise, so a learner and an instructor can see improvement over time. *(Provisional.)*
+The product records a learner's progress after each exercise and tells the team how it is used and how it operates: server-stored exercises with teacher/student roles, and the analytics and observability pipelines that make the product's use and operation visible, released as `REL-06`.
 
-- **Due:** 2026-11-07
+- **Due:** 2026-11-08
 - **Sprint Backlog:** [the issues scheduled into SPRINT-06](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/4)
+- **Planned Velocity:** 18
 
 #### REL-06
 

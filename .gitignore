@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local persistent exercise database
+/app/gym.db
+/app/gym.db-journal
+*.sqlite
+*.sqlite3
