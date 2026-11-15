@@ -9,7 +9,6 @@ These tests verify the observable behaviour without a real OpenObserve backend:
   exporter never breaks a request.
 """
 
-import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
@@ -21,8 +20,6 @@ def _make_app(emit) -> FastAPI:
     request, computes an outcome label, and emits a signal — including on an
     unhandled exception.
     """
-    from starlette.responses import JSONResponse
-
     app = FastAPI()
     import time as _time
 
@@ -108,7 +105,7 @@ def test_disabled_emits_nothing(monkeypatch):
     monkeypatch.setattr(telemetry, "OBSERVABILITY_ENABLED", False)
     # A spy on the exporter-build hook; it must never be reached when disabled.
     calls = []
-    monkeypatch.setattr(telemetry, "_ensure_observability", lambda: (calls.append("ensure") or False))
+    monkeypatch.setattr(telemetry, "_ensure_observability", lambda: calls.append("ensure") or False)
     telemetry.emit_request_signal("req-x", "/api/kinds", "ok", 0.5)
     # The guard lives inside _ensure_observability: it returns False when
     # disabled, so no exporter work (histogram record, log emit) happens.
@@ -149,7 +146,9 @@ def test_emit_request_signal_increments_outcome_counter(monkeypatch):
     import app.telemetry as telemetry
 
     recorded = []
-    counter = type("Counter", (), {"add": lambda self, n, attrs=None: recorded.append(attrs or {})})()
+    counter = type(
+        "Counter", (), {"add": lambda self, n, attrs=None: recorded.append(attrs or {})}
+    )()
     monkeypatch.setattr(telemetry, "_ensure_observability", lambda: True)
     monkeypatch.setattr(telemetry, "_OUTCOME_COUNTER", counter)
     telemetry._HISTOGRAM = type("H", (), {"record": lambda self, v, a=None: None})()
@@ -186,8 +185,11 @@ def test_verify_fix_emits_runtime_release_signal(monkeypatch):
     monkeypatch.setattr(telemetry, "emit_runtime_release", lambda *a, **k: emitted.append((a, k)))
     # verify_fix imports telemetry.emit_runtime_release at call time via the
     # module reference, so patching the function works.
-    hr.verify_fix("ex-1", "def answer():\n    return 42\n",
-                  "from exercise import *\ndef test_true():\n    assert answer() == 42\n")
+    hr.verify_fix(
+        "ex-1",
+        "def answer():\n    return 42\n",
+        "from exercise import *\ndef test_true():\n    assert answer() == 42\n",
+    )
     assert len(emitted) == 1
     args, kwargs = emitted[0]
     assert kwargs["within_budget"] is True

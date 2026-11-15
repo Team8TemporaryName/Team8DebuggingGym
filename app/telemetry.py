@@ -26,7 +26,6 @@ from __future__ import annotations
 import logging
 import os
 import secrets
-import time
 from typing import Any
 
 import httpx
@@ -176,7 +175,12 @@ def emit_request_signal(request_id: str, route: str, outcome: str, duration_ms: 
         return
     _STRUCTURED_LOGGER.info(
         "request",
-        extra={"request_id": request_id, "route": route, "outcome": outcome, "duration_ms": duration_ms},
+        extra={
+            "request_id": request_id,
+            "route": route,
+            "outcome": outcome,
+            "duration_ms": duration_ms,
+        },
     )
     _HISTOGRAM.record(duration_ms, {"route": route, "outcome": outcome})
     _OUTCOME_COUNTER.add(1, {"outcome": outcome})
