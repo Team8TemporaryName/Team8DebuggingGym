@@ -14,10 +14,18 @@ export function baseUrl(): string {
 
 /** A typed fetch helper for the Debugging Gym HTTP API. */
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${baseUrl()}${path}`, init);
+  const headers = new Headers(init?.headers);
+  headers.set("x-client-source", "extension");
+
+  const res = await fetch(`${baseUrl()}${path}`, {
+    ...init,
+    headers,
+  });
+
   if (!res.ok) {
     const body = await res.text().catch(() => "");
     throw new Error(`Debugging Gym API ${res.status}: ${body || res.statusText}`);
   }
+
   return (await res.json()) as T;
 }

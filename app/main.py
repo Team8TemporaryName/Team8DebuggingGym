@@ -31,6 +31,12 @@ STATIC_DIR = BASE_DIR / "static"
 
 app = FastAPI(title="Debugging Gym")
 
+
+def _analytics_source(request: Request) -> str:
+    """Identify whether an analytics event originated from the extension or web app."""
+    return "extension" if request.headers.get("x-client-source") == "extension" else "web"
+
+
 # Initialize persistent exercise storage.
 store.init_db()
 
@@ -74,7 +80,7 @@ async def analytics_context(request: Request, call_next):
             learner_id,
             {
                 "first_visit": first_visit,
-                "source": "web",
+                "source": _analytics_source(request),
             },
         )
 
@@ -183,9 +189,8 @@ async def create_exercise(request: Request) -> JSONResponse:
         request.state.learner_id,
         {
             "exercise_id": stored["id"],
-            "kind": stored["kind"],
             "generator": stored["generator"],
-            "source": "web",
+            "source": _analytics_source(request),
         },
     )
 
@@ -214,8 +219,7 @@ async def launch(request: Request, exercise_id: str) -> JSONResponse:
         request.state.learner_id,
         {
             "exercise_id": exercise_id,
-            "kind": exercise["kind"],
-            "source": "web",
+            "source": _analytics_source(request),
         },
     )
 
@@ -278,16 +282,7 @@ async def verify(request: Request, exercise_id: str) -> JSONResponse:
         {
             "exercise_id": exercise_id,
             "passed": result["passed"],
-            "source": "web",
-        },
-    )
-
-    telemetry.track(
-        "verification_run",
-        {
-            "learner_id": learner,
-            "exercise_id": exercise_id,
-            "outcome": "pass" if result["passed"] else "fail",
+            "source": _analytics_source(request),
         },
     )
 
@@ -300,16 +295,7 @@ async def verify(request: Request, exercise_id: str) -> JSONResponse:
             learner_id,
             {
                 "exercise_id": exercise_id,
-                "kind": exercise["kind"],
-                "source": "web",
-            },
-        )
-
-        telemetry.track(
-            "exercise_completed",
-            {
-                "learner_id": learner,
-                "exercise_id": exercise_id,
+                "source": _analytics_source(request),
             },
         )
 
@@ -329,6 +315,17 @@ async def verify_submission(request: Request) -> JSONResponse:
         raise HTTPException(status_code=400, detail="missing harness")
 
     result = verify_fix("local", source, harness)
+
+    await track_event(
+        "verification_run",
+        request.state.learner_id,
+        {
+            "exercise_id": "local",
+            "passed": result["passed"],
+            "source": _analytics_source(request),
+        },
+    )
+
     return JSONResponse(result)
 
 
@@ -405,14 +402,6 @@ async def list_available_exercises(request: Request) -> JSONResponse:
     learner = request.headers.get("x-learner") or request.state.learner_id
     completed = store.completed_ids(learner)
 
-    telemetry.track(
-        "app_opened",
-        {
-            "learner_id": learner,
-            "first_visit": False,
-        },
-    )
-
     items = [
         {
             **store.to_public(ex),
@@ -432,36 +421,25 @@ async def get_exercise(request: Request, exercise_id: str) -> JSONResponse:
     if exercise is None:
         raise HTTPException(status_code=404, detail="exercise not found")
 
-    learner = request.headers.get("x-learner") or request.state.learner_id
-
-    telemetry.track(
-        "exercise_started",
-        {
-            "learner_id": learner,
-            "exercise_id": exercise_id,
-        },
-    )
-
     await track_event(
         "exercise_started",
         request.state.learner_id,
         {
             "exercise_id": exercise_id,
-            "kind": exercise["kind"],
-            "source": "web",
+            "source": _analytics_source(request),
         },
     )
 
     return JSONResponse(
         {
             "id": exercise["id"],
+            "name": exercise.get("name"),
+            "description": exercise.get("description"),
             "kind": exercise["kind"],
             "task": exercise["task"],
             "generator": exercise["generator"],
             "source": exercise["source"],
             "harness": exercise["harness"],
-            "name": exercise.get("name"),
-            "description": exercise.get("description"),
         }
     )
 

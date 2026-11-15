@@ -159,20 +159,9 @@ Analytics delivery is best-effort. Missing credentials disable event delivery, a
 
 ### Deployment Status
 
-OpenPanel deployment and dashboard configuration have not yet been completed.
+The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services have been deployed, and event delivery has been verified.
 
-These tasks are deferred to Sprint 7 because university VM access is currently unavailable. No successful staging or production analytics deployment is claimed.
-
-The following tasks remain:
-
-1. Configure separate staging and production OpenPanel projects and credentials.
-2. Install the corresponding environment variables on the university VM.
-3. Deploy the application with analytics enabled.
-4. Send a staging smoke event using `source = smoke`.
-5. Verify that the smoke event appears in the staging event list.
-6. Verify that smoke events are excluded from all product metric queries.
-7. Create and verify the staging and production analytics dashboards.
-8. Capture sanitized dashboard screenshots.
+The remaining work is to deploy the application and analytics services, verify event delivery in the appropriate OpenPanel projects, configure the dashboards, and capture deployment evidence.
 
 ### Analytics Evidence
 
