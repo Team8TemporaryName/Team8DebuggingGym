@@ -94,12 +94,21 @@ async def analytics_context(request: Request, call_next):
 
 @app.middleware("http")
 async def _request_signal(request: Request, call_next):
-    """Record the per-request log point (SLI-01)."""
+    """Record the per-request log point (SLI-01) for every HTTP request.
+
+    Assigns a request_id, times the request, and emits the structured log line
+    and histogram point with the route and outcome labels the diagnosability
+    test reads. An unhandled exception still emits a ``server_error`` signal
+    with its request id before the error propagates (FR-017 AC-04, AC-10).
+    """
     request_id = request.headers.get("x-request-id") or _secrets.token_hex(8)
     start = _time.monotonic()
-
-    response: _Response = await call_next(request)
-
+    try:
+        response: _Response = await call_next(request)
+    except Exception:
+        duration_ms = (_time.monotonic() - start) * 1000
+        telemetry.emit_request_signal(request_id, request.url.path, "server_error", duration_ms)
+        raise
     duration_ms = (_time.monotonic() - start) * 1000
     outcome = (
         "ok"
