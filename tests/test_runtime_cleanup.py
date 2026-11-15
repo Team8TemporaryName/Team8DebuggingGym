@@ -6,7 +6,6 @@ container cleanup; that separate QR-03 scenario requires the deployed manual tes
 
 from __future__ import annotations
 
-import subprocess
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -48,16 +47,18 @@ def test_verifier_removes_temporary_workspace_after_normal_completion(monkeypatc
 
 def test_verifier_removes_temporary_workspace_when_code_times_out(monkeypatch):
     temporary_directories = _record_temporary_directories(monkeypatch)
+    # Shorten only this test's timeout so CI does not spend ten seconds here.
+    monkeypatch.setattr(harness_runner, "HARNESS_TIMEOUT_SECONDS", 0.2)
 
-    # Allow time for Python and pytest startup, while keeping the test bounded.
-    monkeypatch.setattr(harness_runner, "HARNESS_TIMEOUT_SECONDS", 1)
+    # A timing-out harness is handled gracefully: verify_fix catches the timeout
+    # (rather than propagating it), reports the run as not passed, and still
+    # releases the temporary workspace (QR-03, SLI-04).
+    result = harness_runner.verify_fix(
+        "cleanup-timeout",
+        "while True:\n    pass\n",
+        "from exercise import *\ndef test_hang():\n    while True:\n        pass\n",
+    )
 
-    with pytest.raises(subprocess.TimeoutExpired):
-        harness_runner.verify_fix(
-            "cleanup-timeout",
-            "while True:\n    pass\n",
-            "import exercise\n",
-        )
-
+    assert result["passed"] is False
     assert len(temporary_directories) == 1
     assert not temporary_directories[0].exists()
