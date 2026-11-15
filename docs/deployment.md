@@ -133,3 +133,41 @@ For every release, record at least:
 | Production deployment | Date/time, commit SHA, core-task verification result, evidence link. |
 | Rollback | Previous commit restored, reason, and verification result; or `None`. |
 | Public-address handling | Confirm real staging and production addresses are present only in the private Moodle submission, not the repository. |
+
+## Analytics Deployment
+
+The application uses OpenPanel for product analytics. Analytics configuration is managed through environment variables documented in [`../.env.example`](../.env.example).
+
+Required variables:
+
+- `OPENPANEL_API_URL`: OpenPanel tracking endpoint.
+- `OPENPANEL_CLIENT_ID`: Environment-specific OpenPanel client ID.
+- `OPENPANEL_CLIENT_SECRET`: Environment-specific OpenPanel client secret.
+- `COOKIE_SECURE`: Set to `true` when running behind HTTPS.
+
+### Environment Configuration
+
+Staging and production must use separate OpenPanel projects or isolated scopes with distinct credentials.
+
+- Staging events must be sent only to the staging OpenPanel project.
+- Production events must be sent only to the production OpenPanel project.
+- Smoke-test events must be sent only to staging.
+- Production analytics queries must exclude smoke and usability-test traffic.
+- OpenPanel credentials must remain outside the repository and must not be included in deployment documentation, logs, or screenshots.
+
+Analytics delivery is best-effort. Missing credentials disable event delivery, and provider or network failures must not interrupt application functionality.
+
+### Deployment Status
+
+The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services have been deployed, and event delivery has been verified.
+
+The remaining work is to deploy the application and analytics services, verify event delivery in the appropriate OpenPanel projects, configure the dashboards, and capture deployment evidence.
+
+### Analytics Evidence
+
+After deployment, add the following evidence:
+
+- `reports/week-06/images/analytics-staging.png`
+- `reports/week-06/images/analytics-production.png`
+
+Record the deployment configuration, smoke-event verification result, dashboard links, and outstanding issues in the relevant sprint report.

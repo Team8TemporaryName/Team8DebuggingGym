@@ -27,14 +27,18 @@ import logging
 import os
 import secrets
 from typing import Any
+from uuid import uuid4
 
 import httpx
 
-ANALYTICS_ENABLED = os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
-OBSERVABILITY_ENABLED = os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
-
-ANALYTICS_URL = os.environ.get("ANALYTICS_URL", "http://localhost:5081/api")
-ANALYTICS_TOKEN = os.environ.get("ANALYTICS_TOKEN", "")
+logger = logging.getLogger(__name__)
+EVENT_SCHEMAS = {
+    "app_opened": {"first_visit"},
+    "exercise_started": {"exercise_id"},
+    "exercise_generated": {"exercise_id", "generator"},
+    "verification_run": {"exercise_id", "passed"},
+    "exercise_completed": {"exercise_id"},
+}
 
 # OpenObserve OTLP/HTTP endpoint. The base is the OpenObserve HTTP address, for
 # example http://<university-vm-ipv4>:5080; the OTLP/HTTP exporter appends the
@@ -59,36 +63,80 @@ _OUTCOME_COUNTER = None
 _RELEASE_HISTOGRAM = None
 _LOGGER_PROVIDER = None
 
+VALID_SOURCES = {"web", "extension", "usability-test", "smoke"}
+
+OBSERVABILITY_ENABLED = os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
+ANALYTICS_ENABLED = os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
+
+
+def new_learner_id() -> str:
+    """Generate a random opaque learner identifier."""
+    return f"learner_{uuid4().hex}"
+
 
 def _opaque_id() -> str:
     """A random opaque identifier, not derived from personal data."""
     return secrets.token_hex(8)
 
 
-def track(event: str, fields: dict[str, Any], *, source: str = "web") -> None:
-    """Send one analytics event to the analytics backend.
+def validate_event(
+    event_name: str,
+    properties: dict[str, Any],
+) -> None:
+    """Reject unknown events and events missing required properties."""
+    if event_name not in EVENT_SCHEMAS:
+        raise ValueError(f"Unknown analytics event: {event_name}")
+    missing = EVENT_SCHEMAS[event_name] - properties.keys()
+    if missing:
+        raise ValueError(f"{event_name} is missing required properties: {sorted(missing)}")
 
-    ``source`` is ``web``, ``usability-test``, or ``smoke``; ``smoke`` marks a
-    pipeline check. Collection is a no-op unless analytics is enabled.
-    """
-    if not ANALYTICS_ENABLED:
-        return
-    payload = {"event": event, "source": source, **fields}
+    source = properties.get("source")
+    if source not in VALID_SOURCES:
+        raise ValueError(f"Invalid analytics source: {source}")
+
+
+async def track_event(
+    event_name: str,
+    learner_id: str,
+    properties: dict[str, Any],
+) -> bool:
+    """Validate and send an event to OpenPanel when configured."""
+    validate_event(event_name, properties)
+
+    endpoint = os.getenv(
+        "OPENPANEL_API_URL",
+        "https://api.openpanel.dev/track",
+    )
+    client_id = os.getenv("OPENPANEL_CLIENT_ID", "")
+    client_secret = os.getenv("OPENPANEL_CLIENT_SECRET", "")
+
+    if not all((endpoint, client_id, client_secret)):
+        return False
+
+    payload = {
+        "type": "track",
+        "payload": {
+            "name": event_name,
+            "profileId": learner_id,
+            "properties": properties,
+        },
+    }
+
     try:
-        headers = {"Authorization": f"Bearer {ANALYTICS_TOKEN}"} if ANALYTICS_TOKEN else {}
-        httpx.post(f"{ANALYTICS_URL}/events", json=payload, headers=headers, timeout=2.0)
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            response = await client.post(
+                endpoint,
+                json=payload,
+                headers={
+                    "openpanel-client-id": client_id,
+                    "openpanel-client-secret": client_secret,
+                },
+            )
+            response.raise_for_status()
+        return True
     except httpx.HTTPError:
-        # Telemetry must never break the product.
-        pass
-
-
-def smoke_pipeline_check() -> None:
-    """Send a staging ``smoke`` event the team uses to verify the pipeline.
-
-    Only smoke is excluded from a metric; this check is how staging verifies the
-    pipeline end to end without polluting a metric.
-    """
-    track("app_opened", {"learner_id": _opaque_id(), "first_visit": True}, source="smoke")
+        logger.exception("Analytics delivery failed: %s", event_name)
+        return False
 
 
 def _ensure_observability() -> bool:
@@ -173,6 +221,7 @@ def emit_request_signal(request_id: str, route: str, outcome: str, duration_ms: 
     """
     if not _ensure_observability():
         return
+
     _STRUCTURED_LOGGER.info(
         "request",
         extra={
