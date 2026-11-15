@@ -9,7 +9,6 @@ These tests verify the observable behaviour without a real OpenObserve backend:
   exporter never breaks a request.
 """
 
-import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
@@ -21,8 +20,6 @@ def _make_app(emit) -> FastAPI:
     request, computes an outcome label, and emits a signal — including on an
     unhandled exception.
     """
-    from starlette.responses import JSONResponse
-
     app = FastAPI()
     import time as _time
 
