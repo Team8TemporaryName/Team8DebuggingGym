@@ -1,9 +1,10 @@
 """Telemetry for Debugging Gym.
 
-Two pipelines, both optional and off by default:
+Two pipelines, both optional:
 
 - Analytics events (Part 3): an HTTP POST per action to the analytics backend
-  (OpenPanel). Turned on by ``ANALYTICS_ENABLED``.
+  (OpenPanel). Event delivery is attempted when the OpenPanel credentials are
+  configured; missing credentials disable delivery.
 - Observability signals (Part 5): a structured log line per request plus an
   OpenTelemetry histogram, exported over OTLP/HTTP to OpenObserve. Turned on by
   ``OBSERVABILITY_ENABLED``.
@@ -68,7 +69,6 @@ _LOGGER_PROVIDER = None
 VALID_SOURCES = {"web", "usability-test", "smoke"}
 
 OBSERVABILITY_ENABLED = os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
-ANALYTICS_ENABLED = os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
 
 
 def new_learner_id() -> str:
