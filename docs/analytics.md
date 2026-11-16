@@ -274,7 +274,8 @@ The following evidence must be recorded for the staging and production environme
 
 Required screenshot locations:
 
-- `reports/week-06/images/analytics-staging.png`
-- `reports/week-06/images/analytics-production.png`
+- `reports/week-06/images/analytics-staging.png` — staging dashboard and focus-metric chart.
+- `reports/week-06/images/analytics-production.png` — production dashboard and the same focus-metric chart.
+- `reports/week-06/images/analytics-staging-smoke.png` — staging event explorer showing the smoke event and the corresponding metric view with smoke excluded.
 
-Capture the complete dashboard with its project/environment identity visible, the focus metric chart and its seven-day window visible, and the query/filter configuration visible where the provider UI permits. The staging screenshot must additionally show the staging event list containing the smoke event and a separate chart view demonstrating that smoke traffic is excluded. The production screenshot must show the same focus-metric chart in the production project and no smoke/test traffic. Crop or redact hostnames, private dashboard URLs, tokens, credentials, learner identifiers, and any other sensitive values.
+For each dashboard screenshot, show the project/environment identity, the focus metric, its rolling seven-day window, and the query/filter configuration where the provider UI permits. The smoke screenshot must show an `app_opened` event with `source = smoke` in the staging event list and demonstrate that it does not contribute to the focus-metric chart. The production screenshot must show the same focus-metric chart in the production project. Crop or redact hostnames, private dashboard URLs, tokens, credentials, learner identifiers, and any other sensitive values.
