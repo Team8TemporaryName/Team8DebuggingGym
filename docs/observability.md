@@ -48,7 +48,7 @@ Availability.
 - **Unit:** Percentage.
 - **Window:** Seven days, evaluated every minute.
 - **Source:** An OpenTelemetry counter of request outcomes (`request_outcome`) the `webapp` increments for every request with an `outcome` label (`ok`, `client_error`, `server_error`), exported over OTLP/HTTP to OpenObserve.
-- **Query:** `100 * sum(rate(request_outcome_total{outcome="ok"}[7d])) / (sum(rate(request_outcome_total{outcome="ok"}[7d])) + sum(rate(request_outcome_total{outcome=~"client_error|server_error"}[7d])))`
+- **Query:** `100 * sum(rate(request_outcome{outcome="ok"}[7d])) / sum(rate(request_outcome[7d]))`
 
 ### SLI-04
 
@@ -59,7 +59,7 @@ Debug-runtime release.
 - **Unit:** Percentage.
 - **Window:** One minute per session end, evaluated on each session end.
 - **Source:** An OpenTelemetry histogram of the time to release a runtime (`debug_runtime_release_ms`) the `webapp` records when a debug session ends, labelled by `reason` (`exception`, `resource_exhaustion`, `disconnect`) and `within_budget` (`yes`/`no`), exported over OTLP/HTTP to OpenObserve.
-- **Query:** `100 * sum by (reason) (rate(debug_runtime_release_within_budget_total{within_budget="yes"}[1m])) / sum by (reason) (rate(debug_runtime_release_total[1m]))`
+- **Query:** `100 * sum by (reason) (rate(debug_runtime_release_ms_count{within_budget="yes"}[1d])) / sum by (reason) (rate(debug_runtime_release_ms_count[1d]))`
 
 ## The Pipeline
 
@@ -69,7 +69,7 @@ The export interval is one minute for the metric and the log exporter's batch in
 The debug-runtime release metric is emitted when a session ends and is queryable within the same one-minute metric export interval, meeting `SLI-04`'s `**Window:**`.
 The page records the retention as 30 days, which covers the longest `SLI` window (the seven-day availability window of `SLI-03`).
 Collection is enabled by the environment variable `OBSERVABILITY_ENABLED` (default `false`); when disabled, the `webapp` emits no signal.
-The deployment's steps and configuration live in [`docs/deployment.md`](deployment.md#telemetry-pipelines), which this page links and does not repeat.
+The deployment's steps and configuration live in [`docs/deployment.md`](deployment.md#observability-deployment), which this page links and does not repeat.
 The backend, its dashboards, and their credentials are reachable by the team and the customer from the university network, and their addresses and credentials are private-only.
 
 ## The Dashboard

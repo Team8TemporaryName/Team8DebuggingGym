@@ -1,9 +1,10 @@
 """Telemetry for Debugging Gym.
 
-Two pipelines, both optional and off by default:
+Two pipelines, both optional:
 
 - Analytics events (Part 3): an HTTP POST per action to the analytics backend
-  (OpenPanel). Turned on by ``ANALYTICS_ENABLED``.
+  (OpenPanel). Event delivery is attempted when the OpenPanel credentials are
+  configured; missing credentials disable delivery.
 - Observability signals (Part 5): a structured log line per request plus an
   OpenTelemetry histogram, exported over OTLP/HTTP to OpenObserve. Turned on by
   ``OBSERVABILITY_ENABLED``.
@@ -25,6 +26,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import secrets
 from typing import Any
 from uuid import uuid4
@@ -61,12 +63,12 @@ _METER = None
 _HISTOGRAM = None
 _OUTCOME_COUNTER = None
 _RELEASE_HISTOGRAM = None
+_VERIFICATION_HISTOGRAM = None
 _LOGGER_PROVIDER = None
 
-VALID_SOURCES = {"web", "extension", "usability-test", "smoke"}
+VALID_SOURCES = {"web", "usability-test", "smoke"}
 
 OBSERVABILITY_ENABLED = os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
-ANALYTICS_ENABLED = os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
 
 
 def new_learner_id() -> str:
@@ -141,24 +143,30 @@ async def track_event(
 
 def _ensure_observability() -> bool:
     """Build the OpenTelemetry meter and logger once, if observability is on."""
-    global _METER, _HISTOGRAM, _OUTCOME_COUNTER, _RELEASE_HISTOGRAM, _LOGGER_PROVIDER
+    global \
+        _METER, \
+        _HISTOGRAM, \
+        _OUTCOME_COUNTER, \
+        _RELEASE_HISTOGRAM, \
+        _LOGGER_PROVIDER, \
+        _VERIFICATION_HISTOGRAM
     if not OBSERVABILITY_ENABLED:
         return False
     if _METER is not None:
         return True
     try:
         from opentelemetry import metrics
-        from opentelemetry.exporter.otlp.proto.http.metric_exporter import (
-            OTLPMetricExporter,
-        )
         from opentelemetry.exporter.otlp.proto.http._log_exporter import (
             OTLPLogExporter,
         )
+        from opentelemetry.exporter.otlp.proto.http.metric_exporter import (
+            OTLPMetricExporter,
+        )
+        from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
+        from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
         from opentelemetry.sdk.metrics import MeterProvider
         from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
         from opentelemetry.sdk.resources import Resource
-        from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
-        from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 
         resource = Resource.create({"service.name": "debugging-gym"})
 
@@ -188,6 +196,11 @@ def _ensure_observability() -> bool:
         _RELEASE_HISTOGRAM = _METER.create_histogram(
             "debug_runtime_release_ms",
             description="Time to release a debug runtime after a session ends (SLI-04)",
+            unit="ms",
+        )
+        _VERIFICATION_HISTOGRAM = _METER.create_histogram(
+            "verification_duration_ms",
+            description="Time to verify a user's solution (SLI-02)",
             unit="ms",
         )
 
@@ -222,6 +235,9 @@ def emit_request_signal(request_id: str, route: str, outcome: str, duration_ms: 
     if not _ensure_observability():
         return
 
+    # Sanitize so that histograms are counted per route, not per route-excersize
+    sanitized_route = re.sub(r"/ex-.{6}", r"/ex-XXXXXX", route)
+
     _STRUCTURED_LOGGER.info(
         "request",
         extra={
@@ -231,7 +247,7 @@ def emit_request_signal(request_id: str, route: str, outcome: str, duration_ms: 
             "duration_ms": duration_ms,
         },
     )
-    _HISTOGRAM.record(duration_ms, {"route": route, "outcome": outcome})
+    _HISTOGRAM.record(duration_ms, {"route": sanitized_route, "outcome": outcome})
     _OUTCOME_COUNTER.add(1, {"outcome": outcome})
 
 
@@ -250,3 +266,13 @@ def emit_runtime_release(release_ms: float, reason: str, within_budget: bool) ->
         release_ms,
         {"reason": reason, "within_budget": "yes" if within_budget else "no"},
     )
+
+
+def emit_verification_duration(verification_ms: float) -> None:
+    """Emit the exercise verification latency signal (SLI-04).
+
+    ``verification_ms`` is the time the harness runner verifies the task for
+    """
+    if not _ensure_observability():
+        return
+    _VERIFICATION_HISTOGRAM.record(verification_ms)
