@@ -57,8 +57,8 @@ Definition:
 
 - Count distinct learner identifiers (`profileId`) that generate an `exercise_completed` event.
 - Use a rolling seven-day reporting window.
-- Include only events with `source = web`.
-- Exclude events with `source = smoke` and `source = usability-test`.
+- Include normal learner events from the primary VS Code extension (`source = extension`) and any supported web-client activity (`source = web`).
+- Exclude `source = smoke` and `source = usability-test` from product metrics.
 - Use the production OpenPanel project for production reporting.
 
 The staging dashboard may use the same metric logic to validate instrumentation, but staging data must not be combined with production data.
@@ -72,7 +72,7 @@ Definition:
 - Numerator: number of `verification_run` events where `passed = true`.
 - Denominator: total number of `verification_run` events.
 - Calculation: successful verification runs divided by all verification runs, multiplied by 100.
-- Include only events with `source = web` for production reporting.
+- Include learner events with `source = extension` or `source IN (extension, web)`; exclude `smoke` and `usability-test` traffic from production reporting.
 
 This metric acts as a quality guardrail. An increase in exercise completions should not come at the expense of exercise difficulty or verification quality.
 
@@ -131,29 +131,32 @@ Every event includes a valid `source` property.
 
 Allowed sources:
 
-- `web`: Normal application usage.
+- `extension`: Normal learner activity initiated by the VS Code extension (primary client).
+- `web`: Normal activity from the retained web client (secondary client).
 - `usability-test`: Facilitated usability testing.
-- `smoke`: Deployment smoke testing.
+- `smoke`: Staging-only deployment smoke testing.
 
 | Event | Required properties | Description |
 | --- | --- | --- |
-| `app_opened` | `first_visit`, `source` | Learner opens the application. |
-| `exercise_generated` | `exercise_id`, `kind`, `generator`, `source` | An exercise is generated. |
-| `exercise_started` | `exercise_id`, `kind`, `source` | Learner requests the launch configuration. |
+| `app_opened` | `first_visit`, `source` | Learner opens the web client or activates the VS Code extension. |
+| `exercise_generated` | `exercise_id`, `generator`, `source` | An exercise is generated. |
+| `exercise_started` | `exercise_id`, `source` | Learner opens/retrieves an exercise to solve it. |
 | `verification_run` | `exercise_id`, `passed`, `source` | Learner submits a fix for verification. |
-| `exercise_completed` | `exercise_id`, `kind`, `source` | Learner successfully passes verification. |
+| `exercise_completed` | `exercise_id`, `source` | Learner successfully passes verification. |
 
 The `source` property is required for every event and identifies the origin of the activity.
 
 ### Event Triggers
 
-- `app_opened`: Recorded when a learner opens the application.
-- `exercise_generated`: Recorded after an exercise is successfully generated.
-- `exercise_started`: Recorded when a learner requests an exercise launch configuration.
-- `verification_run`: Recorded after a verification attempt finishes.
-- `exercise_completed`: Recorded when verification succeeds.
+- `app_opened`: Recorded when a learner opens the web client or activates the VS Code extension. For the extension, record once per extension-host session, not on every sidebar refresh.
+- `exercise_generated`: Recorded after the backend successfully generates and stores an exercise. Include the stored exercise identifier and generator.
+- `exercise_started`: Recorded when the extension retrieves or opens an exercise for solving. Include the exercise identifier.
+- `verification_run`: Recorded after each verification attempt finishes, including its pass/fail result.
+- `exercise_completed`: Recorded only when verification succeeds. Include the exercise identifier.
 
-A smoke test should use an existing event, such as `app_opened`, with `source = smoke`. It should not introduce a separate product event.
+The VS Code extension is the primary learner interface (DEC-014 and DEC-015); the web client is secondary. The extension must identify its requests as `source = extension`, and backend instrumentation must preserve that attribution.
+
+A smoke test uses the existing `app_opened` event with `first_visit = true` and `source = smoke`. It must be sent to staging only. It is an operational pipeline check, not a learner visit, and must be excluded from every product metric. Do not introduce a separate smoke event name.
 
 ## Logical Metric Query Definitions
 
@@ -161,17 +164,17 @@ The following definitions describe the intended query logic independently of Ope
 
 | Metric | Event | Calculation | Filters |
 | --- | --- | --- | --- |
-| Weekly active learners completing an exercise | `exercise_completed` | Distinct learner identifiers over seven days | `source = web` |
-| First visits | `app_opened` | Count events where `first_visit = true` | `source = web` |
-| Exercises generated | `exercise_generated` | Count events | `source = web` |
-| Exercises started | `exercise_started` | Count events | `source = web` |
-| Verification attempts | `verification_run` | Count events | `source = web` |
-| Verification pass rate | `verification_run` | Passed attempts / all attempts × 100 | `source = web` |
+| Weekly active learners completing an exercise | `exercise_completed` | Distinct learner identifiers over seven days | `source IN (extension, web)`; exclude `smoke`, `usability-test` |
+| First visits | `app_opened` | Count events where `first_visit = true` | `source IN (extension, web)`; exclude `smoke`, `usability-test` |
+| Exercises generated | `exercise_generated` | Count events | `source IN (extension, web)` |
+| Exercises started | `exercise_started` | Count events | `source IN (extension, web)` |
+| Verification attempts | `verification_run` | Count events | `source IN (extension, web)` |
+| Verification pass rate | `verification_run` | Passed attempts / all attempts × 100 | `source IN (extension, web)` |
 | Successful completions | `exercise_completed` | Count events | `source = web` |
 
-All production queries must use the production project and exclude smoke and usability-test traffic.
+All production queries must use the production project, include normal extension activity (and web activity only while that client remains supported), and exclude smoke and usability-test traffic.
 
-Exact saved OpenPanel query configurations and dashboard screenshots will be added after deployment in Sprint 7.
+The saved OpenPanel query configurations and screenshots are deployment evidence and must be captured separately for staging and production.
 
 ## Learner Identification
 
@@ -241,7 +244,7 @@ Suggested metrics:
 - Exercise usage by kind.
 - Exercise generator distribution.
 
-Production learner metrics must exclude `smoke` and `usability-test` events.
+Production learner metrics must include normal extension activity (`source = extension`) and exclude `smoke` and `usability-test` events. Web activity may be included as secondary-client traffic.
 
 ## Environment Separation
 
@@ -257,22 +260,20 @@ Each deployment must use its own credentials.
 
 ## Evidence and Deployment
 
-The application-side analytics instrumentation and documentation are prepared.
-
-OpenPanel deployment, environment configuration, smoke-event verification, dashboard creation, and sanitized dashboard screenshots have not yet been completed.
-
-These tasks are deferred to Sprint 7 because university virtual machine access is currently unavailable.
-
-The following evidence must be added when access is restored:
+The team reports that the university-hosted OpenPanel service is deployed and event delivery is operational. The VS Code extension is the primary learner client; the web client is secondary. Deployment status does not by itself prove that the required events, filters, and dashboards have been verified. The following evidence must be captured from the live staging and production projects:
 
 - Staging and production project configuration.
 - Confirmation that each environment uses separate credentials.
-- Verification that a staging smoke event appears in the staging event list.
-- Confirmation that smoke events are excluded from all product metric queries.
+- A staging-only `app_opened` event with `source = smoke` visible in the staging event explorer.
+- Confirmation that the smoke event is excluded from every product metric chart/query.
+- An extension-originated learner journey visible in staging: exercise generated, exercise opened, verification run, and successful completion, with `source = extension`.
 - Staging and production dashboard screenshots.
 - Links to the dashboards and corresponding metric definitions.
 
 Required screenshot locations:
 
-- `reports/week-06/images/analytics-staging.png`
-- `reports/week-06/images/analytics-production.png`
+- `reports/week-06/images/analytics-staging.png` — staging dashboard and focus metric.
+- `reports/week-06/images/analytics-production.png` — production dashboard and the same focus metric.
+- `reports/week-06/images/analytics-staging-smoke.png` — staging event explorer showing the smoke event and the metric view proving it is excluded.
+
+For each dashboard image, show the environment/project identity, focus metric, rolling seven-day window, and query/filter configuration where available. The smoke image must show `app_opened`, `source = smoke`, and `first_visit = true`, plus the metric view excluding smoke traffic. Redact credentials, tokens, private dashboard URLs, and learner identifiers.
