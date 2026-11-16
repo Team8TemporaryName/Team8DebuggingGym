@@ -143,6 +143,7 @@ Required variables:
 - `OPENPANEL_API_URL`: OpenPanel tracking endpoint.
 - `OPENPANEL_CLIENT_ID`: Environment-specific OpenPanel client ID.
 - `OPENPANEL_CLIENT_SECRET`: Environment-specific OpenPanel client secret.
+- `ANALYTICS_ENVIRONMENT`: Set to `staging` only in the staging environment; this explicitly enables the staging-only analytics smoke check. Use `production` in production.
 - `COOKIE_SECURE`: Set to `true` when running behind HTTPS.
 
 ### Environment Configuration
@@ -162,6 +163,8 @@ Analytics delivery is best-effort. Missing credentials disable event delivery, a
 The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services have been deployed, and event delivery has been verified.
 
 The team reports that the application and analytics services are deployed and event delivery is operational. The remaining analytics work is to verify extension-originated events and smoke-event exclusion in staging, validate the staging and production dashboards, and capture sanitized evidence. Do not mark those verification tasks complete until the event checks and screenshots are recorded.
+
+For the staging deployment only, set `ANALYTICS_ENVIRONMENT=staging` to permit `smoke_pipeline_check()`. Keep this value set to `production` (or another non-staging value) in production; the smoke-check function refuses to send outside staging.
 
 ### Analytics Evidence
 
