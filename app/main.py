@@ -280,7 +280,11 @@ async def verify(request: Request, exercise_id: str) -> JSONResponse:
     if not source:
         raise HTTPException(status_code=400, detail="missing source")
 
+    start = _time.monotonic()
     result = verify_fix(exercise_id, source, exercise["harness"])
+    duration_ms = (_time.monotonic() - start) * 1000
+    
+    telemetry.emit_verification_duration(duration_ms)
 
     learner_id = request.state.learner_id
     learner = request.headers.get("x-learner") or learner_id

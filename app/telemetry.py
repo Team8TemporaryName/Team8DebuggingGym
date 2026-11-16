@@ -26,6 +26,7 @@ from __future__ import annotations
 import logging
 import os
 import secrets
+import re
 from typing import Any
 from uuid import uuid4
 
@@ -61,6 +62,7 @@ _METER = None
 _HISTOGRAM = None
 _OUTCOME_COUNTER = None
 _RELEASE_HISTOGRAM = None
+_VERIFICATION_HISTOGRAM = None
 _LOGGER_PROVIDER = None
 
 VALID_SOURCES = {"web", "extension", "usability-test", "smoke"}
@@ -141,7 +143,7 @@ async def track_event(
 
 def _ensure_observability() -> bool:
     """Build the OpenTelemetry meter and logger once, if observability is on."""
-    global _METER, _HISTOGRAM, _OUTCOME_COUNTER, _RELEASE_HISTOGRAM, _LOGGER_PROVIDER
+    global _METER, _HISTOGRAM, _OUTCOME_COUNTER, _RELEASE_HISTOGRAM, _LOGGER_PROVIDER, _VERIFICATION_HISTOGRAM
     if not OBSERVABILITY_ENABLED:
         return False
     if _METER is not None:
@@ -190,6 +192,11 @@ def _ensure_observability() -> bool:
             description="Time to release a debug runtime after a session ends (SLI-04)",
             unit="ms",
         )
+        _VERIFICATION_HISTOGRAM = _METER.create_histogram(
+            "verification_duration_ms",
+            description="Time to verify a user's solution (SLI-02)",
+            unit="ms",
+        )
 
         log_headers = {}
         if OPENOBSERVE_TOKEN:
@@ -222,6 +229,9 @@ def emit_request_signal(request_id: str, route: str, outcome: str, duration_ms: 
     if not _ensure_observability():
         return
 
+    # Sanitize so that histograms are counted per route, not per route-excersize
+    sanitized_route = re.sub(r"/ex-.{6}", r"/ex-XXXXXX", route)
+
     _STRUCTURED_LOGGER.info(
         "request",
         extra={
@@ -231,7 +241,7 @@ def emit_request_signal(request_id: str, route: str, outcome: str, duration_ms: 
             "duration_ms": duration_ms,
         },
     )
-    _HISTOGRAM.record(duration_ms, {"route": route, "outcome": outcome})
+    _HISTOGRAM.record(duration_ms, {"route": sanitized_route, "outcome": outcome})
     _OUTCOME_COUNTER.add(1, {"outcome": outcome})
 
 
@@ -250,3 +260,13 @@ def emit_runtime_release(release_ms: float, reason: str, within_budget: bool) ->
         release_ms,
         {"reason": reason, "within_budget": "yes" if within_budget else "no"},
     )
+
+
+def emit_verification_duration(verification_ms: float) -> None:
+    """Emit the exercise verification latency signal (SLI-04).
+
+    ``verification_ms`` is the time the harness runner verifies the task for
+    """
+    if not _ensure_observability():
+        return
+    _VERIFICATION_HISTOGRAM.record(verification_ms)

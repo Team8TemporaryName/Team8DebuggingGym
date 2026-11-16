@@ -138,12 +138,36 @@ For every release, record at least:
 
 The application uses OpenPanel for product analytics. Analytics configuration is managed through environment variables documented in [`../.env.example`](../.env.example).
 
+Deployed via the following command sequence:
+```powershell
+git clone https://github.com/openpanel-dev/openpanel.git
+cd openpanel/self-hosting
+./setup
+./start
+```
+
 Required variables:
 
 - `OPENPANEL_API_URL`: OpenPanel tracking endpoint.
 - `OPENPANEL_CLIENT_ID`: Environment-specific OpenPanel client ID.
 - `OPENPANEL_CLIENT_SECRET`: Environment-specific OpenPanel client secret.
 - `COOKIE_SECURE`: Set to `true` when running behind HTTPS.
+
+## Observability Deployment
+
+The application uses OpenObserve for product observability. Observability configuration is managed through environment variables documented in [`../.env.example`](../.env.example).
+
+Deployed via the following command:
+```powershell
+docker run -v $PWD/data:/data --name openobserve -e ZO_DATA_DIR="/data" -p 5080:5080 -e ZO_ROOT_USER_EMAIL="admin" -e ZO_ROOT_USER_PASSWORD="admin" o2cr.ai/openobserve/openobserve-enterprise:latest
+```
+
+Required variables:
+
+- `OBSERVABILITY_ENABLED`: Whether to enable observability or disable it
+- `OPENOBSERVE_URL`: OpenObserve hostname
+- `OPENOBSERVE_TOKEN`: OpenObserve ingestion token
+- `OBSERVABILITY_ORGANIZATION`: Name of organization to which to send observability data to
 
 ### Environment Configuration
 
@@ -162,12 +186,3 @@ Analytics delivery is best-effort. Missing credentials disable event delivery, a
 The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services have been deployed, and event delivery has been verified.
 
 The remaining work is to deploy the application and analytics services, verify event delivery in the appropriate OpenPanel projects, configure the dashboards, and capture deployment evidence.
-
-### Analytics Evidence
-
-After deployment, add the following evidence:
-
-- `reports/week-06/images/analytics-staging.png`
-- `reports/week-06/images/analytics-production.png`
-
-Record the deployment configuration, smoke-event verification result, dashboard links, and outstanding issues in the relevant sprint report.
