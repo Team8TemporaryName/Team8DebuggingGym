@@ -72,7 +72,7 @@ Definition:
 - Numerator: number of `verification_run` events where `passed = true`.
 - Denominator: total number of `verification_run` events.
 - Calculation: successful verification runs divided by all verification runs, multiplied by 100.
-- Include learner events with `source = extension` or `source IN (extension, web)`; exclude `smoke` and `usability-test` traffic from production reporting.
+- Include learner events with `source IN (extension, web)`; exclude `smoke` and `usability-test` traffic from production reporting.
 
 This metric acts as a quality guardrail. An increase in exercise completions should not come at the expense of exercise difficulty or verification quality.
 
@@ -156,7 +156,13 @@ The `source` property is required for every event and identifies the origin of t
 
 The VS Code extension is the primary learner interface (DEC-014 and DEC-015); the web client is secondary. The extension must identify its requests as `source = extension`, and backend instrumentation must preserve that attribution.
 
-A smoke test uses the existing `app_opened` event with `first_visit = true` and `source = smoke`. It must be sent to staging only. It is an operational pipeline check, not a learner visit, and must be excluded from every product metric. Do not introduce a separate smoke event name.
+A smoke test uses the existing `app_opened` event with `first_visit = true` and `source = smoke`. It must be sent to staging only. Set `ANALYTICS_ENVIRONMENT=staging` in the staging environment; `smoke_pipeline_check()` refuses to send unless this value is exactly `staging`. Run it from the repository root with:
+
+```powershell
+python -c "import asyncio; from app.telemetry import smoke_pipeline_check; print(asyncio.run(smoke_pipeline_check()))"
+```
+
+A `True` result means the event was accepted by the configured OpenPanel endpoint; `False` means it was not delivered or the environment guard refused to send. Confirm the event in the staging event explorer. It is an operational pipeline check, not a learner visit, and must be excluded from every product metric. Do not introduce a separate smoke event name.
 
 ## Logical Metric Query Definitions
 
@@ -170,7 +176,7 @@ The following definitions describe the intended query logic independently of Ope
 | Exercises started | `exercise_started` | Count events | `source IN (extension, web)` |
 | Verification attempts | `verification_run` | Count events | `source IN (extension, web)` |
 | Verification pass rate | `verification_run` | Passed attempts / all attempts × 100 | `source IN (extension, web)` |
-| Successful completions | `exercise_completed` | Count events | `source = web` |
+| Successful completions | `exercise_completed` | Count events | `source IN (extension, web)`; exclude `smoke`, `usability-test` |
 
 All production queries must use the production project, include normal extension activity (and web activity only while that client remains supported), and exclude smoke and usability-test traffic.
 
