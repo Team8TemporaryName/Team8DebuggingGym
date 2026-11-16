@@ -160,9 +160,9 @@ Analytics delivery is best-effort. Missing credentials disable event delivery, a
 
 ### Deployment Status
 
-The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services have been deployed, and event delivery has been verified.
+The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services are deployed, and basic event delivery to OpenPanel has been verified.
 
-The team reports that the application and analytics services are deployed and event delivery is operational. The remaining analytics work is to verify extension-originated events and smoke-event exclusion in staging, validate the staging and production dashboards, and capture sanitized evidence. Do not mark those verification tasks complete until the event checks and screenshots are recorded.
+The remaining analytics verification is to confirm that extension-originated learner events appear in staging, verify that the staging-only smoke event is visible in the event explorer but excluded from product metric queries, validate both environment dashboards, and capture sanitized evidence. Do not mark these checks complete until their results are recorded.
 
 For the staging deployment only, set `ANALYTICS_ENVIRONMENT=staging` to permit `smoke_pipeline_check()`. Keep this value set to `production` (or another non-staging value) in production; the smoke-check function refuses to send outside staging.
 
@@ -170,7 +170,8 @@ For the staging deployment only, set `ANALYTICS_ENVIRONMENT=staging` to permit `
 
 After deployment, add the following evidence:
 
-- `reports/week-06/images/analytics-staging.png`
-- `reports/week-06/images/analytics-production.png`
+- `reports/week-06/images/analytics-staging.png` — staging dashboard and focus metric.
+- `reports/week-06/images/analytics-staging-smoke.png` — staging event explorer showing the `app_opened` event with `source = smoke` and `first_visit = true`, together with the metric view confirming that smoke traffic is excluded.
+- `reports/week-06/images/analytics-production.png` — production dashboard and the same focus metric.
 
-Record the deployment configuration, smoke-event verification result, dashboard links, and outstanding issues in the relevant sprint report.
+The smoke-event screenshot is additional staging verification evidence; it does not replace either required dashboard screenshot. Record the deployment configuration, smoke-event verification result, dashboard links, and outstanding issues in the relevant sprint report. Redact credentials, tokens, private dashboard URLs, and learner identifiers from screenshots.
