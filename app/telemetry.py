@@ -8,8 +8,8 @@ Two pipelines, both optional and off by default:
   OpenTelemetry histogram, exported over OTLP/HTTP to OpenObserve. Turned on by
   ``OBSERVABILITY_ENABLED``.
 
-Every event carries a ``source`` field with a closed set of values: ``web``,
-``usability-test``, or ``smoke``. ``smoke`` marks the team's own pipeline check
+Every event carries a ``source`` field with a closed set of values: ``extension``,
+``web``, ``usability-test``, or ``smoke``. ``smoke`` marks the team's own pipeline check
 and a metric excludes it. Events carry an opaque ``learner_id``, never personal
 data.
 
@@ -138,6 +138,27 @@ async def track_event(
         logger.exception("Analytics delivery failed: %s", event_name)
         return False
 
+
+
+async def smoke_pipeline_check() -> bool:
+    """Send a staging-only app_opened event to verify analytics delivery.
+
+    Set ANALYTICS_ENVIRONMENT=staging on the staging deployment before running
+    this check. The function refuses to send the smoke event in any other
+    environment, so it cannot pollute production analytics.
+    """
+    if os.getenv("ANALYTICS_ENVIRONMENT", "").lower() != "staging":
+        logger.warning("Analytics smoke check refused outside staging")
+        return False
+
+    return await track_event(
+        "app_opened",
+        new_learner_id(),
+        {
+            "first_visit": True,
+            "source": "smoke",
+        },
+    )
 
 def _ensure_observability() -> bool:
     """Build the OpenTelemetry meter and logger once, if observability is on."""
