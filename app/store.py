@@ -15,7 +15,7 @@ from __future__ import annotations
 import os
 import secrets
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -97,7 +97,7 @@ def save_exercise(
                 harness,
                 name,
                 description,
-                datetime.now(timezone.utc).isoformat(),
+                datetime.now(UTC).isoformat(),
             ),
         )
         conn.commit()
@@ -137,7 +137,7 @@ def mark_completed(exercise_id: str, learner: str) -> None:
     try:
         conn.execute(
             "INSERT OR IGNORE INTO completions (exercise_id, learner, completed_at) VALUES (?, ?, ?)",
-            (exercise_id, learner, datetime.now(timezone.utc).isoformat()),
+            (exercise_id, learner, datetime.now(UTC).isoformat()),
         )
         conn.commit()
     finally:

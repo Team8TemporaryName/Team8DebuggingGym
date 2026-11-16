@@ -25,8 +25,8 @@ from __future__ import annotations
 
 import logging
 import os
-import secrets
 import re
+import secrets
 from typing import Any
 from uuid import uuid4
 
@@ -65,7 +65,7 @@ _RELEASE_HISTOGRAM = None
 _VERIFICATION_HISTOGRAM = None
 _LOGGER_PROVIDER = None
 
-VALID_SOURCES = {"web", "extension", "usability-test", "smoke"}
+VALID_SOURCES = {"web", "usability-test", "smoke"}
 
 OBSERVABILITY_ENABLED = os.environ.get("OBSERVABILITY_ENABLED", "false").lower() == "true"
 ANALYTICS_ENABLED = os.environ.get("ANALYTICS_ENABLED", "false").lower() == "true"
@@ -143,24 +143,30 @@ async def track_event(
 
 def _ensure_observability() -> bool:
     """Build the OpenTelemetry meter and logger once, if observability is on."""
-    global _METER, _HISTOGRAM, _OUTCOME_COUNTER, _RELEASE_HISTOGRAM, _LOGGER_PROVIDER, _VERIFICATION_HISTOGRAM
+    global \
+        _METER, \
+        _HISTOGRAM, \
+        _OUTCOME_COUNTER, \
+        _RELEASE_HISTOGRAM, \
+        _LOGGER_PROVIDER, \
+        _VERIFICATION_HISTOGRAM
     if not OBSERVABILITY_ENABLED:
         return False
     if _METER is not None:
         return True
     try:
         from opentelemetry import metrics
-        from opentelemetry.exporter.otlp.proto.http.metric_exporter import (
-            OTLPMetricExporter,
-        )
         from opentelemetry.exporter.otlp.proto.http._log_exporter import (
             OTLPLogExporter,
         )
+        from opentelemetry.exporter.otlp.proto.http.metric_exporter import (
+            OTLPMetricExporter,
+        )
+        from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
+        from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
         from opentelemetry.sdk.metrics import MeterProvider
         from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
         from opentelemetry.sdk.resources import Resource
-        from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
-        from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 
         resource = Resource.create({"service.name": "debugging-gym"})
 

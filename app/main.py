@@ -18,6 +18,8 @@ from fastapi.responses import (
     FileResponse,
     HTMLResponse,
     JSONResponse,
+)
+from fastapi.responses import (
     Response as _Response,
 )
 from fastapi.staticfiles import StaticFiles
@@ -30,11 +32,6 @@ BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 
 app = FastAPI(title="Debugging Gym")
-
-
-def _analytics_source(request: Request) -> str:
-    """Identify whether an analytics event originated from the extension or web app."""
-    return "extension" if request.headers.get("x-client-source") == "extension" else "web"
 
 
 # Initialize persistent exercise storage.
@@ -80,7 +77,7 @@ async def analytics_context(request: Request, call_next):
             learner_id,
             {
                 "first_visit": first_visit,
-                "source": _analytics_source(request),
+                "source": "web",
             },
         )
 
@@ -199,7 +196,7 @@ async def create_exercise(request: Request) -> JSONResponse:
         {
             "exercise_id": stored["id"],
             "generator": stored["generator"],
-            "source": _analytics_source(request),
+            "source": "web",
         },
     )
 
@@ -228,7 +225,7 @@ async def launch(request: Request, exercise_id: str) -> JSONResponse:
         request.state.learner_id,
         {
             "exercise_id": exercise_id,
-            "source": _analytics_source(request),
+            "source": "web",
         },
     )
 
@@ -283,7 +280,7 @@ async def verify(request: Request, exercise_id: str) -> JSONResponse:
     start = _time.monotonic()
     result = verify_fix(exercise_id, source, exercise["harness"])
     duration_ms = (_time.monotonic() - start) * 1000
-    
+
     telemetry.emit_verification_duration(duration_ms)
 
     learner_id = request.state.learner_id
@@ -295,7 +292,7 @@ async def verify(request: Request, exercise_id: str) -> JSONResponse:
         {
             "exercise_id": exercise_id,
             "passed": result["passed"],
-            "source": _analytics_source(request),
+            "source": "web",
         },
     )
 
@@ -308,7 +305,7 @@ async def verify(request: Request, exercise_id: str) -> JSONResponse:
             learner_id,
             {
                 "exercise_id": exercise_id,
-                "source": _analytics_source(request),
+                "source": "web",
             },
         )
 
@@ -335,7 +332,7 @@ async def verify_submission(request: Request) -> JSONResponse:
         {
             "exercise_id": "local",
             "passed": result["passed"],
-            "source": _analytics_source(request),
+            "source": "web",
         },
     )
 
@@ -439,7 +436,7 @@ async def get_exercise(request: Request, exercise_id: str) -> JSONResponse:
         request.state.learner_id,
         {
             "exercise_id": exercise_id,
-            "source": _analytics_source(request),
+            "source": "web",
         },
     )
 

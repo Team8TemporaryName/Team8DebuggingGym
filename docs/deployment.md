@@ -139,6 +139,7 @@ For every release, record at least:
 The application uses OpenPanel for product analytics. Analytics configuration is managed through environment variables documented in [`../.env.example`](../.env.example).
 
 Deployed via the following command sequence:
+
 ```powershell
 git clone https://github.com/openpanel-dev/openpanel.git
 cd openpanel/self-hosting
@@ -158,8 +159,9 @@ Required variables:
 The application uses OpenObserve for product observability. Observability configuration is managed through environment variables documented in [`../.env.example`](../.env.example).
 
 Deployed via the following command:
+
 ```powershell
-docker run -v $PWD/data:/data --name openobserve -e ZO_DATA_DIR="/data" -p 5080:5080 -e ZO_ROOT_USER_EMAIL="admin" -e ZO_ROOT_USER_PASSWORD="admin" o2cr.ai/openobserve/openobserve-enterprise:latest
+docker run -v $PWD/data:/data -e ZO_DATA_DIR="/data" -p 5080:5080 -e ZO_ROOT_USER_EMAIL="root@example.com" -e ZO_ROOT_USER_PASSWORD="Complexpass#123" o2cr.ai/openobserve/openobserve-enterprise:latest
 ```
 
 Required variables:

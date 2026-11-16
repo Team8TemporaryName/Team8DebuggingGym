@@ -69,7 +69,7 @@ The export interval is one minute for the metric and the log exporter's batch in
 The debug-runtime release metric is emitted when a session ends and is queryable within the same one-minute metric export interval, meeting `SLI-04`'s `**Window:**`.
 The page records the retention as 30 days, which covers the longest `SLI` window (the seven-day availability window of `SLI-03`).
 Collection is enabled by the environment variable `OBSERVABILITY_ENABLED` (default `false`); when disabled, the `webapp` emits no signal.
-The deployment's steps and configuration live in [`docs/deployment.md`](deployment.md#telemetry-pipelines), which this page links and does not repeat.
+The deployment's steps and configuration live in [`docs/deployment.md`](deployment.md#observability-deployment), which this page links and does not repeat.
 The backend, its dashboards, and their credentials are reachable by the team and the customer from the university network, and their addresses and credentials are private-only.
 
 ## The Dashboard
