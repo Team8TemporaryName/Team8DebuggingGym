@@ -5,6 +5,7 @@ import httpx
 from app.telemetry import (
     EVENT_SCHEMAS,
     new_learner_id,
+    smoke_pipeline_check,
     track_event,
     validate_event,
 )
@@ -96,3 +97,38 @@ def test_analytics_failure_does_not_interrupt_application(monkeypatch):
     )
 
     assert result is False
+
+
+
+def test_smoke_pipeline_check_sends_staging_only_event(monkeypatch):
+    monkeypatch.setenv("ANALYTICS_ENVIRONMENT", "staging")
+    captured = {}
+
+    async def fake_track_event(event_name, learner_id, properties):
+        captured["event_name"] = event_name
+        captured["learner_id"] = learner_id
+        captured["properties"] = properties
+        return True
+
+    monkeypatch.setattr("app.telemetry.track_event", fake_track_event)
+
+    result = asyncio.run(smoke_pipeline_check())
+
+    assert result is True
+    assert captured["event_name"] == "app_opened"
+    assert captured["learner_id"].startswith("learner_")
+    assert captured["properties"] == {
+        "first_visit": True,
+        "source": "smoke",
+    }
+
+
+def test_smoke_pipeline_check_refuses_non_staging_environment(monkeypatch):
+    monkeypatch.setenv("ANALYTICS_ENVIRONMENT", "production")
+
+    async def unexpected_track_event(*args, **kwargs):
+        raise AssertionError("Smoke event must not be sent outside staging")
+
+    monkeypatch.setattr("app.telemetry.track_event", unexpected_track_event)
+
+    assert asyncio.run(smoke_pipeline_check()) is False
