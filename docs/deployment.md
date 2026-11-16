@@ -161,7 +161,7 @@ Analytics delivery is best-effort. Missing credentials disable event delivery, a
 
 The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services have been deployed, and event delivery has been verified.
 
-The team reports that the application and analytics services are deployed and event delivery is operational. The remaining analytics work is to verify the extension-originated event sequence in both isolated projects, confirm the staging smoke-event exclusion, complete/validate the staging and production dashboards, and capture sanitized evidence. Do not mark these verification/evidence tasks complete until the screenshots and event-list checks have been recorded.
+The remaining work is to deploy the application and analytics services, verify event delivery in the appropriate OpenPanel projects, configure the dashboards, and capture deployment evidence.
 
 ### Analytics Evidence
 
