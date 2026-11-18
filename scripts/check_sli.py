@@ -49,6 +49,7 @@ class Settings:
     staging_url: str
     teacher_key: str
     observe_url: str
+    organization: str
     token: str
     stream: str | None
     request_field: str | None
@@ -82,11 +83,8 @@ def load_settings() -> Settings:
         raise CheckError(
             "OPENOBSERVE_URL must be the server base URL, without /web or another path."
         )
-    if values["OBSERVABILITY_ORGANIZATION"].lower() != "staging":
-        raise CheckError(
-            "This test is staging-only. Set OBSERVABILITY_ORGANIZATION=staging; "
-            "the script refuses to query another organization."
-        )
+    # OpenObserve API paths require the organization's unique identifier,
+    # which may differ from the human-readable name shown in the UI.
     token = values["OPENOBSERVE_TOKEN"]
     if token.lower().startswith("basic "):
         token = token[6:].strip()
@@ -95,6 +93,7 @@ def load_settings() -> Settings:
         staging_url=staging_url,
         teacher_key=values["TEACHER_KEY"],
         observe_url=observe_url,
+        organization=values["OBSERVABILITY_ORGANIZATION"],
         token=token,
         stream=os.getenv("OPENOBSERVE_LOG_STREAM", "").strip() or None,
         request_field=os.getenv("OPENOBSERVE_REQUEST_ID_FIELD", "").strip() or None,
@@ -103,13 +102,19 @@ def load_settings() -> Settings:
     )
 
 
-def _json(raw: bytes) -> Any:
+def _json(
+    raw: bytes, *, service: str, content_type: str | None = None
+) -> Any:
     if not raw:
         return {}
     try:
         return json.loads(raw.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise CheckError("A service returned a response that was not valid JSON.") from exc
+        raise CheckError(
+            f"{service} returned a non-JSON response "
+            f"(Content-Type: {content_type or 'unknown'}; {len(raw)} bytes). "
+            "Check the server URL, organization identifier, and authorization."
+        ) from exc
 
 
 def _request(
@@ -119,6 +124,7 @@ def _request(
     headers: dict[str, str] | None = None,
     payload: dict[str, Any] | None = None,
     timeout: float = 3.0,
+    service: str = "OpenObserve",
 ) -> tuple[int, Any, Any]:
     request_headers = {"Accept": "application/json"}
     if headers:
@@ -131,9 +137,27 @@ def _request(
     request = Request(url, data=body, headers=request_headers, method=method)
     try:
         with urlopen(request, timeout=max(0.1, timeout)) as response:
-            return response.status, response.headers, _json(response.read())
+            raw = response.read()
+            return (
+                response.status,
+                response.headers,
+                _json(
+                    raw,
+                    service=service,
+                    content_type=response.headers.get("Content-Type"),
+                ),
+            )
     except HTTPError as exc:
-        return exc.code, exc.headers, _json(exc.read())
+        raw = exc.read()
+        return (
+            exc.code,
+            exc.headers,
+            _json(
+                raw,
+                service=service,
+                content_type=exc.headers.get("Content-Type"),
+            ),
+        )
     except (URLError, TimeoutError, OSError) as exc:
         # Exception text can contain a private URL, so only expose its type.
         raise CheckError(
@@ -161,7 +185,7 @@ def _oa_headers(settings: Settings) -> dict[str, str]:
 
 
 def _oa_url(settings: Settings, path: str) -> str:
-    org = quote("staging", safe="")
+    org = quote(settings.organization, safe="")
     return f"{settings.observe_url}/api/{org}/{path.lstrip('/')}"
 
 
@@ -277,8 +301,8 @@ def discover_log_schema(
         "The staging OpenObserve log stream/schema was not ready within the "
         f"five-second log deadline ({last_problem}). Check that the deployed "
         "application has OBSERVABILITY_ENABLED=true, OPENOBSERVE_URL points "
-        "to the OpenObserve server, OBSERVABILITY_ORGANIZATION=staging, and "
-        "OPENOBSERVE_TOKEN is valid for OTLP ingestion."
+        "to the OpenObserve server, OBSERVABILITY_ORGANIZATION matches the "
+        "application's organization identifier, and OPENOBSERVE_TOKEN is valid."
     )
 
 
@@ -296,7 +320,12 @@ def _staging_request(
         request_headers.update(headers)
     url = f"{settings.staging_url}/{path.lstrip('/')}"
     return _request(
-        method, url, headers=request_headers, payload=payload, timeout=timeout
+        method,
+        url,
+        headers=request_headers,
+        payload=payload,
+        timeout=timeout,
+        service="staging application",
     )
 
 
