@@ -100,7 +100,6 @@ The repository is finalised, the pitch is ready, and every supported story is re
 
 #### REL-09
 
-
 ## Quality Requirement Testing Plan
 
 | QR | QRT | Status | Checked | Planned for sprint | Evidence |
