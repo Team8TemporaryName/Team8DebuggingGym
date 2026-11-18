@@ -100,6 +100,18 @@ The repository is finalised, the pitch is ready, and every supported story is re
 
 #### REL-09
 
+
+## Quality Requirement Testing Plan
+
+| QR | QRT | Status | Checked | Planned for sprint | Evidence |
+|---|---|---|---|---|---|
+| [QR-01](quality-requirements/qr/QR-01.md) | [QR-01 QRT-01](quality-requirements/qr/QR-01.md#qrt-01) | Not verified | None | [SPRINT-06](#sprint-06) | None |
+| [QR-02](quality-requirements/qr/QR-02.md) | [QR-02 QRT-02](quality-requirements/qr/QR-02.md#qrt-02) | Not verified | None | [SPRINT-06](#sprint-06) | None |
+| [QR-03](quality-requirements/qr/QR-03.md) | [QR-03 QRT-03](quality-requirements/qr/QR-03.md#qrt-03) | Not verified | None | [SPRINT-06](#sprint-06) | None |
+| [QR-03](quality-requirements/qr/QR-03.md) | [QR-03 QRT-04](quality-requirements/qr/QR-03.md#qrt-04) | Not verified | None | [SPRINT-06](#sprint-06) | None |
+| [QR-04](quality-requirements/qr/QR-04.md) | [QR-04 QRT-05](quality-requirements/qr/QR-04.md#qrt-05) | Not verified | None | [SPRINT-06](#sprint-06) | None |
+| [QR-05](quality-requirements/qr/QR-05.md) | [QR-05 QRT-01](quality-requirements/qr/QR-05.md#qrt-01) | Not verified | None | [SPRINT-06](#sprint-06) | None |
+
 ## Progress Monitoring
 
 - **Review:** the team's weekly review, Thursdays at 17:00 before the customer meeting; it reviews [threshold-of-success.md](threshold-of-success.md) and [risks.md](risks.md).
