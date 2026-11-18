@@ -5,7 +5,7 @@ Required environment variables:
     TEACHER_KEY
     OPENOBSERVE_URL
     OBSERVABILITY_ORGANIZATION
-    OPENOBSERVE_TOKEN
+    OPENOBSERVE_QUERY_TOKEN
 
 Optional OpenObserve schema overrides:
     OPENOBSERVE_LOG_STREAM
@@ -50,7 +50,7 @@ class Settings:
     teacher_key: str
     observe_url: str
     organization: str
-    token: str
+    query_token: str
     stream: str | None
     request_field: str | None
     route_field: str | None
@@ -63,7 +63,7 @@ def load_settings() -> Settings:
         "TEACHER_KEY",
         "OPENOBSERVE_URL",
         "OBSERVABILITY_ORGANIZATION",
-        "OPENOBSERVE_TOKEN",
+        "OPENOBSERVE_QUERY_TOKEN",
     )
     values = {name: os.getenv(name, "").strip() for name in names}
     missing = [name for name, value in values.items() if not value]
@@ -85,16 +85,16 @@ def load_settings() -> Settings:
         )
     # OpenObserve API paths require the organization's unique identifier,
     # which may differ from the human-readable name shown in the UI.
-    token = values["OPENOBSERVE_TOKEN"]
-    if token.lower().startswith("basic "):
-        token = token[6:].strip()
+    query_token = values["OPENOBSERVE_QUERY_TOKEN"]
+    if query_token.lower().startswith("basic "):
+        query_token = query_token[6:].strip()
 
     return Settings(
         staging_url=staging_url,
         teacher_key=values["TEACHER_KEY"],
         observe_url=observe_url,
         organization=values["OBSERVABILITY_ORGANIZATION"],
-        token=token,
+        query_token=query_token,
         stream=os.getenv("OPENOBSERVE_LOG_STREAM", "").strip() or None,
         request_field=os.getenv("OPENOBSERVE_REQUEST_ID_FIELD", "").strip() or None,
         route_field=os.getenv("OPENOBSERVE_ROUTE_FIELD", "").strip() or None,
@@ -186,7 +186,7 @@ def _expect(status: int, expected: int, operation: str) -> None:
 
 def _oa_headers(settings: Settings) -> dict[str, str]:
     return {
-        "Authorization": f"Basic {settings.token}",
+        "Authorization": f"Basic {settings.query_token}",
         "User-Agent": "Debugging-Gym-QR-05-QRT-01/1.0",
     }
 
