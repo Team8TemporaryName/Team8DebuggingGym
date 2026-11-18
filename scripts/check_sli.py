@@ -550,6 +550,7 @@ def main() -> int:
             request_started,
             response_monotonic,
         )
+        print(f"Log request ID: {request_id}")
         print(f"Log route: {route}")
         print("Log outcome: client_error")
         print(f"Log point found after response: {log_elapsed:.2f}s (deadline: 5s)")
