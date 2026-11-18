@@ -172,7 +172,10 @@ def _ensure_observability() -> bool:
 
         metric_headers = {}
         if OPENOBSERVE_TOKEN:
-            metric_headers["Authorization"] = f"Basic {OPENOBSERVE_TOKEN}"
+            token = OPENOBSERVE_TOKEN.strip()
+            metric_headers["Authorization"] = (
+                token if token.lower().startswith("basic ") else f"Basic {token}"
+            )
         metric_exporter = OTLPMetricExporter(
             endpoint=f"{OPENOBSERVE_URL}/api/{OBSERVABILITY_ORGANIZATION}/v1/metrics",
             headers=metric_headers,
@@ -206,7 +209,10 @@ def _ensure_observability() -> bool:
 
         log_headers = {}
         if OPENOBSERVE_TOKEN:
-            log_headers["Authorization"] = f"Basic {OPENOBSERVE_TOKEN}"
+            token = OPENOBSERVE_TOKEN.strip()
+            log_headers["Authorization"] = (
+                token if token.lower().startswith("basic ") else f"Basic {token}"
+            )
         log_exporter = OTLPLogExporter(
             endpoint=f"{OPENOBSERVE_URL}/api/{OBSERVABILITY_ORGANIZATION}/v1/logs",
             headers=log_headers,
