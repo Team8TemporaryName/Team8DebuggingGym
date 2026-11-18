@@ -13,9 +13,11 @@ Optional OpenObserve schema overrides:
     OPENOBSERVE_ROUTE_FIELD
     OPENOBSERVE_OUTCOME_FIELD
 
-OPENOBSERVE_TOKEN is the Base64-encoded username:password value for an
-HTTP Basic Authorization header. This script never prints URLs, credentials,
-session tokens, or exercise source.
+OPENOBSERVE_QUERY_TOKEN is the Base64-encoded service-account-identifier:token
+value for HTTP Basic auth, or the complete "Basic <value>" header. It must
+belong to a service account with read/query permissions; ingestion-only
+tokens cannot call the stream and search APIs. This script never prints URLs,
+credentials, session tokens, or exercise source.
 """
 
 from __future__ import annotations
@@ -309,7 +311,8 @@ def discover_log_schema(
         f"five-second log deadline ({last_problem}). Check that the deployed "
         "application has OBSERVABILITY_ENABLED=true, OPENOBSERVE_URL points "
         "to the OpenObserve server, OBSERVABILITY_ORGANIZATION matches the "
-        "application's organization identifier, and OPENOBSERVE_TOKEN is valid."
+        "application's organization identifier, and OPENOBSERVE_QUERY_TOKEN "
+        "belongs to a service account with stream-read and search permissions."
     )
 
 
