@@ -51,6 +51,7 @@ class Settings:
     teacher_key: str
     observe_url: str
     token: str
+    staging_commit_sha: str
     stream: str | None
     request_field: str | None
     route_field: str | None
@@ -64,6 +65,7 @@ def load_settings() -> Settings:
         "OPENOBSERVE_URL",
         "OBSERVABILITY_ORGANIZATION",
         "OPENOBSERVE_TOKEN",
+        "STAGING_COMMIT_SHA",
     )
     values = {name: os.getenv(name, "").strip() for name in names}
     missing = [name for name, value in values.items() if not value]
@@ -98,6 +100,7 @@ def load_settings() -> Settings:
         teacher_key=values["TEACHER_KEY"],
         observe_url=observe_url,
         token=token,
+        staging_commit_sha=values["STAGING_COMMIT_SHA"],
         stream=os.getenv("OPENOBSERVE_LOG_STREAM", "").strip() or None,
         request_field=os.getenv("OPENOBSERVE_REQUEST_ID_FIELD", "").strip() or None,
         route_field=os.getenv("OPENOBSERVE_ROUTE_FIELD", "").strip() or None,
@@ -525,7 +528,8 @@ def main() -> int:
         settings = load_settings()
         print("QR-05 QRT-01 — staging diagnosability check")
         print("Environment: staging")
-        print(f"Tested commit: {_commit_sha()}")
+        print(f"Staging deployment commit: {settings.staging_commit_sha}")
+        print(f"Script checkout commit: {_commit_sha()}")
 
         stream, request_field, route_field, outcome_field = discover_log_schema(
             settings
