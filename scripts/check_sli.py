@@ -149,15 +149,18 @@ def _request(
             )
     except HTTPError as exc:
         raw = exc.read()
-        return (
-            exc.code,
-            exc.headers,
-            _json(
+        try:
+            error_body = _json(
                 raw,
                 service=service,
                 content_type=exc.headers.get("Content-Type"),
-            ),
-        )
+            )
+        except CheckError:
+            # Some OpenObserve installations return plain-text 404 responses
+            # for streams that have not been created yet. Preserve the status
+            # so the caller can retry or report the HTTP error meaningfully.
+            error_body = None
+        return exc.code, exc.headers, error_body
     except (URLError, TimeoutError, OSError) as exc:
         # Exception text can contain a private URL, so only expose its type.
         raise CheckError(
