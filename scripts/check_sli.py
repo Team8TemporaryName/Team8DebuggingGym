@@ -171,13 +171,17 @@ def _request(
 def _expect(status: int, expected: int, operation: str) -> None:
     if status == expected:
         return
-    if status in {401, 403}:
-        reason = "authentication or authorization was rejected"
+    if status == 401:
+        reason = "OpenObserve rejected the Basic credentials (check the username:password encoding and token)"
+    elif status == 403:
+        reason = "the authenticated account lacks permission for this organization or operation"
     elif status == 404:
         reason = "the endpoint or resource was not found"
     else:
         reason = f"the service returned HTTP {status}"
-    raise CheckError(f"{operation}: expected HTTP {expected}; {reason}.")
+    raise CheckError(
+        f"{operation}: expected HTTP {expected}, received HTTP {status}; {reason}."
+    )
 
 
 def _oa_headers(settings: Settings) -> dict[str, str]:
@@ -358,6 +362,10 @@ def create_deliberate_failure(
         method="POST",
         payload={"kind": kind},
         headers={"x-session": session},
+        # Exercise generation may call the configured LLM provider, whose
+        # own client timeout is 20 seconds. Do not fail this staging check
+        # after the shorter default HTTP timeout.
+        timeout=25.0,
     )
     _expect(status, 200, "Create staging exercise")
     exercise_id = exercise.get("id") if isinstance(exercise, dict) else None
