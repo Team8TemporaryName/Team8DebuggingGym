@@ -6,6 +6,7 @@ Required environment variables:
     OPENOBSERVE_URL
     OBSERVABILITY_ORGANIZATION
     OPENOBSERVE_TOKEN
+    STAGING_COMMIT_SHA  (full 40-character SHA deployed on staging)
 
 Optional OpenObserve schema overrides:
     OPENOBSERVE_LOG_STREAM
@@ -23,6 +24,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 import subprocess
 import sys
 import time
@@ -90,6 +92,11 @@ def load_settings() -> Settings:
             "This test is staging-only. Set OBSERVABILITY_ORGANIZATION=staging; "
             "the script refuses to query another organization."
         )
+    staging_commit_sha = values["STAGING_COMMIT_SHA"].lower()
+    if not re.fullmatch(r"[0-9a-f]{40}", staging_commit_sha):
+        raise CheckError(
+            "STAGING_COMMIT_SHA must be the full 40-character hexadecimal commit SHA deployed on staging."
+        )
 
     token = values["OPENOBSERVE_TOKEN"]
     if token.lower().startswith("basic "):
@@ -100,7 +107,7 @@ def load_settings() -> Settings:
         teacher_key=values["TEACHER_KEY"],
         observe_url=observe_url,
         token=token,
-        staging_commit_sha=values["STAGING_COMMIT_SHA"],
+        staging_commit_sha=staging_commit_sha,
         stream=os.getenv("OPENOBSERVE_LOG_STREAM", "").strip() or None,
         request_field=os.getenv("OPENOBSERVE_REQUEST_ID_FIELD", "").strip() or None,
         route_field=os.getenv("OPENOBSERVE_ROUTE_FIELD", "").strip() or None,
