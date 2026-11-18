@@ -6,7 +6,6 @@ Required environment variables:
     OPENOBSERVE_URL
     OBSERVABILITY_ORGANIZATION
     OPENOBSERVE_TOKEN
-    STAGING_COMMIT_SHA  (full 40-character SHA deployed on staging)
 
 Optional OpenObserve schema overrides:
     OPENOBSERVE_LOG_STREAM
@@ -24,8 +23,6 @@ from __future__ import annotations
 import json
 import math
 import os
-import re
-import subprocess
 import sys
 import time
 from dataclasses import dataclass
@@ -53,7 +50,6 @@ class Settings:
     teacher_key: str
     observe_url: str
     token: str
-    staging_commit_sha: str
     stream: str | None
     request_field: str | None
     route_field: str | None
@@ -67,7 +63,6 @@ def load_settings() -> Settings:
         "OPENOBSERVE_URL",
         "OBSERVABILITY_ORGANIZATION",
         "OPENOBSERVE_TOKEN",
-        "STAGING_COMMIT_SHA",
     )
     values = {name: os.getenv(name, "").strip() for name in names}
     missing = [name for name, value in values.items() if not value]
@@ -92,12 +87,6 @@ def load_settings() -> Settings:
             "This test is staging-only. Set OBSERVABILITY_ORGANIZATION=staging; "
             "the script refuses to query another organization."
         )
-    staging_commit_sha = values["STAGING_COMMIT_SHA"].lower()
-    if not re.fullmatch(r"[0-9a-f]{40}", staging_commit_sha):
-        raise CheckError(
-            "STAGING_COMMIT_SHA must be the full 40-character hexadecimal commit SHA deployed on staging."
-        )
-
     token = values["OPENOBSERVE_TOKEN"]
     if token.lower().startswith("basic "):
         token = token[6:].strip()
@@ -107,7 +96,6 @@ def load_settings() -> Settings:
         teacher_key=values["TEACHER_KEY"],
         observe_url=observe_url,
         token=token,
-        staging_commit_sha=staging_commit_sha,
         stream=os.getenv("OPENOBSERVE_LOG_STREAM", "").strip() or None,
         request_field=os.getenv("OPENOBSERVE_REQUEST_ID_FIELD", "").strip() or None,
         route_field=os.getenv("OPENOBSERVE_ROUTE_FIELD", "").strip() or None,
@@ -227,94 +215,71 @@ def _select_field(
 
 
 def discover_log_schema(
-    settings: Settings,
+    settings: Settings, deadline: float
 ) -> tuple[str, str, str, str]:
-    headers = _oa_headers(settings)
-    stream = settings.stream
+    """Wait for the OTLP log stream and its schema after the test request.
 
-    if stream is None:
-        url = _oa_url(settings, "streams") + "?fetchSchema=true&type=logs"
-        status, _, response = _request("GET", url, headers=headers)
-        _expect(status, 200, "List staging OpenObserve log streams")
-        streams = response.get("list", []) if isinstance(response, dict) else []
-        if not streams:
-            raise CheckError(
-                "No log streams were returned for the staging organization. "
-                "Check that staging telemetry is enabled and has emitted logs."
-            )
-
-        required_fields = {"request_id", "route", "outcome"}
-        candidates = []
-        for item in streams:
-            schema = item.get("schema") or []
-            names = {
-                field.get("name", "")
-                for field in schema
-                if isinstance(field, dict) and field.get("name")
-            }
-            has_request_fields = all(
-                any(
-                    candidate in names
-                    for candidate in (
-                        logical,
-                        f"attributes.{logical}",
-                        f"log_attributes.{logical}",
-                    )
-                )
-                for logical in required_fields
-            )
-            if has_request_fields and item.get("name"):
-                candidates.append(item["name"])
-
-        if len(candidates) != 1:
-            choices = ", ".join(str(item.get("name", "?")) for item in streams)
-            if candidates:
-                reason = "More than one stream contains the request fields: " + ", ".join(candidates)
-            else:
-                reason = "No stream schema clearly contains request_id, route, and outcome"
-            raise CheckError(
-                f"{reason}. Available streams: {choices}. "
-                "Inspect the schema and set OPENOBSERVE_LOG_STREAM."
-            )
-        stream = candidates[0]
-
+    The application does not send a stream-name header, so OpenObserve
+    stores its OTLP logs in the organization-local default stream unless
+    an explicit OPENOBSERVE_LOG_STREAM override is provided.
+    """
+    stream = settings.stream or "default"
     schema_url = _oa_url(
         settings,
         f"streams/{quote(stream, safe='')}/schema?type=logs",
     )
-    status, _, schema_response = _request("GET", schema_url, headers=headers)
-    _expect(status, 200, "Read the selected staging log stream schema")
-    schema = (
-        schema_response.get("schema", [])
-        if isinstance(schema_response, dict)
-        else []
+    headers = _oa_headers(settings)
+    last_problem = f"the {stream!r} log stream does not exist yet"
+
+    while time.monotonic() < deadline:
+        remaining = deadline - time.monotonic()
+        try:
+            status, _, response = _request(
+                "GET",
+                schema_url,
+                headers=headers,
+                timeout=min(1.0, remaining),
+            )
+            if status == 404:
+                last_problem = f"the {stream!r} log stream has not been created yet"
+            elif status >= 500:
+                last_problem = f"OpenObserve returned HTTP {status}"
+            elif status != 200:
+                _expect(status, 200, "Read the staging OpenObserve log stream schema")
+            else:
+                schema = response.get("schema", []) if isinstance(response, dict) else []
+                fields = {
+                    item.get("name", "")
+                    for item in schema
+                    if isinstance(item, dict) and item.get("name")
+                }
+                if not fields:
+                    last_problem = f"the {stream!r} stream exists but its schema is still empty"
+                else:
+                    try:
+                        request_field = _select_field(fields, "request_id", settings.request_field)
+                        route_field = _select_field(fields, "route", settings.route_field)
+                        outcome_field = _select_field(fields, "outcome", settings.outcome_field)
+                        return stream, request_field, route_field, outcome_field
+                    except CheckError as exc:
+                        if "Could not identify" not in str(exc):
+                            raise
+                        last_problem = str(exc)
+        except CheckError as exc:
+            message = str(exc)
+            if not message.startswith("Network request failed"):
+                raise
+            last_problem = message
+
+        time.sleep(min(RETRY_INTERVAL_SECONDS, max(0.0, deadline - time.monotonic())))
+
+    raise CheckError(
+        "The staging OpenObserve log stream/schema was not ready within the "
+        f"five-second log deadline ({last_problem}). Check that the deployed "
+        "application has OBSERVABILITY_ENABLED=true, OPENOBSERVE_URL points "
+        "to the OpenObserve server, OBSERVABILITY_ORGANIZATION=staging, and "
+        "OPENOBSERVE_TOKEN is valid for OTLP ingestion."
     )
-    fields = {
-        item.get("name", "")
-        for item in schema
-        if isinstance(item, dict) and item.get("name")
-    }
-
-    return (
-        stream,
-        _select_field(fields, "request_id", settings.request_field),
-        _select_field(fields, "route", settings.route_field),
-        _select_field(fields, "outcome", settings.outcome_field),
-    )
-
-
-def _commit_sha() -> str:
-    try:
-        result = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=2,
-        )
-        return result.stdout.strip()
-    except (OSError, subprocess.SubprocessError):
-        return "unknown"
 
 
 def _staging_request(
@@ -535,20 +500,18 @@ def main() -> int:
         settings = load_settings()
         print("QR-05 QRT-01 — staging diagnosability check")
         print("Environment: staging")
-        print(f"Staging deployment commit: {settings.staging_commit_sha}")
-        print(f"Script checkout commit: {_commit_sha()}")
-
-        stream, request_field, route_field, outcome_field = discover_log_schema(
-            settings
-        )
-        print(f"OpenObserve log stream: {stream}")
 
         exercise_id, request_id, request_started, response_monotonic = (
             create_deliberate_failure(settings)
         )
-        route = f"/api/exercises/{exercise_id}/verify"
         print("Deliberate verification response: HTTP 400 (missing source)")
         print(f"Request ID: {request_id}")
+
+        stream, request_field, route_field, outcome_field = discover_log_schema(
+            settings, response_monotonic + LOG_DEADLINE_SECONDS
+        )
+        print(f"OpenObserve log stream: {stream}")
+        route = f"/api/exercises/{exercise_id}/verify"
 
         log_elapsed = find_request_log(
             settings,
