@@ -2,7 +2,6 @@
 
 Required environment variables:
     STAGING_BASE_URL
-    TEACHER_KEY
     OPENOBSERVE_URL
     OBSERVABILITY_ORGANIZATION
     OPENOBSERVE_QUERY_TOKEN
@@ -13,11 +12,12 @@ Optional OpenObserve schema overrides:
     OPENOBSERVE_ROUTE_FIELD
     OPENOBSERVE_OUTCOME_FIELD
 
-OPENOBSERVE_QUERY_TOKEN is the Base64-encoded service-account-identifier:token
-value for HTTP Basic auth, or the complete "Basic <value>" header. It must
-belong to a service account with read/query permissions; ingestion-only
+OPENOBSERVE_QUERY_TOKEN is the Base64-encoded username:password value for
+HTTP Basic auth, or the complete "Basic <value>" header. Use the OpenObserve
+Root account for the operator-run check when RBAC is not configured, or a
+service account that has been granted read/query permissions. Ingestion-only
 tokens cannot call the stream and search APIs. This script never prints URLs,
-credentials, session tokens, or exercise source.
+credentials, or exercise source.
 """
 
 from __future__ import annotations
