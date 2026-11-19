@@ -50,10 +50,10 @@ OPENOBSERVE_URL = os.environ.get("OPENOBSERVE_URL", "http://localhost:5080")
 OPENOBSERVE_TOKEN = os.environ.get("OPENOBSERVE_TOKEN", "")
 OBSERVABILITY_ORGANIZATION = os.environ.get("OBSERVABILITY_ORGANIZATION", "default")
 
-# SLI-01's export windows, per docs/observability.md: the log exporter's batch
-# interval is one second and the metric exporter's is one minute.
+# SLI-01's export windows, per docs/observability.md: logs export every second
+# and metrics every ten seconds, leaving time within the one-minute QRT deadline.
 LOG_EXPORT_INTERVAL_SECONDS = 1
-METRIC_EXPORT_INTERVAL_SECONDS = 60
+METRIC_EXPORT_INTERVAL_SECONDS = 10
 
 _STRUCTURED_LOGGER = logging.getLogger("debugging_gym.requests")
 
