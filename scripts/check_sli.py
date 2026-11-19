@@ -363,7 +363,7 @@ def _staging_request(
 
 def create_deliberate_failure(
     settings: Settings,
-) -> tuple[str, str, float, float]:
+) -> tuple[str, str, float, float, float]:
     """Reuse an existing staging exercise and submit the deliberate bad request.
 
     Reusing an existing exercise avoids generating new LLM content and ensures
@@ -488,7 +488,12 @@ def find_request_log(
         time.sleep(min(RETRY_INTERVAL_SECONDS, max(0, deadline - time.monotonic())))
 
     raise CheckError(
-        "The matching log point with the expecteddef query_sli_01(
+        "The matching log point with the expected route and client_error outcome "
+        f"did not appear within five seconds ({last_problem})."
+    )
+
+
+def query_sli_01(
     settings: Settings,
     response_monotonic: float,
     response_wall_time: float,
@@ -510,7 +515,9 @@ def find_request_log(
         remaining = deadline - time.monotonic()
         now = time.time()
         if now <= start:
-            time.sleep(min(RETRY_INTERVAL_SECONDS, max(0.0, deadline - time.monotonic())))
+            time.sleep(
+                min(RETRY_INTERVAL_SECONDS, max(0.0, deadline - time.monotonic()))
+            )
             continue
 
         params = urlencode(
@@ -564,7 +571,7 @@ def find_request_log(
                             found = candidate
 
                 if found is not None:
-                    route, p95_ms, sample_time = found
+                    route, p95_ms, _ = found
                     elapsed = time.monotonic() - response_monotonic
                     return route, p95_ms, elapsed
                 last_problem = (
@@ -582,10 +589,7 @@ def find_request_log(
     raise CheckError(
         "The SLI-01 five-minute P95 range query did not return a numeric "
         f"client_error verification series within one minute ({last_problem})."
-    ) return a numeric client_error "
-        f"verification series within one minute ({last_problem})."
     )
-
 
 def main() -> int:
     try:
