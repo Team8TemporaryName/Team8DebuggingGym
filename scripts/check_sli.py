@@ -49,7 +49,6 @@ class CheckError(RuntimeError):
 @dataclass(frozen=True)
 class Settings:
     staging_url: str
-    teacher_key: str
     observe_url: str
     organization: str
     query_token: str
@@ -62,7 +61,6 @@ class Settings:
 def load_settings() -> Settings:
     names = (
         "STAGING_BASE_URL",
-        "TEACHER_KEY",
         "OPENOBSERVE_URL",
         "OBSERVABILITY_ORGANIZATION",
         "OPENOBSERVE_QUERY_TOKEN",
@@ -93,7 +91,6 @@ def load_settings() -> Settings:
 
     return Settings(
         staging_url=staging_url,
-        teacher_key=values["TEACHER_KEY"],
         observe_url=observe_url,
         organization=values["OBSERVABILITY_ORGANIZATION"],
         query_token=query_token,
@@ -342,38 +339,22 @@ def _staging_request(
 def create_deliberate_failure(
     settings: Settings,
 ) -> tuple[str, str, float, float]:
-    status, _, kinds = _staging_request(settings, "/api/kinds")
-    _expect(status, 200, "Read staging exercise-kind catalogue")
-    if not isinstance(kinds, dict) or not kinds:
-        raise CheckError("Staging returned an empty or invalid exercise-kind catalogue.")
-    kind = sorted(kinds)[0]
+    """Reuse an existing staging exercise and submit the deliberate bad request.
 
-    status, _, auth = _staging_request(
-        settings,
-        "/api/auth/teacher",
-        method="POST",
-        payload={"key": settings.teacher_key},
-    )
-    _expect(status, 200, "Authenticate as a staging teacher")
-    session = auth.get("session") if isinstance(auth, dict) else None
-    if not session:
-        raise CheckError("Teacher authentication returned no session token.")
+    Reusing an existing exercise avoids generating new LLM content and ensures
+    this diagnosability check does not incur generation-provider costs.
+    """
+    status, _, exercises = _staging_request(settings, "/api/exercises")
+    _expect(status, 200, "List existing staging exercises")
+    if not isinstance(exercises, list) or not exercises:
+        raise CheckError(
+            "Staging has no existing exercises to reuse. Create one through the "
+            "normal product workflow once, then rerun this check."
+        )
 
-    status, _, exercise = _staging_request(
-        settings,
-        "/api/exercises",
-        method="POST",
-        payload={"kind": kind},
-        headers={"x-session": session},
-        # Exercise generation may call the configured LLM provider, whose
-        # own client timeout is 20 seconds. Do not fail this staging check
-        # after the shorter default HTTP timeout.
-        timeout=25.0,
-    )
-    _expect(status, 200, "Create staging exercise")
-    exercise_id = exercise.get("id") if isinstance(exercise, dict) else None
+    exercise_id = exercises[0].get("id") if isinstance(exercises[0], dict) else None
     if not exercise_id:
-        raise CheckError("Exercise creation returned no exercise ID.")
+        raise CheckError("The staging exercise list contains no usable exercise ID.")
 
     request_started = time.time()
     status, response_headers, error_body = _staging_request(
