@@ -103,8 +103,8 @@ def load_settings() -> Settings:
     if username or not query_token:
         if not username:
             username = input(
-                "OpenObserve API username [root@example.com]: "
-            ).strip() or "root@example.com"
+                "OpenObserve API username [admin]: "
+            ).strip() or "admin"
         password = getpass.getpass("OpenObserve API password: ")
         if not password:
             raise CheckError("The OpenObserve API password cannot be empty.")
