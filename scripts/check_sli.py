@@ -334,7 +334,7 @@ def discover_log_schema(
         "application has OBSERVABILITY_ENABLED=true, OPENOBSERVE_URL points "
         "to the OpenObserve server, OBSERVABILITY_ORGANIZATION matches the "
         "application's organization identifier, and OPENOBSERVE_QUERY_TOKEN "
-        "belongs to a service account with stream-read and search permissions."
+        "belongs to an account with stream-read and search permissions (the Root account works when RBAC is disabled)."
     )
 
 
