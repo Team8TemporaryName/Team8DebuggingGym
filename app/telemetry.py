@@ -51,7 +51,7 @@ OPENOBSERVE_TOKEN = os.environ.get("OPENOBSERVE_TOKEN", "")
 OBSERVABILITY_ORGANIZATION = os.environ.get("OBSERVABILITY_ORGANIZATION", "default")
 
 # SLI-01's export windows, per docs/observability.md: the log exporter's batch
-# interval is five seconds and the metric exporter's is one minute.
+# interval is one second and the metric exporter's is one minute.
 LOG_EXPORT_INTERVAL_SECONDS = 1
 METRIC_EXPORT_INTERVAL_SECONDS = 60
 
