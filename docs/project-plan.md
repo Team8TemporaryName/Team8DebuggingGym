@@ -105,8 +105,8 @@ The repository is finalised, the pitch is ready, and every supported story is re
 | QR | QRT | Status | Checked | Planned for sprint | Evidence |
 | --- | --- | --- | --- | --- | --- |
 | [QR-01](quality-requirements/qr/QR-01.md) | [QR-01 QRT-01](quality-requirements/qr/QR-01.md#qrt-01) | Not verified | None | [SPRINT-06](#sprint-06) | None |
-| [QR-02](quality-requirements/qr/QR-02.md) | [QR-02 QRT-02](quality-requirements/qr/QR-02.md#qrt-02) | Not verified | None | [SPRINT-06](#sprint-06) | None |
-| [QR-03](quality-requirements/qr/QR-03.md) | [QR-03 QRT-03](quality-requirements/qr/QR-03.md#qrt-03) | Not verified | None | [SPRINT-06](#sprint-06) | None |
+| [QR-02](quality-requirements/qr/QR-02.md) | [QR-02 QRT-02](quality-requirements/qr/QR-02.md#qrt-02) | Passes | [SPRINT-06](#sprint-06) | [SPRINT-06](#sprint-06) | [QR-02 QRT-02 CI evidence](../reports/week-06/qr-02-qr-03-automated-qrt-evidence.md#qr-02-qrt-02--ci-testability) |
+| [QR-03](quality-requirements/qr/QR-03.md) | [QR-03 QRT-03](quality-requirements/qr/QR-03.md#qrt-03) | Passes | [SPRINT-06](#sprint-06) | [SPRINT-06](#sprint-06) | [QR-03 QRT-03 CI evidence](../reports/week-06/qr-02-qr-03-automated-qrt-evidence.md#qr-03-qrt-03--local-verification-workspace-cleanup) |
 | [QR-03](quality-requirements/qr/QR-03.md) | [QR-03 QRT-04](quality-requirements/qr/QR-03.md#qrt-04) | Not verified | None | [SPRINT-06](#sprint-06) | None |
 | [QR-04](quality-requirements/qr/QR-04.md) | [QR-04 QRT-05](quality-requirements/qr/QR-04.md#qrt-05) | Not verified | None | [SPRINT-06](#sprint-06) | None |
 | [QR-05](quality-requirements/qr/QR-05.md) | [QR-05 QRT-01](quality-requirements/qr/QR-05.md#qrt-01) | Passes | [SPRINT-06](#sprint-06) | [SPRINT-06](#sprint-06) | [QR-05 QRT-01 staging evidence](../reports/week-06/qr-05-qrt-01-evidence.md) |
