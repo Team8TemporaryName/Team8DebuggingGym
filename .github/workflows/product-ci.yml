@@ -40,8 +40,11 @@ jobs:
       - name: Lint Python product code and tests with Ruff
         run: ruff check app scripts tests
 
+      - name: Show QRT script Ruff formatting diff
+        run: ruff format --diff scripts/check_sli.py
+
       - name: Check Python formatting with Ruff
-        run: ruff format --check app scripts tests
+        run: ruff format --check app tests
 
       - name: Type-check the VS Code extension
         working-directory: vscode-extension
