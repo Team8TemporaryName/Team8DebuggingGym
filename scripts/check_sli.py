@@ -40,7 +40,9 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode, urlsplit
 from urllib.request import Request, urlopen
 
-SLI_01_QUERY = "histogram_quantile(0.95, sum by (le, route, outcome) (rate(request_duration_ms_bucket[5m])))"
+SLI_01_QUERY = (
+    "histogram_quantile(0.95, sum by (le, route, outcome) (rate(request_duration_ms_bucket[5m])))"
+)
 LOG_DEADLINE_SECONDS = 5.0
 METRIC_DEADLINE_SECONDS = 60.0
 RETRY_INTERVAL_SECONDS = 0.25
@@ -569,6 +571,7 @@ def query_sli_01(
         "The SLI-01 five-minute P95 range query did not return a numeric "
         f"client_error verification series within one minute ({last_problem})."
     )
+
 
 def main() -> int:
     try:
