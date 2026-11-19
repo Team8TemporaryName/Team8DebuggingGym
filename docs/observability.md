@@ -65,7 +65,7 @@ Debug-runtime release.
 
 The `webapp` container emits the active signals: a structured log line per request, an OpenTelemetry histogram per request, a request-outcome counter per request, an availability-probe counter per completed probe, all exported over OTLP/HTTP to OpenObserve.
 The observability backend is OpenObserve, self-hosted on the university VM, with one environment scope per environment: a `staging` organization and a `production` organization, each with its own dashboard.
-The export interval is one minute for the metric and the log exporter's batch interval is five seconds, so the per-request log point appears within five seconds and the aggregate within one minute, meeting `SLI-01`'s `**Window:**`.
+The export interval is one minute for the metric and the log exporter's batch interval is one second, so the per-request log point appears within five seconds and the aggregate within one minute, meeting `SLI-01`'s `**Window:**`.
 The temporary workspace used by local verification is cleaned up after the subprocess exits. This is not the complete runtime teardown measured by QR-03, so it does not produce an SLI-04 measurement.
 The page records the retention as 30 days, which covers the longest `SLI` window (the seven-day availability window of `SLI-03`).
 Collection is enabled by the environment variable `OBSERVABILITY_ENABLED` (default `false`); when disabled, the `webapp` emits no signal.
