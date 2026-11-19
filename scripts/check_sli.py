@@ -40,10 +40,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode, urlsplit
 from urllib.request import Request, urlopen
 
-SLI_01_QUERY = (
-    "histogram_quantile(0.95, sum by (le, route, outcome) "
-    "(rate(request_duration_ms_bucket[5m])))"
-)
+SLI_01_QUERY = "histogram_quantile(0.95, sum by (le, route, outcome) (rate(request_duration_ms_bucket[5m])))"
 LOG_DEADLINE_SECONDS = 5.0
 METRIC_DEADLINE_SECONDS = 60.0
 RETRY_INTERVAL_SECONDS = 0.25
@@ -102,15 +99,11 @@ def load_settings() -> Settings:
     username = os.getenv("OPENOBSERVE_QUERY_USERNAME", "").strip()
     if username or not query_token:
         if not username:
-            username = input(
-                "OpenObserve API username [admin]: "
-            ).strip() or "admin"
+            username = input("OpenObserve API username [admin]: ").strip() or "admin"
         password = getpass.getpass("OpenObserve API password: ")
         if not password:
             raise CheckError("The OpenObserve API password cannot be empty.")
-        query_token = base64.b64encode(
-            f"{username}:{password}".encode("utf-8")
-        ).decode("ascii")
+        query_token = base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("ascii")
     elif query_token.lower().startswith("basic "):
         query_token = query_token[6:].strip()
 
@@ -126,9 +119,7 @@ def load_settings() -> Settings:
     )
 
 
-def _json(
-    raw: bytes, *, service: str, content_type: str | None = None
-) -> Any:
+def _json(raw: bytes, *, service: str, content_type: str | None = None) -> Any:
     if not raw:
         return {}
     try:
@@ -203,9 +194,7 @@ def _expect(status: int, expected: int, operation: str) -> None:
         reason = "the endpoint or resource was not found"
     else:
         reason = f"the service returned HTTP {status}"
-    raise CheckError(
-        f"{operation}: expected HTTP {expected}, received HTTP {status}; {reason}."
-    )
+    raise CheckError(f"{operation}: expected HTTP {expected}, received HTTP {status}; {reason}.")
 
 
 def _oa_headers(settings: Settings) -> dict[str, str]:
@@ -239,9 +228,7 @@ def _field(record: dict[str, Any], name: str) -> Any:
     return current
 
 
-def _select_field(
-    fields: set[str], logical_name: str, override: str | None
-) -> str:
+def _select_field(fields: set[str], logical_name: str, override: str | None) -> str:
     if override:
         if override not in fields:
             raise CheckError(
@@ -269,9 +256,7 @@ def _select_field(
     )
 
 
-def discover_log_schema(
-    settings: Settings, deadline: float
-) -> tuple[str, str, str, str]:
+def discover_log_schema(settings: Settings, deadline: float) -> tuple[str, str, str, str]:
     """Wait for the OTLP log stream and its schema after the test request.
 
     The application does not send a stream-name header, so OpenObserve
@@ -396,12 +381,8 @@ def create_deliberate_failure(
         )
     detail = error_body.get("detail") if isinstance(error_body, dict) else None
     if detail != "missing source":
-        raise CheckError(
-            "The HTTP 400 response was not the expected missing-source validation."
-        )
-    request_id = (
-        response_headers.get("x-request-id") if response_headers else None
-    )
+        raise CheckError("The HTTP 400 response was not the expected missing-source validation.")
+    request_id = response_headers.get("x-request-id") if response_headers else None
     if not request_id:
         raise CheckError("The HTTP 400 response did not contain x-request-id.")
 
@@ -515,9 +496,7 @@ def query_sli_01(
         remaining = deadline - time.monotonic()
         now = time.time()
         if now <= start:
-            time.sleep(
-                min(RETRY_INTERVAL_SECONDS, max(0.0, deadline - time.monotonic()))
-            )
+            time.sleep(min(RETRY_INTERVAL_SECONDS, max(0.0, deadline - time.monotonic())))
             continue
 
         params = urlencode(
@@ -635,10 +614,7 @@ def main() -> int:
         print(f"SLI-01 failure route: {metric_route}")
         print("SLI-01 outcome: client_error")
         print(f"SLI-01 five-minute P95: {p95_ms:.3f} ms")
-        print(
-            f"SLI-01 series found after response: {metric_elapsed:.2f}s "
-            "(deadline: 60s)"
-        )
+        print(f"SLI-01 series found after response: {metric_elapsed:.2f}s (deadline: 60s)")
         print("Result: PASS — the QR-05 response measures were met.")
         return 0
     except CheckError as exc:
