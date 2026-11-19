@@ -52,7 +52,7 @@ OBSERVABILITY_ORGANIZATION = os.environ.get("OBSERVABILITY_ORGANIZATION", "defau
 
 # SLI-01's export windows, per docs/observability.md: the log exporter's batch
 # interval is five seconds and the metric exporter's is one minute.
-LOG_EXPORT_INTERVAL_SECONDS = 5
+LOG_EXPORT_INTERVAL_SECONDS = 1
 METRIC_EXPORT_INTERVAL_SECONDS = 60
 
 _STRUCTURED_LOGGER = logging.getLogger("debugging_gym.requests")
@@ -218,7 +218,16 @@ def _ensure_observability() -> bool:
             headers=log_headers,
         )
         _LOGGER_PROVIDER = LoggerProvider(resource=resource)
-        _LOGGER_PROVIDER.add_log_record_processor(BatchLogRecordProcessor(log_exporter))
+        _LOGGER_PROVIDER.add_log_record_processor(
+            BatchLogRecordProcessor(
+                log_exporter,
+                schedule_delay_millis=LOG_EXPORT_INTERVAL_SECONDS * 1000,
+            )
+        )
+        # Uvicorn's default logging configuration leaves the root logger at
+        # WARNING. Set this logger explicitly so its INFO records reach the
+        # OpenTelemetry handler attached to the root logger.
+        _STRUCTURED_LOGGER.setLevel(logging.INFO)
         logging.getLogger().addHandler(
             LoggingHandler(level=logging.INFO, logger_provider=_LOGGER_PROVIDER)
         )
