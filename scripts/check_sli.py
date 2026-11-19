@@ -1,10 +1,15 @@
 """Run QR-05 QRT-01 against staging and its OpenObserve organization.
 
-Required environment variables:
+Required connection settings (read from environment variables or prompted):
     STAGING_BASE_URL
     OPENOBSERVE_URL
     OBSERVABILITY_ORGANIZATION
-    OPENOBSERVE_QUERY_TOKEN
+
+OpenObserve read authentication:
+    Set OPENOBSERVE_QUERY_TOKEN to a Base64 username:password value, or set
+    OPENOBSERVE_QUERY_USERNAME and let the script prompt for its password.
+    With neither set, the script prompts for a username (default
+    root@example.com) and password. Password input is not echoed.
 
 Optional OpenObserve schema overrides:
     OPENOBSERVE_LOG_STREAM
@@ -22,6 +27,8 @@ credentials, or exercise source.
 
 from __future__ import annotations
 
+import base64
+import getpass
 import json
 import math
 import os
@@ -63,12 +70,18 @@ def load_settings() -> Settings:
         "STAGING_BASE_URL",
         "OPENOBSERVE_URL",
         "OBSERVABILITY_ORGANIZATION",
-        "OPENOBSERVE_QUERY_TOKEN",
     )
     values = {name: os.getenv(name, "").strip() for name in names}
-    missing = [name for name, value in values.items() if not value]
-    if missing:
-        raise CheckError("Missing environment variable(s): " + ", ".join(missing))
+    prompts = {
+        "STAGING_BASE_URL": "Staging application base URL: ",
+        "OPENOBSERVE_URL": "OpenObserve server base URL: ",
+        "OBSERVABILITY_ORGANIZATION": "Staging OpenObserve organization ID: ",
+    }
+    for name, prompt in prompts.items():
+        if not values[name]:
+            values[name] = input(prompt).strip()
+        if not values[name]:
+            raise CheckError(f"Missing required setting: {name}")
 
     staging_url = values["STAGING_BASE_URL"].rstrip("/")
     observe_url = values["OPENOBSERVE_URL"].rstrip("/")
@@ -85,8 +98,20 @@ def load_settings() -> Settings:
         )
     # OpenObserve API paths require the organization's unique identifier,
     # which may differ from the human-readable name shown in the UI.
-    query_token = values["OPENOBSERVE_QUERY_TOKEN"]
-    if query_token.lower().startswith("basic "):
+    query_token = os.getenv("OPENOBSERVE_QUERY_TOKEN", "").strip()
+    username = os.getenv("OPENOBSERVE_QUERY_USERNAME", "").strip()
+    if username or not query_token:
+        if not username:
+            username = input(
+                "OpenObserve API username [root@example.com]: "
+            ).strip() or "root@example.com"
+        password = getpass.getpass("OpenObserve API password: ")
+        if not password:
+            raise CheckError("The OpenObserve API password cannot be empty.")
+        query_token = base64.b64encode(
+            f"{username}:{password}".encode("utf-8")
+        ).decode("ascii")
+    elif query_token.lower().startswith("basic "):
         query_token = query_token[6:].strip()
 
     return Settings(
