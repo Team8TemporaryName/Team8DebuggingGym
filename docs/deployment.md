@@ -168,7 +168,7 @@ Required variables:
 
 - `OBSERVABILITY_ENABLED`: Whether to enable observability or disable it
 - `OPENOBSERVE_URL`: OpenObserve hostname
-- `OPENOBSERVE_TOKEN`: OpenObserve ingestion token
+- `OPENOBSERVE_TOKEN`: the ready-to-use Basic Authorization value from IAM > Ingestion Tokens (used by the application for OTLP ingestion)
 - `OBSERVABILITY_ORGANIZATION`: Name of organization to which to send observability data to
 
 ### Environment Configuration

@@ -50,10 +50,10 @@ OPENOBSERVE_URL = os.environ.get("OPENOBSERVE_URL", "http://localhost:5080")
 OPENOBSERVE_TOKEN = os.environ.get("OPENOBSERVE_TOKEN", "")
 OBSERVABILITY_ORGANIZATION = os.environ.get("OBSERVABILITY_ORGANIZATION", "default")
 
-# SLI-01's export windows, per docs/observability.md: the log exporter's batch
-# interval is five seconds and the metric exporter's is one minute.
-LOG_EXPORT_INTERVAL_SECONDS = 5
-METRIC_EXPORT_INTERVAL_SECONDS = 60
+# SLI-01's export windows, per docs/observability.md: logs export every second
+# and metrics every ten seconds, leaving time within the one-minute QRT deadline.
+LOG_EXPORT_INTERVAL_SECONDS = 1
+METRIC_EXPORT_INTERVAL_SECONDS = 10
 
 _STRUCTURED_LOGGER = logging.getLogger("debugging_gym.requests")
 
@@ -172,7 +172,10 @@ def _ensure_observability() -> bool:
 
         metric_headers = {}
         if OPENOBSERVE_TOKEN:
-            metric_headers["Authorization"] = f"Basic {OPENOBSERVE_TOKEN}"
+            token = OPENOBSERVE_TOKEN.strip()
+            metric_headers["Authorization"] = (
+                token if token.lower().startswith("basic ") else f"Basic {token}"
+            )
         metric_exporter = OTLPMetricExporter(
             endpoint=f"{OPENOBSERVE_URL}/api/{OBSERVABILITY_ORGANIZATION}/v1/metrics",
             headers=metric_headers,
@@ -206,13 +209,25 @@ def _ensure_observability() -> bool:
 
         log_headers = {}
         if OPENOBSERVE_TOKEN:
-            log_headers["Authorization"] = f"Basic {OPENOBSERVE_TOKEN}"
+            token = OPENOBSERVE_TOKEN.strip()
+            log_headers["Authorization"] = (
+                token if token.lower().startswith("basic ") else f"Basic {token}"
+            )
         log_exporter = OTLPLogExporter(
             endpoint=f"{OPENOBSERVE_URL}/api/{OBSERVABILITY_ORGANIZATION}/v1/logs",
             headers=log_headers,
         )
         _LOGGER_PROVIDER = LoggerProvider(resource=resource)
-        _LOGGER_PROVIDER.add_log_record_processor(BatchLogRecordProcessor(log_exporter))
+        _LOGGER_PROVIDER.add_log_record_processor(
+            BatchLogRecordProcessor(
+                log_exporter,
+                schedule_delay_millis=LOG_EXPORT_INTERVAL_SECONDS * 1000,
+            )
+        )
+        # Uvicorn's default logging configuration leaves the root logger at
+        # WARNING. Set this logger explicitly so its INFO records reach the
+        # OpenTelemetry handler attached to the root logger.
+        _STRUCTURED_LOGGER.setLevel(logging.INFO)
         logging.getLogger().addHandler(
             LoggingHandler(level=logging.INFO, logger_provider=_LOGGER_PROVIDER)
         )
