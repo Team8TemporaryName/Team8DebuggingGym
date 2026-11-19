@@ -405,7 +405,14 @@ def create_deliberate_failure(
     if not request_id:
         raise CheckError("The HTTP 400 response did not contain x-request-id.")
 
-    return str(exercise_id), str(request_id), request_started, response_monotonic
+    response_wall_time = time.time()
+    return (
+        str(exercise_id),
+        str(request_id),
+        request_started,
+        response_monotonic,
+        response_wall_time,
+    )
 
 
 def find_request_log(
@@ -481,38 +488,57 @@ def find_request_log(
         time.sleep(min(RETRY_INTERVAL_SECONDS, max(0, deadline - time.monotonic())))
 
     raise CheckError(
-        "The matching log point with the expected route and client_error outcome "
-        f"did not appear within five seconds ({last_problem})."
-    )
-
-
-def query_sli_01(
-    settings: Settings, response_monotonic: float
+        "The matching log point with the expecteddef query_sli_01(
+    settings: Settings,
+    response_monotonic: float,
+    response_wall_time: float,
 ) -> tuple[str, float, float]:
+    """Find a finite SLI-01 evaluation produced after the deliberate failure.
+
+    Use the existing SLI-01 expression unchanged, through the Prometheus
+    query_range endpoint. A range response preserves a finite post-request
+    evaluation even if the current instant later becomes NaN after the series
+    goes stale. Samples before the deliberate response are never accepted.
+    """
     deadline = response_monotonic + METRIC_DEADLINE_SECONDS
-    url = _oa_url(settings, "prometheus/api/v1/query")
+    url = _oa_url(settings, "prometheus/api/v1/query_range")
     headers = _oa_headers(settings)
-    last_problem = "no numeric failure series returned"
+    start = math.ceil(response_wall_time)
+    last_problem = "no numeric failure series returned after the deliberate response"
 
     while time.monotonic() < deadline:
         remaining = deadline - time.monotonic()
-        params = urlencode({"query": SLI_01_QUERY, "time": str(time.time())})
+        now = time.time()
+        if now <= start:
+            time.sleep(min(RETRY_INTERVAL_SECONDS, max(0.0, deadline - time.monotonic())))
+            continue
+
+        params = urlencode(
+            {
+                "query": SLI_01_QUERY,
+                "start": str(start),
+                "end": str(now),
+                "step": "1s",
+            }
+        )
         try:
             status, _, response = _request(
                 "GET",
                 f"{url}?{params}",
                 headers=headers,
-                timeout=min(3.0, remaining),
+                timeout=min(5.0, remaining),
             )
             if status >= 500:
                 last_problem = f"OpenObserve returned HTTP {status}"
             elif status != 200:
-                _expect(status, 200, "Execute SLI-01 PromQL query")
+                _expect(status, 200, "Execute SLI-01 five-minute P95 range query")
             elif response.get("status") != "success":
-                last_problem = "OpenObserve did not report a successful PromQL query"
+                last_problem = "OpenObserve did not report a successful PromQL range query"
             else:
                 data = response.get("data", {})
                 series_list = data.get("result", []) if isinstance(data, dict) else []
+                found: tuple[str, float, float] | None = None
+
                 for series in series_list:
                     labels = series.get("metric", {})
                     route = str(labels.get("route", ""))
@@ -520,26 +546,43 @@ def query_sli_01(
                         continue
                     if not route.startswith("/api/exercises/") or not route.endswith("/verify"):
                         continue
-                    value = series.get("value")
-                    if not isinstance(value, list) or len(value) < 2:
-                        continue
-                    try:
-                        p95_ms = float(value[1])
-                    except (TypeError, ValueError):
-                        continue
-                    if math.isfinite(p95_ms):
-                        return route, p95_ms, time.monotonic() - response_monotonic
-                last_problem = "the query returned no numeric client_error verification series"
+
+                    # Prometheus range-query responses use "values", a list
+                    # of [evaluation_timestamp, sample_value] pairs.
+                    for sample in series.get("values", []):
+                        if not isinstance(sample, list) or len(sample) < 2:
+                            continue
+                        try:
+                            sample_time = float(sample[0])
+                            p95_ms = float(sample[1])
+                        except (TypeError, ValueError):
+                            continue
+                        if sample_time < response_wall_time or not math.isfinite(p95_ms):
+                            continue
+                        candidate = (route, p95_ms, sample_time)
+                        if found is None or candidate[2] > found[2]:
+                            found = candidate
+
+                if found is not None:
+                    route, p95_ms, sample_time = found
+                    elapsed = time.monotonic() - response_monotonic
+                    return route, p95_ms, elapsed
+                last_problem = (
+                    "the range query contained no finite client_error verification "
+                    "P95 evaluation at or after the deliberate response"
+                )
         except CheckError as exc:
             message = str(exc)
             if "HTTP 5" not in message and not message.startswith("Network request failed"):
                 raise
             last_problem = message
 
-        time.sleep(min(1.0, max(0, deadline - time.monotonic())))
+        time.sleep(min(1.0, max(0.0, deadline - time.monotonic())))
 
     raise CheckError(
-        "The SLI-01 five-minute P95 query did not return a numeric client_error "
+        "The SLI-01 five-minute P95 range query did not return a numeric "
+        f"client_error verification series within one minute ({last_problem})."
+    ) return a numeric client_error "
         f"verification series within one minute ({last_problem})."
     )
 
@@ -550,9 +593,13 @@ def main() -> int:
         print("QR-05 QRT-01 — staging diagnosability check")
         print("Environment: staging")
 
-        exercise_id, request_id, request_started, response_monotonic = (
-            create_deliberate_failure(settings)
-        )
+        (
+            exercise_id,
+            request_id,
+            request_started,
+            response_monotonic,
+            response_wall_time,
+        ) = create_deliberate_failure(settings)
         print("Deliberate verification response: HTTP 400 (missing source)")
         print(f"Request ID: {request_id}")
 
@@ -579,7 +626,7 @@ def main() -> int:
         print(f"Log point found after response: {log_elapsed:.2f}s (deadline: 5s)")
 
         metric_route, p95_ms, metric_elapsed = query_sli_01(
-            settings, response_monotonic
+            settings, response_monotonic, response_wall_time
         )
         print(f"SLI-01 failure route: {metric_route}")
         print("SLI-01 outcome: client_error")
