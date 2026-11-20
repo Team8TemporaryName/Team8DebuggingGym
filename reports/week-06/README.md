@@ -14,6 +14,24 @@ The analytics and observability dashboards were not shown during the November 9 
 
 The broader operator–teacher–learner workflow in TOS-05 remains follow-up work: account creation, exercise-set assignment, update reconciliation, submissions, and validated CSV export. Full account login is not a completed SPRINT-06 story; [US-18](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/89) remains in the unscheduled backlog because the teacher access-key approach covers the current scope ([DEC-023](../../docs/decisions.md#dec-023), [DEC-028](../../docs/decisions.md#dec-028)). Multi-language support also remains deferred ([DEC-024](../../docs/decisions.md#dec-024), [DEC-034](../../docs/decisions.md#dec-034)).
 
+## Sprint delivery and scope movement
+
+The eight completed SPRINT-06 stories account for **44 story points**, against a planned velocity of **18**.
+
+| Story | Issue | Story points |
+| ----- | ----- | -----------: |
+| US-13 | [#84](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/84) | 3 |
+| US-14 | [#85](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/85) | 2 |
+| US-15 | [#86](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/86) | 3 |
+| US-16 | [#87](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/87) | 5 |
+| US-17 | [#88](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/88) | 8 |
+| US-19 | [#90](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/90) | 2 |
+| US-20 | [#91](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/91) | 13 |
+| US-21 | [#92](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/92) | 8 |
+| **Total completed** | | **44** |
+
+The expanded TOS-05 operator–teacher–learner workflow (separate student/teacher accounts, exercise-set assignment, update reconciliation, submissions, and validated CSV export) moved out of SPRINT-06, together with multi-language support. The customer expanded the classroom scenario during the review, so the sprint retained the narrower teacher access-key and server-stored-exercise slice; [US-18](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/89) remains unscheduled because the access-key flow covers the current scope.
+
 ## Minimum usable product candidate
 
 The minimum usable product candidate remains a learner completing a debugging exercise in their own VS Code environment and receiving an official pass/fail verdict from the server-side harness. The Week 6 increment extends that flow with server-stored exercises, teacher-created content, learner browsing/reopening, and per-learner completion tracking. The original candidate and its customer decision are recorded in the [Week 3 report](../week-03/README.md#minimum-usable-product-candidate); the current core-task measure is [TOS-01](../../docs/threshold-of-success.md#tos-01).
