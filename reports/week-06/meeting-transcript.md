@@ -335,7 +335,7 @@ Timestamps are retained from the source transcription; the out-of-order timestam
 [00:58:15] Tedor49: well I think that probably the virtual environment should be alongside the exercise well stored on the server and probably we want so that probably we also want so that a teacher can edit it
 [00:58:49] Customer: So they can tweak package versions and whatnot okay agree yeah by the way it would be convenient for a teacher to see to get some scaffolding for exercises like they select the exercise language like Golang or Python.
 [00:58:49] Customer: And then like several files appear.
-[00:58:49] Customer: The exercise itself, like with Jeff Main or something like this.
+[00:58:49] Customer: The exercise itself, like with `__main__` or something like this.
 [00:58:49] Customer: The tests, the harness file, like the private harness file, the public harness file, and maybe this, pyproject.toml file for exercise-specific settings.
 [01:00:09] Tedor49: Yes, I think that will work.
 [01:00:16] Customer: And a similar thing Should there be a docker file by the way?
