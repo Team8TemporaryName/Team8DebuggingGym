@@ -20,9 +20,9 @@
 | [Week 5 action points](../week-05/meeting-report.md#action-points): implement pinning of the current exercise's open files in the extension. | Done for the current open/reopen flow. The extension opens an exercise from the server and restores its files after the local directory is removed. A visible update indicator for teacher-published changes is a separate follow-up from this review. | *None* |
 | [Week 5 action points](../week-05/meeting-report.md#action-points): warn when an expected folder is missing or renamed, with an option to refetch it. | Done. The review demonstrated deleting the local exercise directory and downloading the stored exercise again from the server. | *None* |
 | [Week 5 action points](../week-05/meeting-report.md#action-points): decide the package layout and top-level Git repository with per-exercise commit naming. | Done at the previous review: one top-level repository and visually grouped packages were recorded in DEC-020 and DEC-021. This review clarified that assignment groupings should be exercise sets and that one exercise may be linked from several sets. | [DEC-020](../../docs/decisions.md#dec-020), [DEC-021](../../docs/decisions.md#dec-021), [DEC-030](../../docs/decisions.md#dec-030) |
-| [Week 5 action points](../week-05/meeting-report.md#action-points): protect hidden tests with server-side permissions and keep them out of the local harness. | Partly carried forward. Server-side hidden-test protection remains the recorded direction in DEC-022. At this review the customer removed the requirement to make every runtime workaround impossible and agreed that submissions should be retained for post-deadline review instead. | [DEC-022](../../docs/decisions.md#dec-022), [DEC-036](../../docs/decisions.md#dec-037) |
+| [Week 5 action points](../week-05/meeting-report.md#action-points): protect hidden tests with server-side permissions and keep them out of the local harness. | Partly carried forward. Server-side hidden-test protection remains the recorded direction in DEC-022. At this review the customer removed the requirement to make every runtime workaround impossible and agreed that submissions should be retained for post-deadline review instead. | [DEC-022](../../docs/decisions.md#dec-022), [DEC-036](../../docs/decisions.md#dec-036) |
 | [Week 5 action points](../week-05/meeting-report.md#action-points): design the exercise library and teacher-assignment flow. | Partly done. Server-stored exercises, teacher access by key, teacher-side generation, learner browsing, extension download, and completion tracking were demonstrated (FR-011–FR-015). Assignment of exercise sets and operator-created accounts remain future work. | [DEC-023](../../docs/decisions.md#dec-023), [DEC-028](../../docs/decisions.md#dec-028), [DEC-030](../../docs/decisions.md#dec-030) |
-| [Week 5 action points](../week-05/meeting-report.md#action-points): add at least one language beyond Python. | Not done; multi-language support remains deferred. Exercise-specific dependency environments and teacher-facing scaffolding were discussed, but they do not constitute implementation of a second language. | [DEC-024](../../docs/decisions.md#dec-024), [DEC-035](../../docs/decisions.md#dec-035) |
+| [Week 5 action points](../week-05/meeting-report.md#action-points): add at least one language beyond Python. | Not done; multi-language support remains deferred. Exercise-specific dependency environments and teacher-facing scaffolding were discussed, but they do not constitute implementation of a second language. | [DEC-024](../../docs/decisions.md#dec-024), [DEC-034](../../docs/decisions.md#dec-034) |
 
 ## Previous open questions
 
@@ -50,9 +50,8 @@
 - [DEC-033](../../docs/decisions.md#dec-033): Research and prototype container-based exercise isolation with a refresh/restart action.
 - [DEC-034](../../docs/decisions.md#dec-034): Provide per-exercise dependency environments and teacher-editable exercise scaffolding, including the Dockerfile.
 - [DEC-035](../../docs/decisions.md#dec-035): Generate a private ground-truth solution and build the harness against it.
-- [DEC-036](../../docs/decisions.md#dec-037): Retain submissions for post-deadline audit rather than require complete run-time anti-tampering.
-- [DEC-037](../../docs/decisions.md#dec-038): Use neutral “product user” wording for the documentation-access threshold.
-
+- [DEC-036](../../docs/decisions.md#dec-036): Retain submissions for post-deadline audit rather than require complete run-time anti-tampering.
+- [DEC-037](../../docs/decisions.md#dec-037): Use neutral “product user” wording for the documentation-access threshold.
 ## Action points
 
 | Action | Owner | Due |
@@ -69,7 +68,7 @@
 | Should teachers be able to delete server-stored exercises, and if so, who may delete which exercises and how prominent should the action be? | The exercise-library management and deletion interaction. | Confirm the permissions and interaction during exercise-library refinement. |
 | How does the operator create, invite, and manage teacher and student accounts? | The authentication and role lifecycle in TOS-05. | Refine the account-creation flow. |
 | Which survey questions, scale, sample, and satisfaction threshold will be used for the focus metric? | The measurement definition in DEC-029. | Finalize after the usability test. |
-| Which container approach and per-exercise environment model are practical for the supported languages? | The sandbox and dependency decisions in DEC-034 and DEC-035. | Report findings from the Week 7 prototype. |
+| Which container approach and per-exercise environment model are practical for the supported languages? | The sandbox and dependency decisions in DEC-033 and DEC-034. | Report findings from the Week 7 prototype. |
 
 ## Disagreements
 
