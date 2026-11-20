@@ -72,7 +72,7 @@ The product records a learner's progress after each exercise and tells the team 
 - **Planned Velocity:** 44
 - **Actual Velocity:** 44
 
-Work moved out of SPRINT-06: the expanded TOS-05 operator–teacher–learner workflow (separate student/teacher accounts, exercise-set assignment, update reconciliation, submissions, and validated CSV export), as well as multi-language support. These were deferred because the customer expanded the classroom scenario during the review and the team retained the narrower teacher access-key and server-stored-exercise slice for REL-06; [US-18](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/89) also remains unscheduled because the access-key flow covers the current scope.
+Work deferred from the SPRINT-06 increment: the expanded TOS-05 operator–teacher–learner workflow (operator-created accounts, exercise-set assignment, update reconciliation, learner submissions, and validated CSV export) remains in the product backlog for later refinement; it has not yet been assigned to a numbered sprint milestone. The customer added this wider classroom scenario during the Week 6 review, while REL-06 retained the narrower teacher access-key and server-stored-exercise slice. [US-18](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/89) remains unscheduled because the access-key flow covers the current scope. Multi-language support is not work moved out of SPRINT-06: [US-08](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/27) remains Won't Have for the first release under [DEC-001](decisions.md#dec-001) and [DEC-003](decisions.md#dec-003).
 
 #### REL-06
 
