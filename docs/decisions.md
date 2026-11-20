@@ -342,3 +342,123 @@ Use OpenPanel for privacy-conscious product analytics, with separate staging and
 - **Made by:** Development Team
 - **Source:** Issue [#79](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/79)
 - **Why:** The team needs reliable product metrics to understand learner engagement and exercise outcomes. OpenPanel provides event collection, while separate environment scopes prevent staging and smoke-test traffic from contaminating production metrics. Analytics failures must not interrupt core application functionality.
+
+## DEC-027
+
+Re-scope the learner core task around the current VS Code extension workflow.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer said the original measure no longer reflected the product as it now works. The ordinary learner flow should use the VS Code extension to obtain and work on an exercise, without requiring the learner to follow the deployment/setup guide as part of normal exercise use.
+
+## DEC-028
+
+Add the operator–teacher–learner workflow as a separate end-to-end threshold of success.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer described the wider classroom workflow: an operator deploys the system and creates accounts; a teacher creates and assigns an exercise set; learners discover, solve, and submit exercises and receive verdicts; learners reconcile later teacher updates; and the teacher exports results in a CSV accepted by Moodle or an agreed validation check. The team agreed to express this as a role-split end-to-end goal, recorded as TOS-05.
+
+## DEC-029
+
+Use user satisfaction across learners and teachers as the focus metric, measured through surveys.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer considered weekly exercise completions too dependent on a particular course's ongoing activity. Satisfaction across both learners and teachers is a more durable measure. The survey instrument and numerical success threshold are to be defined after usability testing; the customer's example of four out of five satisfied respondents was not an agreed target.
+
+## DEC-030
+
+Model assignment groupings as exercise sets with shared exercise references.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer agreed on an exercise-set concept for assigning several exercises together, including a set containing one exercise. The same exercise may be referenced from more than one set without duplicating the underlying exercise files.
+
+## DEC-031
+
+Let teachers choose whether an edit affects one exercise or all of its linked uses.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** A teacher may want to change only one exercise-set copy or propagate a change everywhere the exercise is used. The customer asked for this choice to be made in the teacher workflow. A teacher who is not the author of a public-gallery exercise must create a new exercise rather than modify the original.
+
+## DEC-032
+
+Use a visible update indicator and a manual reconciliation flow when a teacher changes an exercise.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer preferred manual retrieval of teacher-published updates because automatic propagation could create merge conflicts and lose learner work. The team proposed Git-based preservation and Git stash as an initial option; the customer considered it a plausible approach, with conflict handling still to be validated.
+
+## DEC-033
+
+Make teacher-side server exercise deletion possible, but keep the action unobtrusive.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer described a teacher needing to remove exercises when preparing a new exercise set. The customer accepted that deletion should be available while agreeing that it should not be an overly prominent action, to reduce accidental deletion. The exact permission scope remains open.
+
+## DEC-034
+
+Research and prototype container-based exercise isolation with a refresh/restart action.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer wanted learner and teacher code isolated for reproducibility and to prevent exercise code from modifying files outside its workspace. The team agreed to research or try a container-based approach and provide a way to restart a sandbox that has become unusable; this is a research/prototype commitment, not a promise that the complete production solution is already implemented.
+
+## DEC-035
+
+Provide per-exercise dependency environments and teacher-editable exercise scaffolding.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** Different exercises may require different dependency versions. The customer agreed to exercise-specific environments that teachers can adjust, together with scaffolding for the exercise source, public and private harness material, settings, and a Dockerfile that can be tuned for the execution environment. The private harness remains unavailable to learners.
+
+## DEC-036
+
+Generate a private ground-truth solution and build the verification harness against it.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer asked whether exercise generation produces a correct reference version. The team agreed to generate a private ground-truth solution and use it as the basis for the harness, so the intended defect and its correction have an explicit oracle.
+
+## DEC-037
+
+Retain learner submissions for post-deadline audit rather than require complete run-time anti-tampering.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer proposed retaining submitted work on the server and in Git history, then reviewing submissions after the deadline with an agent for workarounds or malicious behavior. This removes the requirement to make every run-time tampering technique impossible. It does not reverse [DEC-022](#dec-022)'s server-side protection of hidden tests.
+
+## DEC-038
+
+Use neutral “product user” wording for the documentation-access threshold.
+
+- **Status:** Active
+- **Date:** 2026-11-09
+- **Made by:** Customer
+- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
+- **Why:** The customer noted that setup and deployment documentation may be used by an operator rather than a learner, and suggested replacing “learner” with the neutral term “product user” in TOS-04.
