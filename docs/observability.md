@@ -8,7 +8,7 @@ The product's diagnosability requirement is read through the staging organizatio
 The product emits metrics for active `SLI`s, and it emits a structured log line for every HTTP request because `SLI-01`'s per-request point is read from it.
 The trace span is optional, and the team emits none this week.
 An alert is a rule over a signal rather than a signal of its own, and the team defines none this week.
-The active observability capability covers request response time and diagnosis (`SLI-01`) and availability (`SLI-03`). Verification latency (`SLI-02`) and debug-runtime release (`SLI-04`) remain planned.
+The active telemetry records request response time and HTTP request outcomes (`SLI-01` and the application-side request-success indicator shown as `SLI-03`). `SLI-03` is not an independent external availability monitor and does not satisfy `QR-04`; its deployed QRT remains Not verified. Verification latency (`SLI-02`) and actual debug-runtime release (`SLI-04`) remain planned.
 
 ## The SLIs
 
@@ -44,7 +44,7 @@ Exercise verification latency.
 Availability.
 
 - **Status:** Active
-- **Definition:** The fraction of HTTP requests handled by the `webapp` that complete successfully (`outcome="ok"`) out of all recorded HTTP request outcomes, measured over a seven-day window. This is the operational availability measure used for [`QR-04`](quality-requirements/qr/QR-04.md).
+- **Definition:** The fraction of HTTP requests handled by the `webapp` that complete successfully (`outcome="ok"`) out of all recorded HTTP request outcomes, measured over a seven-day window. This is an application-side request-success indicator, not the independent one-minute external probe required by [`QR-04`](quality-requirements/qr/QR-04.md), and must not be used as evidence that QR-04 passes.
 - **Unit:** Percentage.
 - **Window:** Seven days, evaluated every minute.
 - **Source:** An OpenTelemetry counter of request outcomes (`request_outcome`) the `webapp` increments for every request with an `outcome` label (`ok`, `client_error`, `server_error`), exported over OTLP/HTTP to OpenObserve.
@@ -63,7 +63,7 @@ Debug-runtime release.
 
 ## The Pipeline
 
-The `webapp` container emits the active signals: a structured log line per request, an OpenTelemetry histogram per request, a request-outcome counter per request, an availability-probe counter per completed probe, all exported over OTLP/HTTP to OpenObserve.
+The `webapp` container emits the active signals: a structured log line per request, an OpenTelemetry request-duration histogram, and a request-outcome counter for each handled HTTP request, all exported over OTLP/HTTP to OpenObserve. No independent external availability-probe counter is currently implemented.
 The observability backend is OpenObserve, self-hosted on the university VM, with one environment scope per environment: a `staging` organization and a `production` organization, each with its own dashboard.
 The metric export interval is ten seconds and the log exporter's batch interval is one second, so the per-request log point appears within five seconds and the aggregate within one minute, meeting `SLI-01`'s `**Window:**`.
 The temporary workspace used by local verification is cleaned up after the subprocess exits. This is not the complete runtime teardown measured by QR-03, so it does not produce an SLI-04 measurement.
@@ -81,6 +81,6 @@ Evidence is two sanitized screenshots, one per scope, in `reports/week-06/images
 
 ## Collected Data
 
-The signals collect a `request_id`, `route`, `outcome`, `duration_ms`, the histogram bucket labels, the request-outcome counts, availability-probe outcomes; the data lives in the OpenObserve instance on the university VM.
+The signals collect a `request_id`, `route`, `outcome`, `duration_ms`, histogram bucket labels, and HTTP request-outcome counts; the data lives in the OpenObserve instance on the university VM.
 The product never collects a personal name, an email address, a phone number, a postal address, free text, or payment data; the `request_id` is an opaque random identifier, not derived from personal data.
 Collection is disabled by setting `OBSERVABILITY_ENABLED=false`.
