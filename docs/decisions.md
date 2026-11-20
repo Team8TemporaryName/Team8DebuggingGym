@@ -405,16 +405,6 @@ Use a visible update indicator and a manual reconciliation flow when a teacher c
 
 ## DEC-033
 
-Make teacher-side server exercise deletion possible, but keep the action unobtrusive.
-
-- **Status:** Active
-- **Date:** 2026-11-09
-- **Made by:** Customer
-- **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
-- **Why:** The customer described a teacher needing to remove exercises when preparing a new exercise set. The customer accepted that deletion should be available while agreeing that it should not be an overly prominent action, to reduce accidental deletion. The exact permission scope remains open.
-
-## DEC-034
-
 Research and prototype container-based exercise isolation with a refresh/restart action.
 
 - **Status:** Active
@@ -423,7 +413,7 @@ Research and prototype container-based exercise isolation with a refresh/restart
 - **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
 - **Why:** The customer wanted learner and teacher code isolated for reproducibility and to prevent exercise code from modifying files outside its workspace. The team agreed to research or try a container-based approach and provide a way to restart a sandbox that has become unusable; this is a research/prototype commitment, not a promise that the complete production solution is already implemented.
 
-## DEC-035
+## DEC-033
 
 Provide per-exercise dependency environments and teacher-editable exercise scaffolding.
 
@@ -433,7 +423,7 @@ Provide per-exercise dependency environments and teacher-editable exercise scaff
 - **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
 - **Why:** Different exercises may require different dependency versions. The customer agreed to exercise-specific environments that teachers can adjust, together with scaffolding for the exercise source, public and private harness material, settings, and a Dockerfile that can be tuned for the execution environment. The private harness remains unavailable to learners.
 
-## DEC-036
+## DEC-033
 
 Generate a private ground-truth solution and build the verification harness against it.
 
@@ -443,7 +433,7 @@ Generate a private ground-truth solution and build the verification harness agai
 - **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
 - **Why:** The customer asked whether exercise generation produces a correct reference version. The team agreed to generate a private ground-truth solution and use it as the basis for the harness, so the intended defect and its correction have an explicit oracle.
 
-## DEC-037
+## DEC-033
 
 Retain learner submissions for post-deadline audit rather than require complete run-time anti-tampering.
 
@@ -453,7 +443,7 @@ Retain learner submissions for post-deadline audit rather than require complete 
 - **Source:** [the Week 6 customer Sprint Review](../reports/week-06/meeting-report.md)
 - **Why:** The customer proposed retaining submitted work on the server and in Git history, then reviewing submissions after the deadline with an agent for workarounds or malicious behavior. This removes the requirement to make every run-time tampering technique impossible. It does not reverse [DEC-022](#dec-022)'s server-side protection of hidden tests.
 
-## DEC-038
+## DEC-033
 
 Use neutral “product user” wording for the documentation-access threshold.
 
