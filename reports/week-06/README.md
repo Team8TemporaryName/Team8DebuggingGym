@@ -56,7 +56,7 @@ The meeting report records the demonstrated increment and the customer's decisio
 
 ### Product analytics
 
-The staging screenshot shows the staging OpenPanel scope and event-derived learner activity charts. The production screenshot shows the production scope, including the supporting weekly-active-learner completion metric. Neither dashboard measures the customer-selected survey-based satisfaction focus metric.
+The staging screenshot shows the staging OpenPanel scope with **Active learners**, **Exercise starts per active learner**, and **Completed exercises per active learner** charts. The production screenshot shows the same environment-specific usage view and includes **Weekly Active Learners Completing an Exercise**, the seven-day supporting metric. Neither dashboard measures the customer-selected survey-based satisfaction focus metric.
 
 ![Analytics staging dashboard](images/analytics-staging.jpg)
 
@@ -64,13 +64,13 @@ The staging screenshot shows the staging OpenPanel scope and event-derived learn
 
 ### Operational observability
 
-The staging and production OpenObserve dashboards show their respective environment scopes and the configured SLI panels. The charts are evidence that the dashboards render telemetry; they are not evidence that every underlying quality requirement passes. In particular, SLI-03 is an application-side HTTP request-success indicator, not the independent external availability monitor required by QR-04. SLI-04 remains Planned and its chart must not be treated as proof of remote debug-runtime shutdown and source deletion.
+The staging and production OpenObserve dashboards show their respective environment scopes and panels for **SLI-01 Request response time**, **SLI-02 Exercise verification latency**, **SLI-03 Availability/request outcomes**, and **SLI-04 Debug-runtime release**. These screenshots are evidence that the dashboards render telemetry; they are not evidence that every underlying quality requirement passes. In particular, SLI-03 is an application-side HTTP request-success indicator, not the independent external availability monitor required by QR-04. SLI-04 remains Planned and its chart must not be treated as proof of remote debug-runtime shutdown and source deletion.
 
 ![Observability staging dashboard](images/observability-staging.jpg)
 
 ![Observability production dashboard](images/observability-production.jpg)
 
-The separate [QR-05 QRT-01 staging evidence](qr-05-qrt-01-evidence.md) records the deliberate failed verification request, its request_id, route and client_error outcome, the 0.30-second log detection, and the 4.750 ms SLI-01 five-minute P95. The [dedicated OpenObserve QRT screenshot](images/qr-05-qrt-01-staging-openobserve-dashboard.png) is the test evidence; it is not a substitute for the two environment dashboard screenshots above.
+The separate [QR-05 QRT-01 staging evidence](qr-05-qrt-01-evidence.md) records a deliberate failed verification request with request ID `41bcafe68b046f19`, route `/api/exercises/ex-288701/verify`, and outcome `client_error`. The matching log point was found 0.30 seconds after the response, and the SLI-01 five-minute P95 was 4.750 ms. The [dedicated OpenObserve QRT screenshot](images/qr-05-qrt-01-staging-openobserve-dashboard.png) is the test evidence; it is not a substitute for the two environment dashboard screenshots above.
 
 ## Coverage table
 
