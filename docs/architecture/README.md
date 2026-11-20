@@ -15,6 +15,8 @@ The product runs as the containers below, and [`ADR-001`](adr/ADR-001.md) decide
 
 ![Container view](container.svg)
 
+OpenPanel and OpenObserve are self-hosted external systems on the university VM. The team deploys and configures these backends, but does not build them; they are not product containers.
+
 ### Container Responsibilities
 
 | Container | Responsibilities |
@@ -26,7 +28,7 @@ The product runs as the containers below, and [`ADR-001`](adr/ADR-001.md) decide
 
 ## Diagrams And Legends
 
-Solid boxes are the product's containers and dashed boxes are external actors or systems; an arrow is one exchange, labelled with the protocol or event that crosses it.
+Solid boxes are the product's containers and dashed boxes are external actors or systems; an arrow is one exchange, labelled with the protocol or event that crosses it. The dashed OpenPanel and OpenObserve systems are self-hosted by the team, not built by the team.
 The image is [`container.svg`](./container.svg), and its Mermaid source is [`container.mmd`](./container.mmd), generated to match the diagram's containers and arrows.
 
 ## Architectural Decisions
