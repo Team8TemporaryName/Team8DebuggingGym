@@ -14,7 +14,7 @@ A learner can complete the current core practice flow end to end using the VS Co
 A generated exercise contains the intended defect, and the learner's fix receives a correct verification verdict.
 
 - **Status:** Achieved
-- **Measure:** The demonstrated exercise fails while its intended defect is present and passes after the defect is fixed. Submitted work is retained on the server and in Git history for post-deadline review.
+- **Measure:** During the Week 6 review, the demonstrated exercise failed verification while its intended defect was present and passed after the defect was fixed. The customer accepted the threshold as achieved.
 - **Outcome:** At the Week 6 review, the customer explicitly accepted this threshold as achieved after removing the requirement that every run-time workaround be impossible. The customer also agreed that submissions should be retained on the server and in Git history for post-deadline audit; server-side hidden-test protection remains in place ([DEC-022](decisions.md#dec-022), [DEC-035](decisions.md#dec-035), [DEC-036](decisions.md#dec-036)).
 
 - **Changed:**
