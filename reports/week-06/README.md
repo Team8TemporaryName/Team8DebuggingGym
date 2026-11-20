@@ -84,7 +84,7 @@ The separate [QR-05 QRT-01 staging evidence](qr-05-qrt-01-evidence.md) records t
 | Observability dashboards | [reports/week-06/images/observability-staging.jpg](images/observability-staging.jpg) and [reports/week-06/images/observability-production.jpg](images/observability-production.jpg) |
 | Feature documentation | [docs/features.md](../../docs/features.md) |
 | Functional requirements | [docs/functional-requirements/README.md](../../docs/functional-requirements/README.md), including FR-016 and FR-017 |
-| ADRs and container view | [docs/architecture/adr/README.md](../../docs/architecture/adr/README.md) and [docs/architecture/README.md#container-view](../../docs/architecture/README.md#container-view) |
+| ADRs and container view | [docs/architecture/README.md#architectural-decisions](../../docs/architecture/README.md#architectural-decisions) and [docs/architecture/README.md#container-view](../../docs/architecture/README.md#container-view) |
 | Observability requirement | [docs/quality-requirements/qr/QR-05.md](../../docs/quality-requirements/qr/QR-05.md), including QRT-01 |
 | Runtime test re-run | [docs/project-plan.md#quality-requirement-testing-plan](../../docs/project-plan.md#quality-requirement-testing-plan) and [automated QRT evidence](qr-02-qr-03-automated-qrt-evidence.md) |
 | Threshold review | [reports/week-06/README.md#threshold-review](#threshold-review) |
@@ -117,6 +117,7 @@ The separate [QR-05 QRT-01 staging evidence](qr-05-qrt-01-evidence.md) records t
 
 - The November 9 review could not show the university-VM dashboards or deployed observability QRT because the VM was unavailable at the meeting. The analytics and observability screenshots were captured later; QR-05 QRT-01 passed in staging on November 19. These later results are not described as part of the November 9 demonstration.
 - The four dashboard screenshots are JPEG files (.jpg) rather than the .png filenames used in the assignment's example paths. The original image format was retained; the four images were visually inspected and show environment labels without visible credentials, tokens, or private host addresses.
+- The Assignment 6 example coverage path names `docs/architecture/adr/README.md`; the current Architecture Requirements specify `docs/architecture/README.md` as the only architecture document and place the ADR index in its `#architectural-decisions` section. This report follows the maintained architecture document rather than creating a duplicate ADR index.
 - QR-03 QRT-04 (remote debug-runtime shutdown and source deletion) and QR-04 QRT-05 (independent external availability monitoring over seven days) remain Not verified. The local cleanup tests and the application-side SLI-03 request-success panel do not prove those requirements.
 - The focus metric has no value yet because the customer deferred the survey instrument and numerical threshold until usability testing.
 - The GitHub v0.6.0 tag and release are published and the tag points to the current main release commit. The release body still needs the operator-facing upgrade note required by the course. The repository also does not contain verifiable evidence that the production deployment ran this exact commit and passed the core-task check.
