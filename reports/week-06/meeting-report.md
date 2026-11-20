@@ -52,6 +52,7 @@
 - [DEC-035](../../docs/decisions.md#dec-035): Generate a private ground-truth solution and build the harness against it.
 - [DEC-036](../../docs/decisions.md#dec-036): Retain submissions for post-deadline audit rather than require complete run-time anti-tampering.
 - [DEC-037](../../docs/decisions.md#dec-037): Use neutral “product user” wording for the documentation-access threshold.
+
 ## Action points
 
 | Action | Owner | Due |
