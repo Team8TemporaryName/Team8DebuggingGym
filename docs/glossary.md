@@ -49,3 +49,29 @@ The isolated container that runs a learner's exercise and harness and exposes a 
 The client that brings the choose, generate, verify, and task flow into the learner's own VS Code, calling the web app's API.
 
 **Defined by:** [`FR-006`](functional-requirements/fr/FR-006.md).
+
+## Product Analytics
+
+### Focus metric
+
+The one number the product's value is read from. It represents the outcome that the product exists to deliver, rather than activity for its own sake.
+
+**Defined by:** [the analytics plan](analytics.md#focus-metric).
+
+### Input metric
+
+A measure of a user or system action that contributes to the focus metric and that the team can influence through product changes.
+
+**Defined by:** [the analytics plan](analytics.md#supporting-usage-metric-tree).
+
+### Counter-metric
+
+A guardrail metric that reveals whether improving the focus metric is causing harm elsewhere. It guards the focus metric; it is not an input that feeds it.
+
+**Defined by:** [the analytics plan](analytics.md#counter-metric).
+
+### Metric tree
+
+A nested map of the focus metric, its counter-metric, and the input metrics that contribute to it. The levels show the relationship between outcomes and the actions or measures beneath them.
+
+**Defined by:** [the analytics plan](analytics.md#supporting-usage-metric-tree).

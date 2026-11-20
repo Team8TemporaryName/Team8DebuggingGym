@@ -5,6 +5,8 @@ graph LR
     Webapp -->|runs per session| Runtime
     Webapp -->|SQL| Database[("database (SQLite)")]
     Webapp -->|REST/API| LLM["LLM provider"]
+    Webapp -->|HTTPS tracking API| OpenPanel["OpenPanel (self-hosted analytics)"]
+    Webapp -->|OTLP/HTTP| OpenObserve["OpenObserve (self-hosted observability)"]
     VSCode -->|installs| Ext
     classDef external stroke-dasharray: 5 5
-    class Learner,VSCode,LLM external
+    class Learner,VSCode,LLM,OpenPanel,OpenObserve external

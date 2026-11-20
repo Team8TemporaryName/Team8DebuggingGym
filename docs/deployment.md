@@ -1,6 +1,6 @@
 # Deployment Runbook
 
-This runbook describes how an authorized team member deploys a release candidate to the university VM. Local installation, dependency installation, and starting the application for development are documented in [Setup and run](setup.md); those instructions are intentionally not repeated here. The product's signals and SLI definitions are documented in the [Observability Plan](observability.md).
+This runbook describes how an authorized team member deploys a release candidate to the university VM. Local installation, dependency installation, and starting the application for development are documented in [Setup and run](setup.md); those instructions are intentionally not repeated here. Product usage metrics are defined in the [Analytics Plan](analytics.md), and operating signals and SLIs are defined in the [Observability Plan](observability.md).
 
 ## Environments
 
@@ -187,4 +187,4 @@ Analytics delivery is best-effort. Missing credentials disable event delivery, a
 
 The university VM is available, and the staging and production environment configurations have been provided. The application and analytics services have been deployed, and event delivery has been verified.
 
-The remaining work is to deploy the application and analytics services, verify event delivery in the appropriate OpenPanel projects, configure the dashboards, and capture deployment evidence.
+The staging and production OpenPanel dashboard views have since been configured and captured in `reports/week-06/images/analytics-staging.jpg` and `analytics-production.jpg`; the OpenObserve staging and production dashboard views are captured in `observability-staging.jpg` and `observability-production.jpg`. The Week 6 report links these images and distinguishes dashboard visibility from QRT results. The team confirmed that production runs the v0.6.0 tag commit (`6b976cdca3ca0dc628d673ba51d04bccd33a78bb`). On 2026-11-21 at approximately 01:13 (+03:00), the team completed the learner core-flow smoke test successfully in both staging and production from the university network: generate an exercise, open it through VS Code, fix it, and verify it server-side. The deployed staging application source and the production release contain the same application code; the intervening repository-only changes did not require an application redeployment. Existing QR/QRT evidence remains unchanged. See the [Week 6 report](../reports/week-06/README.md#deviations).

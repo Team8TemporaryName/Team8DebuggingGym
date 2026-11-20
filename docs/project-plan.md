@@ -70,8 +70,21 @@ The product records a learner's progress after each exercise and tells the team 
 - **Due:** 2026-11-08
 - **Sprint Backlog:** [the issues scheduled into SPRINT-06](https://github.com/Team8TemporaryName/Team8DebuggingGym/milestone/4)
 - **Planned Velocity:** 18
+- **Actual Velocity:** 44
+
+The planned baseline of 18 is the value recorded in [Issue #78 AC-10](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/78) when the sprint-planning task was closed. The completed SPRINT-06 stories total 44 points; the difference reflects additional/reworked work included in the sprint during the extended closeout.
+
+Work deferred from the SPRINT-06 increment: the expanded TOS-05 operator–teacher–learner workflow (operator-created accounts, exercise-set assignment, update reconciliation, learner submissions, and validated CSV export) remains in the product backlog for later refinement; it has not yet been assigned to a numbered sprint milestone. The customer added this wider classroom scenario during the Week 6 review, while REL-06 retained the narrower teacher access-key and server-stored-exercise slice. [US-18](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/89) remains unscheduled because the access-key flow covers the current scope. Multi-language support is not work moved out of SPRINT-06: [US-08](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/27) remains Won't Have for the first release under [DEC-001](decisions.md#dec-001) and [DEC-003](decisions.md#dec-003).
 
 #### REL-06
+
+- **Released:** [v0.6.0](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.6.0) on 2026-11-20.
+- **Checked QRs:**
+  - [QR-02](quality-requirements/qr/QR-02.md) — [QRT-02](quality-requirements/qr/QR-02.md#qrt-02).
+  - [QR-03](quality-requirements/qr/QR-03.md) — [QRT-03](quality-requirements/qr/QR-03.md#qrt-03).
+  - [QR-05](quality-requirements/qr/QR-05.md) — [QRT-01](quality-requirements/qr/QR-05.md#qrt-01).
+
+  See the [Quality Requirement Testing Plan](#quality-requirement-testing-plan) for each test's result, last check, and evidence.
 
 ### SPRINT-07
 
