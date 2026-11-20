@@ -11,11 +11,11 @@ A learner can complete the current core practice flow end to end using the VS Co
 
 ## TOS-02
 
-A generated exercise contains the intended defect, and the learner's fix is evaluated by a harness built against a private ground-truth solution.
+A generated exercise contains the intended defect, and the learner's fix receives a correct verification verdict.
 
 - **Status:** Achieved
 - **Measure:** The demonstrated exercise fails while its intended defect is present and passes after the defect is fixed. Submitted work is retained on the server and in Git history for post-deadline review.
-- **Outcome:** At the Week 6 review, the customer accepted this threshold as achieved after removing the requirement that every run-time workaround be impossible. Submissions are retained on the server and in Git history for post-deadline audit; server-side hidden-test protection remains in place ([DEC-022](decisions.md#dec-022), [DEC-035](decisions.md#dec-035), [DEC-036](decisions.md#dec-036)).
+- **Outcome:** At the Week 6 review, the customer explicitly accepted this threshold as achieved after removing the requirement that every run-time workaround be impossible. The customer also agreed that submissions should be retained on the server and in Git history for post-deadline audit; server-side hidden-test protection remains in place ([DEC-022](decisions.md#dec-022), [DEC-035](decisions.md#dec-035), [DEC-036](decisions.md#dec-036)).
 
 - **Changed:**
   - Added as a goal after the customer required a non-modifiable success state, per [DEC-006](decisions.md#dec-006).
