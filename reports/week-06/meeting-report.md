@@ -6,9 +6,9 @@
 - **Duration:** ~1 h 48 min
 - **Attended:** Magel0n, Tedor49, NikitaRUniverse, Doosuur14, Customer
 - **Presented:** server-stored exercises; the teacher access-key interface and exercise generation; learner browsing, downloading, reopening, and solving exercises; and per-user completion markers. The analytics and observability dashboards and the observability QRT were not demonstrated because the university VM was unavailable for the review.
-- **Recording:** permitted before recording began.
-- **Sanitized transcript publication:** permitted.
-- **Private sharing with instructors if publication is refused:** permitted; not needed because the sanitized transcript is published in this repository.
+- **Recording:** permitted
+- **Transcript publication:** permitted
+- **Transcript shared privately:** not applicable — permission was also granted, but publication was allowed and the sanitized transcript is public in this repository.
 - **Transcript:** [meeting-transcript.md](meeting-transcript.md)
 - **Script:** [meeting-script.md](meeting-script.md)
 
