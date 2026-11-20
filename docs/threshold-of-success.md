@@ -15,11 +15,11 @@ A generated exercise contains the intended defect, and the learner's fix is eval
 
 - **Status:** Achieved
 - **Measure:** The generated exercise has an intended buggy state and a corresponding private ground-truth solution; the harness distinguishes the buggy state from the corrected state. Submitted work is retained for post-deadline review.
-- **Outcome:** At the Week 6 review, the customer accepted this threshold as achieved after removing the requirement that every run-time workaround be impossible. Submissions are retained on the server and in Git history for post-deadline audit; server-side hidden-test protection remains in place ([DEC-022](decisions.md#dec-022), [DEC-036](decisions.md#dec-036), [DEC-037](decisions.md#dec-037)).
+- **Outcome:** At the Week 6 review, the customer accepted this threshold as achieved after removing the requirement that every run-time workaround be impossible. Submissions are retained on the server and in Git history for post-deadline audit; server-side hidden-test protection remains in place ([DEC-022](decisions.md#dec-022), [DEC-036](decisions.md#dec-036), [DEC-036](decisions.md#dec-037)).
 
 - **Changed:**
   - Added as a goal after the customer required a non-modifiable success state, per [DEC-006](decisions.md#dec-006).
-  - Replaced the run-time “learner cannot tamper with” condition with retained submissions and post-deadline audit, per [DEC-037](decisions.md#dec-037).
+  - Replaced the run-time “learner cannot tamper with” condition with retained submissions and post-deadline audit, per [DEC-036](decisions.md#dec-037).
 
 ## TOS-03
 
@@ -38,11 +38,11 @@ A product user can reach the product and its documentation without cloning the r
 
 - **Status:** Achieved
 - **Measure:** `docs/` is published as a GitHub Pages site, linked from the root `README.md`, and reachable by the end of Week 3.
-- **Outcome:** The customer opened the published documentation site during the Week 6 review and confirmed it was reachable without cloning. The audience wording was made neutral because the setup instructions may serve an operator as well as a learner ([DEC-038](decisions.md#dec-038); [Week 6 review](../reports/week-06/meeting-report.md)).
+- **Outcome:** The customer opened the published documentation site during the Week 6 review and confirmed it was reachable without cloning. The audience wording was made neutral because the setup instructions may serve an operator as well as a learner ([DEC-037](decisions.md#dec-038); [Week 6 review](../reports/week-06/meeting-report.md)).
 
 - **Changed:**
   - Added as a goal: the repository requirements call for a published documentation site in Week 3.
-  - Replaced “learner” with “product user” to cover operators and other people who may use the setup documentation, per [DEC-038](decisions.md#dec-038).
+  - Replaced “learner” with “product user” to cover operators and other people who may use the setup documentation, per [DEC-037](decisions.md#dec-038).
 
 ## TOS-05
 
