@@ -100,7 +100,7 @@ Supporting measures include:
 
 ## Rejected Vanity Metric
 
-**Total Application Opens** was considered but rejected as the North Star Metric.
+**Total Application Opens** was considered but rejected as the focus metric.
 
 Although `app_opened` events are useful for understanding visits and first-time usage, total application opens do not demonstrate that learners are completing exercises or receiving value from the application.
 
