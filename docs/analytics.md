@@ -113,12 +113,15 @@ The following definitions describe the intended query logic independently of Ope
 
 | Metric | Event | Calculation | Filters |
 | --- | --- | --- | --- |
-| Weekly active learners completing an exercise | `exercise_completed` | Distinct learner identifiers over seven days | `source = web` |
+| User satisfaction across learners and teachers (focus metric) | Survey response; not yet instrumented | Pending the survey instrument, scale, sample, and aggregation decision | No query/value yet; see [DEC-029](decisions.md#dec-029) |
+| Exercise verification pass rate (L1 counter-metric) | `verification_run` | Passed attempts / all attempts × 100 | `source = web`; exclude test traffic |
+| Weekly active learners completing an exercise (L1 input metric) | `exercise_completed` | Distinct learner identifiers over seven days | `source = web` |
+| Active learners (L2 input metric) | `app_opened` | Distinct learner identifiers over seven days | `source = web` |
+| Completed exercises per active learner (L2 input metric) | `exercise_completed`, `app_opened` | Completion event count / distinct active learner identifiers over seven days | `source = web` |
 | First visits | `app_opened` | Count events where `first_visit = true` | `source = web` |
 | Exercises generated | `exercise_generated` | Count events | `source = web` |
 | Exercises started | `exercise_started` | Count events | `source = web` |
 | Verification attempts | `verification_run` | Count events | `source = web` |
-| Verification pass rate | `verification_run` | Passed attempts / all attempts × 100 | `source = web` |
 | Successful completions | `exercise_completed` | Count events | `source = web` |
 
 All production queries must use the production project and exclude smoke and usability-test traffic.
