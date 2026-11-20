@@ -129,15 +129,26 @@ Learners can download the VS Code extension from the web app and see which serve
 
 **Behavior:** [FR-014](functional-requirements/fr/FR-014.md), [FR-015](functional-requirements/fr/FR-015.md)
 
-## Product analytics and operational observability
+## Product analytics
 
-The product records core-task events and exposes operating signals so the team can understand usage and diagnose failures.
+The product records core-task events and makes usage measures visible to the product analyst. The customer-selected survey-based satisfaction metric is defined separately from supporting event-derived usage measures.
 
 **Stories:**
 
 - [US-20: Product analytics](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/91)
+
+**Behavior:** [FR-016](functional-requirements/fr/FR-016.md)
+
+**Architecture:** [ADR-005](architecture/adr/ADR-005.md)
+
+## Operational observability
+
+The product emits request logs and quality signals so an operator can diagnose a failed request and inspect the service-level indicators.
+
+**Stories:**
+
 - [US-21: Operational observability](https://github.com/Team8TemporaryName/Team8DebuggingGym/issues/92)
 
-**Behavior:** [FR-016](functional-requirements/fr/FR-016.md), [FR-017](functional-requirements/fr/FR-017.md), [QR-05](quality-requirements/qr/QR-05.md)
+**Behavior:** [FR-017](functional-requirements/fr/FR-017.md), [QR-05](quality-requirements/qr/QR-05.md)
 
-**Architecture:** [ADR-005](architecture/adr/ADR-005.md), [ADR-006](architecture/adr/ADR-006.md)
+**Architecture:** [ADR-006](architecture/adr/ADR-006.md)
