@@ -73,6 +73,14 @@ The product records a learner's progress after each exercise and tells the team 
 
 #### REL-06
 
+- **Released:** [v0.6.0](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.6.0) on 2026-11-20.
+- **Checked QRs:**
+  - [QR-02](quality-requirements/qr/QR-02.md) — [QRT-02](quality-requirements/qr/QR-02.md#qrt-02).
+  - [QR-03](quality-requirements/qr/QR-03.md) — [QRT-03](quality-requirements/qr/QR-03.md#qrt-03).
+  - [QR-05](quality-requirements/qr/QR-05.md) — [QRT-01](quality-requirements/qr/QR-05.md#qrt-01).
+
+  See the [Quality Requirement Testing Plan](#quality-requirement-testing-plan) for each test's result, last check, and evidence.
+
 ### SPRINT-07
 
 The in-environment guide coaches a stuck learner without solving the exercise, per the "coach, do not solve" constraint. *(Provisional.)*
