@@ -49,7 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Added
 
 - Choose a debugging problem kind from a catalogue.
-- Get a generated exercise for the chosen problem kind.
+- Get a generated exercise for the chosen kind.
 - Edit the exercise program and verify the fix against a harness.
 - A launch configuration to connect the learner's own VS Code to the debug environment over the Debug Adapter Protocol.
 - A documentation site and setup page.
