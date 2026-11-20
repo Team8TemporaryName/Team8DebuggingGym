@@ -3,7 +3,9 @@
 **Date:** 2026-11-09
 **Participants:** Magel0n, Customer, Tedor49, NikitaRUniverse, Doosuur14
 
-The permissions for recording, public sanitized-transcript publication, and private instructor sharing had all been granted before the recording began. The permission exchange is therefore not part of this transcript.
+The permissions for recording, public sanitized-transcript publication, and private instructor sharing were all granted before recording began. The permission exchange is not part of this transcript.
+
+Timestamps are retained from the source transcription; the out-of-order timestamp on one closing utterance is preserved rather than guessed.
 
 [00:00:00] Magel0n: All right.
 [00:00:10] Tedor49: Okay, hello, let me share my screen.
