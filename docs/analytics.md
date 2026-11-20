@@ -154,7 +154,7 @@ The following definitions describe the intended query logic independently of Ope
 
 All production queries must use the production project and exclude smoke and usability-test traffic.
 
-Exact saved OpenPanel query configurations and dashboard screenshots will be added after deployment in Sprint 7.
+The staging and production OpenPanel dashboards have since been deployed and captured. Their sanitized screenshots are linked from the [Week 6 report](../reports/week-06/README.md#dashboard-evidence). The screenshots show event-derived usage metrics; they do not provide a value for the survey-based satisfaction focus metric.
 
 ## Learner Identification
 
@@ -240,22 +240,9 @@ Each deployment must use its own credentials.
 
 ## Evidence and Deployment
 
-The application-side analytics instrumentation and documentation are prepared.
+The analytics instrumentation and both OpenPanel environment dashboards are deployed. Staging and production use separate projects/scopes and distinct credentials; real credentials and dashboard addresses remain private-only. The dashboard captures are included in the [Week 6 report](../reports/week-06/README.md#dashboard-evidence):
 
-OpenPanel deployment, environment configuration, smoke-event verification, dashboard creation, and sanitized dashboard screenshots have not yet been completed.
+- `reports/week-06/images/analytics-staging.jpg`
+- `reports/week-06/images/analytics-production.jpg`
 
-These tasks are deferred to Sprint 7 because university virtual machine access is currently unavailable.
-
-The following evidence must be added when access is restored:
-
-- Staging and production project configuration.
-- Confirmation that each environment uses separate credentials.
-- Verification that a staging smoke event appears in the staging event list.
-- Confirmation that smoke events are excluded from all product metric queries.
-- Staging and production dashboard screenshots.
-- Links to the dashboards and corresponding metric definitions.
-
-Required screenshot locations:
-
-- `reports/week-06/images/analytics-staging.png`
-- `reports/week-06/images/analytics-production.png`
+The production dashboard includes the supporting **Weekly Active Learners Completing an Exercise** metric, computed from distinct learner identifiers with `exercise_completed` events over a rolling seven-day window and filtered to `source = web`. The customer-selected satisfaction focus metric still has no value because the survey instrument, sample, aggregation method, and success threshold have not yet been finalized or run. Dashboard activity must not be presented as a satisfaction result.
