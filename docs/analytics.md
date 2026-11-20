@@ -31,15 +31,17 @@ Staging and production must use separate OpenPanel projects and credentials to p
 The tree makes the customer-selected focus metric explicit and separates its quality guardrail from the product-usage input. The lower-level inputs explain the weekly completion measure; they are not presented as survey responses or as a substitute for satisfaction.
 
 ```text
-Focus: User Satisfaction Across Learners and Teachers
+Focus: User Satisfaction Across Learners and Teachers (#focus-metric)
 |
-+-- L1 counter-metric: Exercise Verification Pass Rate
++-- L1 counter-metric: Exercise Verification Pass Rate (#counter-metric)
 |
-+-- L1 input metric: Weekly Active Learners Completing an Exercise
++-- L1 input metric: Weekly Active Learners Completing an Exercise (#l1-input-metric)
     |
-    +-- L2 input: Active Learners
-    +-- L2 input: Completed Exercises per Active Learner
+    +-- L2 input: Active Learners (#l2-input-metric-active-learners)
+    +-- L2 input: Completed Exercises per Active Learner (#l2-input-metric-completed-exercises-per-active-learner)
 ```
+
+The node labels above link to their respective metric definitions below.
 
 ### Focus Metric
 
