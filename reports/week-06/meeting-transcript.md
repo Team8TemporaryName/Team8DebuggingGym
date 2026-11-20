@@ -5,7 +5,7 @@
 
 The permissions for recording, public sanitized-transcript publication, and private instructor sharing were all granted before recording began. The permission exchange is not part of this transcript.
 
-Timestamps are retained from the source transcription; the out-of-order timestamp on one closing utterance is preserved rather than guessed.
+Timestamps are retained from the source transcription; a small number of labels are out of sequence and are preserved rather than guessed.
 
 [00:00:00] Magel0n: All right.
 [00:00:10] Tedor49: Okay, hello, let me share my screen.
