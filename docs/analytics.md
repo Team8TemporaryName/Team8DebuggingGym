@@ -3,9 +3,9 @@
 
 ## Purpose
 
-Debugging Gym uses privacy-conscious product analytics to understand learner engagement, exercise usage, and verification outcomes.
+Debugging Gym uses privacy-conscious product analytics to understand how learners and teachers use the system and whether they find it useful.
 
-The primary goal is to measure whether learners successfully complete debugging exercises, rather than simply counting application visits or generated exercises.
+The focus metric is user satisfaction across learners and teachers, measured through surveys. Product telemetry remains useful for diagnosing exercise usage and verification outcomes, but it is supporting evidence rather than a substitute for satisfaction data.
 
 Analytics must not interfere with exercise generation, debugging, or verification.
 
@@ -24,34 +24,17 @@ Analytics delivery is disabled when OpenPanel credentials are missing.
 
 Staging and production must use separate OpenPanel projects and credentials to prevent test activity from contaminating production metrics.
 
-## North Star Metric
-
-The North Star Metric is **Weekly Active Learners Completing an Exercise**.
-
-It measures the number of unique learners who successfully complete at least one debugging exercise within a rolling seven-day period.
-
-This metric was selected because:
-
-- It measures meaningful learner activity rather than passive application visits.
-- It reflects successful completion of the product's core task.
-- It can be calculated from the `exercise_completed` event.
-- It supports monitoring learner engagement over time.
-- It does not require collecting personally identifying information.
-
-### North Star Metric Criteria
-
-The selected metric:
-
-1. Reflects value delivered to learners.
-2. Is directly connected to the product's core functionality.
-3. Can be measured using existing analytics events.
-4. Can inform product and development decisions.
-5. Is not inflated by repeated page visits or automated smoke tests.
-6. Can be measured without collecting sensitive personal information.
-
 ## Focus Metric
 
-The focus metric for the analytics dashboard is **Weekly Active Learners Completing an Exercise**.
+The focus metric is **User Satisfaction Across Learners And Teachers**.
+
+It measures whether both learner and teacher users find the system useful and usable, using survey responses. This was selected at the Week 6 customer review ([DEC-029](decisions.md#dec-029)) because weekly learner activity may fall to zero when a course ends, even if the product remains useful.
+
+The customer asked the team to define the survey instrument and the numerical success threshold after usability testing. The example of four out of five respondents being satisfied was illustrative, not an agreed target. The exact questions, scale, aggregation method, sample size, and threshold therefore remain open. There is no satisfaction value yet.
+
+### Supporting Usage Metric
+
+**Weekly Active Learners Completing an Exercise** remains a supporting usage metric, not the focus metric.
 
 Definition:
 
@@ -61,7 +44,7 @@ Definition:
 - Exclude events with `source = smoke` and `source = usability-test`.
 - Use the production OpenPanel project for production reporting.
 
-The staging dashboard may use the same metric logic to validate instrumentation, but staging data must not be combined with production data.
+This metric provides context about exercise usage and completion while satisfaction is measured separately through surveys. Staging data must not be combined with production data.
 
 ## Counter-Metric
 
@@ -78,9 +61,9 @@ This metric acts as a quality guardrail. An increase in exercise completions sho
 
 A sudden increase in pass rate may indicate that exercises have become too easy, while a significant decrease may indicate unclear instructions, faulty exercises, or verification problems.
 
-## Metric Tree
+## Supporting Usage Metric Tree
 
-The metric tree connects learner activity to successful exercise completion.
+The supporting usage metric tree connects learner activity to successful exercise completion. It does not replace the survey-based focus metric.
 
 ```text
 Weekly Active Learners Completing an Exercise
