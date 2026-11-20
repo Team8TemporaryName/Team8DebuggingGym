@@ -4,6 +4,22 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+## [0.6.0](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.6.0) - 2026-11-20
+
+### Added
+
+- Store teacher-created exercises on the server so learners can browse, reopen, and solve the same exercise independently of their local copy.
+- Add a teacher access-key interface and prompt-based exercise generation with a name and description.
+- Let learners download the VS Code extension from the web application and see their completed server exercises.
+- Add privacy-conscious product analytics and operational telemetry, with separate staging and production dashboard scopes.
+
+### Changed
+
+- Official verification uses the stored exercise and records successful completion for the learner.
+- The customer-facing focus metric is user satisfaction across learners and teachers; event-derived exercise-usage metrics remain supporting measures until the survey instrument and threshold are agreed.
+
 ## [0.5.0](https://github.com/Team8TemporaryName/Team8DebuggingGym/releases/tag/v0.5.0) - 2026-11-1
 
 ### Added
@@ -33,7 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Added
 
 - Choose a debugging problem kind from a catalogue.
-- Get a generated exercise for the chosen kind.
+- Get a generated exercise for the chosen problem kind.
 - Edit the exercise program and verify the fix against a harness.
 - A launch configuration to connect the learner's own VS Code to the debug environment over the Debug Adapter Protocol.
 - A documentation site and setup page.
