@@ -1,0 +1,17 @@
+# Shared settings for local `lychee .` runs and GitHub Actions.
+verbose = "info"
+no_progress = true
+
+# Keep link-check traffic modest; retry transient service/network failures.
+max_concurrency = 2
+max_retries = 4
+retry_wait_time = 5
+
+# Preserve the existing accepted statuses. HTTP 503 is intentionally an error.
+accept = ["200", "206", "429"]
+method = "get"
+
+# Check exact repository commit permalinks through GitHub's commit API.
+remap = [
+  '^https://github\\.com/Team8TemporaryName/Team8DebuggingGym/commit/(?P<sha>[0-9a-fA-F]{40})$ https://api.github.com/repos/Team8TemporaryName/Team8DebuggingGym/commits/$sha',
+]
