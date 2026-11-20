@@ -22,7 +22,7 @@ project and points at the weekly artifacts.
 - **Documentation site:** <https://team8temporaryname.github.io/Team8DebuggingGym/>
 - **Setup and run:** [docs/setup.md](docs/setup.md)
 - **Maintained documentation:** under [`docs/`](docs/)
-- **Current week's report:** [`reports/week-05/README.md`](reports/week-05/README.md)
+- **Current week's report:** [`reports/week-06/README.md`](reports/week-06/README.md)
 
 To run the product, follow [docs/setup.md](docs/setup.md). A clean checkout,
 then the setup page, completes the core task end to end.
