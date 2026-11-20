@@ -24,83 +24,119 @@ Analytics delivery is disabled when OpenPanel credentials are missing.
 
 Staging and production must use separate OpenPanel projects and credentials to prevent test activity from contaminating production metrics.
 
-## The Value And The Metrics
+## Focus Metric
 
-### Supporting Usage Metric Tree
+The focus metric is **User Satisfaction Across Learners And Teachers**.
 
-The tree makes the customer-selected focus metric explicit and separates its quality guardrail from the product-usage input. The lower-level inputs explain the weekly completion measure; they are not presented as survey responses or as a substitute for satisfaction.
+It measures whether both learner and teacher users find the system useful and usable, using survey responses. This was selected at the Week 6 customer review ([DEC-029](decisions.md#dec-029)) because weekly learner activity may fall to zero when a course ends, even if the product remains useful.
 
-- **Focus:** [User Satisfaction Across Learners and Teachers](#focus-metric)
-  - **L1 counter-metric:** [Exercise Verification Pass Rate](#counter-metric)
-  - **L1 input metric:** [Weekly Active Learners Completing an Exercise](#l1-input-metric)
-    - **L2 input:** [Active Learners](#l2-input-metric-active-learners)
-    - **L2 input:** [Completed Exercises per Active Learner](#l2-input-metric-completed-exercises-per-active-learner)
+The customer asked the team to define the survey instrument and the numerical success threshold after usability testing. The example of four out of five respondents being satisfied was illustrative, not an agreed target. The exact questions, scale, aggregation method, sample size, and threshold therefore remain open. There is no satisfaction value yet.
 
-### Focus Metric
+### Supporting Usage Metric
 
-**User Satisfaction Across Learners and Teachers**
+**Weekly Active Learners Completing an Exercise** remains a supporting usage metric, not the focus metric.
 
-- **Definition:** The share or level of learner and teacher respondents who report that Debugging Gym is useful and usable. The customer selected this outcome at the Week 6 review ([DEC-029](decisions.md#dec-029)); it expresses [VP-01](research/value-proposition.md#vp-01), targeted debugging practice rather than general coding activity.
-- **Source:** Survey responses from learners and teachers collected during usability testing. The survey instrument has not yet been approved.
-- **Query:** Not defined yet. The customer deferred the questions, response scale, aggregation method, sample size, and success threshold until usability testing. No satisfaction value is reported; the example of four out of five respondents being satisfied was illustrative, not an agreed target.
+Definition:
 
-### Counter-Metric
+- Count distinct learner identifiers (`profileId`) that generate an `exercise_completed` event.
+- Use a rolling seven-day reporting window.
+- Include only events with `source = web`.
+- Exclude events with `source = smoke` and `source = usability-test`.
+- Use the production OpenPanel project for production reporting.
 
-**Exercise Verification Pass Rate**
+This metric provides context about exercise usage and completion while satisfaction is measured separately through surveys. Staging data must not be combined with production data.
 
-- **Definition:** Successful official verification runs divided by all official verification runs, multiplied by 100. This is a guardrail: higher completion should not be achieved by making exercises trivial or weakening verification.
-- **Source:** `verification_run` events with `passed` and `source=web`; exclude `smoke` and `usability-test` events from production.
-- **Query:** `100 * count(verification_run where passed = true and source = 'web') / count(verification_run where source = 'web')`.
+## Counter-Metric
 
-### L1 Input Metric
+The counter-metric is **Exercise Verification Pass Rate**.
 
-**Weekly Active Learners Completing an Exercise**
+Definition:
 
-- **Definition:** Count of distinct opaque learner identifiers with at least one `exercise_completed` event in a rolling seven-day window.
-- **Source:** `exercise_completed` events, grouped by the OpenPanel `profileId`; include only `source=web`.
-- **Query:** `COUNT(DISTINCT profileId) WHERE event = 'exercise_completed' AND timestamp >= now() - 7d AND source = 'web'`.
+- Numerator: number of `verification_run` events where `passed = true`.
+- Denominator: total number of `verification_run` events.
+- Calculation: successful verification runs divided by all verification runs, multiplied by 100.
+- Include only events with `source = web` for production reporting.
 
-### L2 Input Metric: Active Learners
+This metric acts as a quality guardrail. An increase in exercise completions should not come at the expense of exercise difficulty or verification quality.
 
-- **Definition:** Count of distinct opaque learner identifiers with at least one `app_opened` event in the rolling seven-day window.
-- **Source:** `app_opened` events grouped by `profileId`; include only `source=web`.
-- **Query:** `COUNT(DISTINCT profileId) WHERE event = 'app_opened' AND timestamp >= now() - 7d AND source = 'web'`.
+A sudden increase in pass rate may indicate that exercises have become too easy, while a significant decrease may indicate unclear instructions, faulty exercises, or verification problems.
 
-### L2 Input Metric: Completed Exercises per Active Learner
+## Supporting Usage Metric Tree
 
-- **Definition:** Number of official exercise completions in the rolling seven-day window divided by the number of active learner identifiers in the same window.
-- **Source:** `exercise_completed` and `app_opened` events grouped by `profileId`; include only `source=web`.
-- **Query:** `COUNT(exercise_completed WHERE source = 'web' AND timestamp >= now() - 7d) / COUNT(DISTINCT profileId from app_opened WHERE source = 'web' AND timestamp >= now() - 7d)`.
+The supporting usage metric tree connects learner activity to successful exercise completion. It does not replace the survey-based focus metric.
 
-### Why This Focus Metric
+```text
+Weekly Active Learners Completing an Exercise
+|
++-- Active Learners
+|   |
+|   +-- First Visits
+|   +-- Returning Learners
+|
++-- Exercise Engagement
+|   |
+|   +-- Exercises Generated
+|   +-- Exercises Started
+|
++-- Verification Activity
+    |
+    +-- Verification Attempts
+    +-- Successful Verification Runs
+    +-- Exercise Completions
+```
 
-- **Expresses value:** It asks learners and teachers whether the product is useful and usable, rather than treating activity as value.
-- **Represents vision and strategy:** It tests whether the targeted debugging practice in [VP-01](research/value-proposition.md#vp-01) delivers the value the product promises to its learner and teacher audiences.
-- **Leading indicator:** Satisfaction after a practice session may indicate willingness to return and recommend the product; this relationship remains a hypothesis until usability data is collected.
-- **Actionable:** Results can be reviewed separately for learners and teachers and used to prioritize problems in exercise quality, teacher workflows, onboarding, or verification.
-- **Understandable:** The intended concept—whether learners and teachers find the product useful and usable—is plain-language and interpretable. The response scale remains undecided.
-- **Measurable:** Not yet operational. The customer has deferred the survey instrument, scale, sample, aggregation method, and target until usability testing; consequently there is no numeric value or query yet.
-- **Not a vanity metric:** It measures perceived product value, not raw visits, generated exercises, or other activity counts.
+Supporting measures include:
 
-### Rejected Vanity Metric
+- Unique active learners.
+- First visits and returning learners.
+- Exercises generated.
+- Exercises started.
+- Verification attempts.
+- Successful verification runs.
+- Exercise completion count.
+- Verification pass rate.
+- Exercise usage by kind.
+- Exercise generator distribution.
 
-**Total Application Opens** was considered but rejected as the focus metric. Although `app_opened` events help explain visits and first-time usage, repeated visits, refreshes, and automated tests could increase this number without improving the learner experience. Application opens remain a lower-level usage input, not the product's measure of success.
+## Rejected Vanity Metric
 
-## The Events
+**Total Application Opens** was considered but rejected as the focus metric.
 
-Every event name follows `object_action` in snake case. Every event carries a required `source` field with one of the values `web`, `usability-test`, or `smoke`. All events are emitted by the `webapp` container in staging and production.
+Although `app_opened` events are useful for understanding visits and first-time usage, total application opens do not demonstrate that learners are completing exercises or receiving value from the application.
 
-The OpenPanel envelope also carries the randomly generated opaque learner identifier as `profileId`; it is not a field in the event's `properties` object and is not derived from personal information.
+Repeated visits, refreshes, and automated tests could increase this number without improving the learner experience.
 
-| Event | Fires when | Fields | Collected at |
-| --- | --- | --- | --- |
-| `app_opened` | A learner requests the application's root page with an HTTP GET. | `first_visit` (boolean, required); `source` (enum `web` / `usability-test` / `smoke`, required). | `webapp`, staging and production |
-| `exercise_generated` | Exercise generation succeeds and the generated exercise has been saved to server storage. | `exercise_id` (string, required); `generator` (string, required); `source` (enum, required). | `webapp`, staging and production |
-| `exercise_started` | A stored exercise is retrieved or its VS Code launch configuration is requested. | `exercise_id` (string, required); `source` (enum, required). | `webapp`, staging and production |
-| `verification_run` | A local or stored-exercise verification request finishes. | `exercise_id` (string, required; `local` for the local-harness endpoint); `passed` (boolean, required); `source` (enum, required). | `webapp`, staging and production |
-| `exercise_completed` | Official verification of a stored exercise succeeds. | `exercise_id` (string, required); `source` (enum, required). | `webapp`, staging and production |
+Application opens will therefore remain a supporting metric rather than the primary measure of product success.
 
-The implementation's event names, required properties, and source validation are defined in `app/telemetry.py`; the event calls are made by `app/main.py`. Every production metric excludes `source=smoke` and `source=usability-test`, and reads only `source=web` traffic. Test traffic must be sent to staging, never to the production OpenPanel project.
+## Event Schema
+
+Every event includes a valid `source` property.
+
+Allowed sources:
+
+- `web`: Normal application usage.
+- `usability-test`: Facilitated usability testing.
+- `smoke`: Deployment smoke testing.
+
+| Event | Required properties | Description |
+| --- | --- | --- |
+| `app_opened` | `first_visit`, `source` | Learner opens the application. |
+| `exercise_generated` | `exercise_id`, `kind`, `generator`, `source` | An exercise is generated. |
+| `exercise_started` | `exercise_id`, `kind`, `source` | Learner requests the launch configuration. |
+| `verification_run` | `exercise_id`, `passed`, `source` | Learner submits a fix for verification. |
+| `exercise_completed` | `exercise_id`, `kind`, `source` | Learner successfully passes verification. |
+
+The `source` property is required for every event and identifies the origin of the activity.
+
+### Event Triggers
+
+- `app_opened`: Recorded when a learner opens the application.
+- `exercise_generated`: Recorded after an exercise is successfully generated.
+- `exercise_started`: Recorded when a learner requests an exercise launch configuration.
+- `verification_run`: Recorded after a verification attempt finishes.
+- `exercise_completed`: Recorded when verification succeeds.
+
+A smoke test should use an existing event, such as `app_opened`, with `source = smoke`. It should not introduce a separate product event.
 
 ## Logical Metric Query Definitions
 
@@ -108,20 +144,17 @@ The following definitions describe the intended query logic independently of Ope
 
 | Metric | Event | Calculation | Filters |
 | --- | --- | --- | --- |
-| User satisfaction across learners and teachers (focus metric) | Survey response; not yet instrumented | Pending the survey instrument, scale, sample, and aggregation decision | No query/value yet; see [DEC-029](decisions.md#dec-029) |
-| Exercise verification pass rate (L1 counter-metric) | `verification_run` | Passed attempts / all attempts × 100 | `source = web`; exclude test traffic |
-| Weekly active learners completing an exercise (L1 input metric) | `exercise_completed` | Distinct learner identifiers over seven days | `source = web` |
-| Active learners (L2 input metric) | `app_opened` | Distinct learner identifiers over seven days | `source = web` |
-| Completed exercises per active learner (L2 input metric) | `exercise_completed`, `app_opened` | Completion event count / distinct active learner identifiers over seven days | `source = web` |
+| Weekly active learners completing an exercise | `exercise_completed` | Distinct learner identifiers over seven days | `source = web` |
 | First visits | `app_opened` | Count events where `first_visit = true` | `source = web` |
 | Exercises generated | `exercise_generated` | Count events | `source = web` |
 | Exercises started | `exercise_started` | Count events | `source = web` |
 | Verification attempts | `verification_run` | Count events | `source = web` |
+| Verification pass rate | `verification_run` | Passed attempts / all attempts × 100 | `source = web` |
 | Successful completions | `exercise_completed` | Count events | `source = web` |
 
 All production queries must use the production project and exclude smoke and usability-test traffic.
 
-The staging and production OpenPanel dashboards have since been deployed and captured. Their sanitized screenshots are linked from the [Week 6 report](../reports/week-06/README.md#dashboard-evidence). The screenshots show event-derived usage metrics; they do not provide a value for the survey-based satisfaction focus metric.
+Exact saved OpenPanel query configurations and dashboard screenshots will be added after deployment in Sprint 7.
 
 ## Learner Identification
 
@@ -207,9 +240,22 @@ Each deployment must use its own credentials.
 
 ## Evidence and Deployment
 
-The analytics instrumentation and both OpenPanel environment dashboards are deployed. Staging and production use separate projects/scopes and distinct credentials; real credentials and dashboard addresses remain private-only. The dashboard captures are included in the [Week 6 report](../reports/week-06/README.md#dashboard-evidence):
+The application-side analytics instrumentation and documentation are prepared.
 
-- `reports/week-06/images/analytics-staging.jpg`
-- `reports/week-06/images/analytics-production.jpg`
+OpenPanel deployment, environment configuration, smoke-event verification, dashboard creation, and sanitized dashboard screenshots have not yet been completed.
 
-The production dashboard includes the supporting **Weekly Active Learners Completing an Exercise** metric, computed from distinct learner identifiers with `exercise_completed` events over a rolling seven-day window and filtered to `source = web`. The customer-selected satisfaction focus metric still has no value because the survey instrument, sample, aggregation method, and success threshold have not yet been finalized or run. Dashboard activity must not be presented as a satisfaction result.
+These tasks are deferred to Sprint 7 because university virtual machine access is currently unavailable.
+
+The following evidence must be added when access is restored:
+
+- Staging and production project configuration.
+- Confirmation that each environment uses separate credentials.
+- Verification that a staging smoke event appears in the staging event list.
+- Confirmation that smoke events are excluded from all product metric queries.
+- Staging and production dashboard screenshots.
+- Links to the dashboards and corresponding metric definitions.
+
+Required screenshot locations:
+
+- `reports/week-06/images/analytics-staging.png`
+- `reports/week-06/images/analytics-production.png`
