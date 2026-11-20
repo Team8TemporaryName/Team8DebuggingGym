@@ -24,89 +24,72 @@ Analytics delivery is disabled when OpenPanel credentials are missing.
 
 Staging and production must use separate OpenPanel projects and credentials to prevent test activity from contaminating production metrics.
 
-## Focus Metric
+## The Value And The Metrics
 
-The focus metric is **User Satisfaction Across Learners And Teachers**.
+### Supporting Usage Metric Tree
 
-It measures whether both learner and teacher users find the system useful and usable, using survey responses. This was selected at the Week 6 customer review ([DEC-029](decisions.md#dec-029)) because weekly learner activity may fall to zero when a course ends, even if the product remains useful.
-
-The customer asked the team to define the survey instrument and the numerical success threshold after usability testing. The example of four out of five respondents being satisfied was illustrative, not an agreed target. The exact questions, scale, aggregation method, sample size, and threshold therefore remain open. There is no satisfaction value yet.
-
-### Supporting Usage Metric
-
-**Weekly Active Learners Completing an Exercise** remains a supporting usage metric, not the focus metric.
-
-Definition:
-
-- Count distinct learner identifiers (`profileId`) that generate an `exercise_completed` event.
-- Use a rolling seven-day reporting window.
-- Include only events with `source = web`.
-- Exclude events with `source = smoke` and `source = usability-test`.
-- Use the production OpenPanel project for production reporting.
-
-This metric provides context about exercise usage and completion while satisfaction is measured separately through surveys. Staging data must not be combined with production data.
-
-## Counter-Metric
-
-The counter-metric is **Exercise Verification Pass Rate**.
-
-Definition:
-
-- Numerator: number of `verification_run` events where `passed = true`.
-- Denominator: total number of `verification_run` events.
-- Calculation: successful verification runs divided by all verification runs, multiplied by 100.
-- Include only events with `source = web` for production reporting.
-
-This metric acts as a quality guardrail. An increase in exercise completions should not come at the expense of exercise difficulty or verification quality.
-
-A sudden increase in pass rate may indicate that exercises have become too easy, while a significant decrease may indicate unclear instructions, faulty exercises, or verification problems.
-
-## Supporting Usage Metric Tree
-
-The supporting usage metric tree connects learner activity to successful exercise completion. It does not replace the survey-based focus metric.
+The tree makes the customer-selected focus metric explicit and separates its quality guardrail from the product-usage input. The lower-level inputs explain the weekly completion measure; they are not presented as survey responses or as a substitute for satisfaction.
 
 ```text
-Weekly Active Learners Completing an Exercise
+Focus: User Satisfaction Across Learners and Teachers
 |
-+-- Active Learners
-|   |
-|   +-- First Visits
-|   +-- Returning Learners
++-- L1 counter-metric: Exercise Verification Pass Rate
 |
-+-- Exercise Engagement
-|   |
-|   +-- Exercises Generated
-|   +-- Exercises Started
-|
-+-- Verification Activity
++-- L1 input metric: Weekly Active Learners Completing an Exercise
     |
-    +-- Verification Attempts
-    +-- Successful Verification Runs
-    +-- Exercise Completions
+    +-- L2 input: Active Learners
+    +-- L2 input: Completed Exercises per Active Learner
 ```
 
-Supporting measures include:
+### Focus Metric
 
-- Unique active learners.
-- First visits and returning learners.
-- Exercises generated.
-- Exercises started.
-- Verification attempts.
-- Successful verification runs.
-- Exercise completion count.
-- Verification pass rate.
-- Exercise usage by kind.
-- Exercise generator distribution.
+**User Satisfaction Across Learners and Teachers**
 
-## Rejected Vanity Metric
+- **Definition:** The share or level of learner and teacher respondents who report that Debugging Gym is useful and usable. The customer selected this outcome at the Week 6 review ([DEC-029](decisions.md#dec-029)); it expresses [VP-01](research/value-proposition.md#vp-01), targeted debugging practice rather than general coding activity.
+- **Source:** Survey responses from learners and teachers collected during usability testing. The survey instrument has not yet been approved.
+- **Query:** Not defined yet. The customer deferred the questions, response scale, aggregation method, sample size, and success threshold until usability testing. No satisfaction value is reported; the example of four out of five respondents being satisfied was illustrative, not an agreed target.
 
-**Total Application Opens** was considered but rejected as the focus metric.
+### Counter-Metric
 
-Although `app_opened` events are useful for understanding visits and first-time usage, total application opens do not demonstrate that learners are completing exercises or receiving value from the application.
+**Exercise Verification Pass Rate**
 
-Repeated visits, refreshes, and automated tests could increase this number without improving the learner experience.
+- **Definition:** Successful official verification runs divided by all official verification runs, multiplied by 100. This is a guardrail: higher completion should not be achieved by making exercises trivial or weakening verification.
+- **Source:** `verification_run` events with `passed` and `source=web`; exclude `smoke` and `usability-test` events from production.
+- **Query:** `100 * count(verification_run where passed = true and source = 'web') / count(verification_run where source = 'web')`.
 
-Application opens will therefore remain a supporting metric rather than the primary measure of product success.
+### L1 Input Metric
+
+**Weekly Active Learners Completing an Exercise**
+
+- **Definition:** Count of distinct opaque learner identifiers with at least one `exercise_completed` event in a rolling seven-day window.
+- **Source:** `exercise_completed` events, grouped by the OpenPanel `profileId`; include only `source=web`.
+- **Query:** `COUNT(DISTINCT profileId) WHERE event = 'exercise_completed' AND timestamp >= now() - 7d AND source = 'web'`.
+
+### L2 Input Metric: Active Learners
+
+- **Definition:** Count of distinct opaque learner identifiers with at least one `app_opened` event in the rolling seven-day window.
+- **Source:** `app_opened` events grouped by `profileId`; include only `source=web`.
+- **Query:** `COUNT(DISTINCT profileId) WHERE event = 'app_opened' AND timestamp >= now() - 7d AND source = 'web'`.
+
+### L2 Input Metric: Completed Exercises per Active Learner
+
+- **Definition:** Number of official exercise completions in the rolling seven-day window divided by the number of active learner identifiers in the same window.
+- **Source:** `exercise_completed` and `app_opened` events grouped by `profileId`; include only `source=web`.
+- **Query:** `COUNT(exercise_completed WHERE source = 'web' AND timestamp >= now() - 7d) / COUNT(DISTINCT profileId from app_opened WHERE source = 'web' AND timestamp >= now() - 7d)`.
+
+### Why This Focus Metric
+
+- **Expresses value:** It asks learners and teachers whether the product is useful and usable, rather than treating activity as value.
+- **Represents vision and strategy:** It tests whether the targeted debugging practice in [VP-01](research/value-proposition.md#vp-01) delivers the value the product promises to its learner and teacher audiences.
+- **Leading indicator:** Satisfaction after a practice session may indicate willingness to return and recommend the product; this relationship remains a hypothesis until usability data is collected.
+- **Actionable:** Results can be reviewed separately for learners and teachers and used to prioritize problems in exercise quality, teacher workflows, onboarding, or verification.
+- **Understandable:** The intended concept—whether learners and teachers find the product useful and usable—is plain-language and interpretable. The response scale remains undecided.
+- **Measurable:** Not yet operational. The customer has deferred the survey instrument, scale, sample, aggregation method, and target until usability testing; consequently there is no numeric value or query yet.
+- **Not a vanity metric:** It measures perceived product value, not raw visits, generated exercises, or other activity counts.
+
+### Rejected Vanity Metric
+
+**Total Application Opens** was considered but rejected as the focus metric. Although `app_opened` events help explain visits and first-time usage, repeated visits, refreshes, and automated tests could increase this number without improving the learner experience. Application opens remain a lower-level usage input, not the product's measure of success.
 
 ## The Events
 
