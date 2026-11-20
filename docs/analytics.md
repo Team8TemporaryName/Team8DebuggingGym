@@ -108,35 +108,21 @@ Repeated visits, refreshes, and automated tests could increase this number witho
 
 Application opens will therefore remain a supporting metric rather than the primary measure of product success.
 
-## Event Schema
+## The Events
 
-Every event includes a valid `source` property.
+Every event name follows `object_action` in snake case. Every event carries a required `source` field with one of the values `web`, `usability-test`, or `smoke`. All events are emitted by the `webapp` container in staging and production.
 
-Allowed sources:
+The OpenPanel envelope also carries the randomly generated opaque learner identifier as `profileId`; it is not a field in the event's `properties` object and is not derived from personal information.
 
-- `web`: Normal application usage.
-- `usability-test`: Facilitated usability testing.
-- `smoke`: Deployment smoke testing.
+| Event | Fires when | Fields | Collected at |
+| --- | --- | --- | --- |
+| `app_opened` | A learner requests the application's root page with an HTTP GET. | `first_visit` (boolean, required); `source` (enum `web` / `usability-test` / `smoke`, required). | `webapp`, staging and production |
+| `exercise_generated` | Exercise generation succeeds and the generated exercise has been saved to server storage. | `exercise_id` (string, required); `generator` (string, required); `source` (enum, required). | `webapp`, staging and production |
+| `exercise_started` | A stored exercise is retrieved or its VS Code launch configuration is requested. | `exercise_id` (string, required); `source` (enum, required). | `webapp`, staging and production |
+| `verification_run` | A local or stored-exercise verification request finishes. | `exercise_id` (string, required; `local` for the local-harness endpoint); `passed` (boolean, required); `source` (enum, required). | `webapp`, staging and production |
+| `exercise_completed` | Official verification of a stored exercise succeeds. | `exercise_id` (string, required); `source` (enum, required). | `webapp`, staging and production |
 
-| Event | Required properties | Description |
-| --- | --- | --- |
-| `app_opened` | `first_visit`, `source` | Learner opens the application. |
-| `exercise_generated` | `exercise_id`, `kind`, `generator`, `source` | An exercise is generated. |
-| `exercise_started` | `exercise_id`, `kind`, `source` | Learner requests the launch configuration. |
-| `verification_run` | `exercise_id`, `passed`, `source` | Learner submits a fix for verification. |
-| `exercise_completed` | `exercise_id`, `kind`, `source` | Learner successfully passes verification. |
-
-The `source` property is required for every event and identifies the origin of the activity.
-
-### Event Triggers
-
-- `app_opened`: Recorded when a learner opens the application.
-- `exercise_generated`: Recorded after an exercise is successfully generated.
-- `exercise_started`: Recorded when a learner requests an exercise launch configuration.
-- `verification_run`: Recorded after a verification attempt finishes.
-- `exercise_completed`: Recorded when verification succeeds.
-
-A smoke test should use an existing event, such as `app_opened`, with `source = smoke`. It should not introduce a separate product event.
+The implementation's event names, required properties, and source validation are defined in `app/telemetry.py`; the event calls are made by `app/main.py`. Every production metric excludes `source=smoke` and `source=usability-test`, and reads only `source=web` traffic. Test traffic must be sent to staging, never to the production OpenPanel project.
 
 ## Logical Metric Query Definitions
 
